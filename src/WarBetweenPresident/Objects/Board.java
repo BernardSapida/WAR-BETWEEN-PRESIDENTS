@@ -34,6 +34,7 @@ public class Board {
         }
     }
 
+    // Print the board
     public void getBoard() {
         for (int rows = 0; rows <= 10; rows++) {
             if(rows == 0) {
@@ -74,6 +75,7 @@ public class Board {
         System.out.println("ENDDDDDDDDDDDDDDDDDD!!!");
     }
 
+    // Set up the units on the board
     public void positionUnits() {
         while(president != 1) queryPresidentPosition();
         while(soldiers != 5) querySoldiersPosition();
@@ -81,13 +83,9 @@ public class Board {
         while(mediumTanks != 2) queryMediumTankPosition();
     }
 
+    // Make a query for president's position on the board
     private void queryPresidentPosition() {
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            getBoard();
-        } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
-        }
+        clearTerminal();
 
         boolean isValidPosition = false;
         Scanner in_president = new Scanner(System.in);
@@ -141,11 +139,7 @@ public class Board {
                 }
 
                 if(isValidPosition) {
-                    try {
-                        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-                    } catch (InterruptedException | IOException e) {
-                        e.printStackTrace();
-                    }
+                    clearTerminal();
 
                     president++;
                     getBoard();
@@ -153,15 +147,10 @@ public class Board {
             }
         }
     }
-
+    
+    // Make a query for president's position on the board
     private void querySoldiersPosition() {
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            getBoard();
-        } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
-        }
-
+        clearTerminal();
 
         boolean isValidPosition = false;
         Scanner in_soldiers = new Scanner(System.in);
@@ -215,11 +204,7 @@ public class Board {
                 }
 
                 if(isValidPosition) {
-                    try {
-                        new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-                    } catch (InterruptedException | IOException e) {
-                        e.printStackTrace();
-                    }
+                    clearTerminal();
 
                     soldiers++;
                     getBoard();
@@ -228,14 +213,9 @@ public class Board {
         }
     }
 
+    // Make a query for president's position on the board
     private void queryLightTankPosition() {
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            getBoard();
-        } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
-        }
-
+        clearTerminal();
 
         boolean isValidPosition = false;
         Scanner in_lightTanks = new Scanner(System.in);
@@ -300,12 +280,8 @@ public class Board {
 
                     if(Math.abs(position[0] - position[1]) == 1 || Math.abs(position[0] - position[1]) == 10) {
                         if(isValidPosition) {
-                            try {
-                                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-                            } catch (InterruptedException | IOException e) {
-                                e.printStackTrace();
-                            }
-                            
+                            clearTerminal();
+
                             for (int index : position) {
                                 playerBoard[index] = "L";
                             }
@@ -324,13 +300,9 @@ public class Board {
         }
     }
 
+    // Make a query for president's position on the board
     private void queryMediumTankPosition() {
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
-        }
-
+        clearTerminal();
         getBoard();
 
         boolean isValidPosition = false;
@@ -396,11 +368,7 @@ public class Board {
 
                     if((Math.abs(position[0] - position[1]) + Math.abs(position[2] - position[3])) == 2) {
                         if(isValidPosition) {
-                            try {
-                                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-                            } catch (InterruptedException | IOException e) {
-                                e.printStackTrace();
-                            }
+                            clearTerminal();
                             
                             for (int index : position) {
                                 playerBoard[index] = "M";
@@ -424,5 +392,13 @@ public class Board {
     private boolean checkAvailablePosition(int position) {
         if(playerBoard[position].equals(" ")) return true;
         return false;
+    }
+
+    private void clearTerminal() {
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (InterruptedException | IOException e) {
+            e.printStackTrace();
+        }
     }
 }
