@@ -24,6 +24,7 @@ public class Board {
     private String[] xCoordinates = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
     private String[] yCoordinates = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
 
+    // Set the board
     public Board() {
         for(int i = 0; i < playerBoard.length; i++) {
             playerBoard[i] = " ";
