@@ -43,7 +43,7 @@ public class Board {
 
         for (int rows = 0; rows <= 10; rows++) {
             if(rows == 0) {
-                System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\u001B[0m");
+                System.out.println("\n\n\n\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\u001B[0m");
                 System.out.print("■\u001B[0m # ■ \u001B[0m");
                 for(int x = 0; x < xCoordinates.length; x++) System.out.print("\u001B[33m" + xCoordinates[x] + "\u001B[0m ■ \u001B[0m");
                 System.out.print("    ■\u001B[0m # ■ \u001B[0m");
@@ -80,6 +80,7 @@ public class Board {
         while(soldiers != 5) querySoldiersPosition();
         while(lightTanks != 3) queryLightTankPosition();
         while(mediumTanks != 2) queryMediumTankPosition();
+        while(heavyTanks != 1) queryHeavyTankPosition();
     }
 
     // Make a query for president's position on the board
@@ -95,6 +96,7 @@ public class Board {
             String setPresidentPosition = in_president.nextLine();
 
             switch(setPresidentPosition.toLowerCase().substring(0, 1)) {
+                // Validate input for y (vertical) position of the President
                 case "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" -> { isValidPosition = true; }
                 default -> {
                     isValidPosition = false;
@@ -102,6 +104,7 @@ public class Board {
             }
 
             switch(setPresidentPosition.substring(1)) {
+                // Validate input for x (horizontal) position of the President
                 case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" -> { isValidPosition = true; }
                 default -> {
                     isValidPosition = false;
@@ -112,6 +115,7 @@ public class Board {
                 int y = 0;
                 int x = 0;
 
+                // Find the y (vertical) position of President
                 switch(setPresidentPosition.toLowerCase().substring(0, 1)) {
                     case "a" -> { y = 0; }
                     case "b" -> { y = 10; }
@@ -125,27 +129,30 @@ public class Board {
                     case "j" -> { y = 90; }
                 }
 
+                // Find the x (horizontal) position of President
                 x = Integer.parseInt(setPresidentPosition.substring(1))-1;
 
+                // Check if the position is available / not available
                 isValidPosition = checkAvailablePosition(x + y);
 
                 if(!isValidPosition){
+                    // If position is not available
                     System.out.println("Try again! Occupied slot!");
                 } else {
+                    // If position is available
                     playerBoard[x + y] = "P";
                 }
 
                 if(isValidPosition) {
-                    App.clearTerminal();
-
-                    president++;
-                    getBoard();
+                    president++; // Increment President
+                    App.clearTerminal(); // Clear terminal window
+                    getBoard(); // Print board
                 }
             }
         }
     }
     
-    // Make a query for president's position on the board
+    // Make a query for soldier's position on the board
     private void querySoldiersPosition() {
         boolean isValidPosition = false;
         Scanner in_soldiers = new Scanner(System.in);
@@ -157,6 +164,7 @@ public class Board {
             System.out.print("Enter soldiers position (Ex: a1): ");
             String setSoldiersPosition = in_soldiers.nextLine();
 
+            // Validate input for y (vertical) position of Soldiers
             switch(setSoldiersPosition.toLowerCase().substring(0, 1)) {
                 case "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" -> { isValidPosition = true; }
                 default -> {
@@ -164,6 +172,7 @@ public class Board {
                 }
             }
 
+            // Validate input for x (horizontal) position of Soldiers
             switch(setSoldiersPosition.toLowerCase().substring(1)) {
                 case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" -> { isValidPosition = true; }
                 default -> {
@@ -175,6 +184,7 @@ public class Board {
                 int y = 0;
                 int x = 0;
 
+                // Find the y (vertical) position of Soldiers
                 switch(setSoldiersPosition.toLowerCase().substring(0, 1)) {
                     case "a" -> { y = 0; }
                     case "b" -> { y = 10; }
@@ -188,27 +198,29 @@ public class Board {
                     case "j" -> { y = 90; }
                 }
 
+                // Find the x (hiruzibtak) position of Soldiers
                 x = Integer.parseInt(setSoldiersPosition.substring(1))-1;
 
                 isValidPosition = checkAvailablePosition(x + y);
 
                 if(!isValidPosition){
+                    // If position is not available
                     System.out.println("Try again! Occupied slot!");
                 } else {
+                    // Mark 1 position with "S"
                     playerBoard[x + y] = "S";
                 }
 
                 if(isValidPosition) {
-                    App.clearTerminal();
-
-                    soldiers++;
-                    getBoard();
+                    soldiers++; // Increment soldiers
+                    App.clearTerminal(); // Clear terminal window
+                    getBoard(); // Print board
                 }
             }
         }
     }
 
-    // Make a query for president's position on the board
+    // Make a query for light tank's position on the board
     private void queryLightTankPosition() {
         boolean isValidPosition = false;
         Scanner in_lightTanks = new Scanner(System.in);
@@ -223,6 +235,7 @@ public class Board {
 
             if(lightTankPosition.length == 2) {
                 position: for(int i = 0; i < lightTankPosition.length; i++) {
+                    // Validate input for y (vertical) position of light tanks
                     switch(lightTankPosition[i].split("")[0].toLowerCase()) {
                         case "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" -> { isValidPosition = true; }
                         default -> {
@@ -231,6 +244,7 @@ public class Board {
                         }
                     }
     
+                    // Validate input for x (horizontal) position of light tanks
                     switch(lightTankPosition[i].substring(1)) {
                         case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" -> { isValidPosition = true; }
                         default -> {
@@ -245,7 +259,9 @@ public class Board {
                     int x = 0;
                     int[] position = new int[2];
     
+                    // Find the index position of light tank
                     validPosition: for(int i = 0; i < lightTankPosition.length; i++) {
+                        // Find the y (vertical) position of light tank
                         switch(lightTankPosition[i].split("")[0].toLowerCase()) {
                             case "a" -> { y = 0; }
                             case "b" -> { y = 10; }
@@ -259,28 +275,30 @@ public class Board {
                             case "j" -> { y = 90; }
                         }
     
+                        // Find the x (horizontal) position of light tank
                         x = Integer.parseInt(lightTankPosition[i].substring(1))-1;
     
+                        // Check if the position is available / not available
                         isValidPosition = checkAvailablePosition(x + y);
     
                         if(!isValidPosition){
+                            // If position is not available
                             System.out.println("Try again! Occupied slot!");
                             break validPosition;
                         } else {
+                            // If position is available
                             position[i] = x + y;
                         }
                     }
 
+                    // Check if light tank position 2x2 is valid
                     if(Math.abs(position[0] - position[1]) == 1 || Math.abs(position[0] - position[1]) == 10) {
                         if(isValidPosition) {
-                            App.clearTerminal();
-
-                            for (int index : position) {
-                                playerBoard[index] = "L";
-                            }
-        
-                            lightTanks++;
-                            getBoard();
+                            // Mark 2 positions with "L"
+                            for (int index : position) playerBoard[index] = "L";
+                            lightTanks++; // Increment light tank
+                            App.clearTerminal(); // Clear terminal window
+                            getBoard(); // Print board
                         }
                     } else {
                         isValidPosition = false;
@@ -293,7 +311,7 @@ public class Board {
         }
     }
 
-    // Make a query for president's position on the board
+    // Make a query for medium tank's position on the board
     private void queryMediumTankPosition() {
         boolean isValidPosition = false;
         Scanner in_mediumTanks = new Scanner(System.in);
@@ -308,6 +326,7 @@ public class Board {
 
             if(mediumTankPosition.length == 4) {
                 position: for(int i = 0; i < mediumTankPosition.length; i++) {
+                    // Validate input for y (vertical) position of medium tanks
                     switch(mediumTankPosition[i].split("")[0].toLowerCase()) {
                         case "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" -> { isValidPosition = true; }
                         default -> {
@@ -316,6 +335,7 @@ public class Board {
                         }
                     }
     
+                    // Validate input for x (horizontal) position of medium tanks
                     switch(mediumTankPosition[i].substring(1)) {
                         case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" -> { isValidPosition = true; }
                         default -> {
@@ -330,7 +350,9 @@ public class Board {
                     int x = 0;
                     int[] position = new int[4];
     
+                    // Find the index position of medium tank
                     validPosition: for(int i = 0; i < mediumTankPosition.length; i++) {
+                        // Find the y (vertical) position of medium tank
                         switch(mediumTankPosition[i].split("")[0].toLowerCase()) {
                             case "a" -> { y = 0; }
                             case "b" -> { y = 10; }
@@ -343,28 +365,36 @@ public class Board {
                             case "i" -> { y = 80; }
                             case "j" -> { y = 90; }
                         }
-    
+                        
+                        // Find the x (horizontal) position of medium tank
                         x = Integer.parseInt(mediumTankPosition[i].substring(1))-1;
     
+                        // Check if the position is available / not available
                         isValidPosition = checkAvailablePosition(x + y);
-    
+
                         if(!isValidPosition){
+                            // If position is not available
                             System.out.println("Try again! Occupied slot!");
                             break validPosition;
                         } else {
+                            // If position is available
                             position[i] = x + y;
                         }
                     }
 
-                    if((Math.abs(position[0] - position[1]) + Math.abs(position[2] - position[3])) == 2) {
+                    Arrays.sort(position); // Sort positions
+
+                    // Check if medium tank position 2x2 is valid
+                    if(
+                        (Math.abs(position[0] - position[1]) + Math.abs(position[2] - position[3])) == 2 &&
+                        (Math.abs(position[0] - position[2]) + Math.abs(position[1] - position[3])) == 20
+                    ) {
                         if(isValidPosition) {
-                            for (int index : position) {
-                                playerBoard[index] = "M";
-                            }
-                            
-                            mediumTanks++;
-                            App.clearTerminal();
-                            getBoard();
+                            // Mark 4 positions with "M"
+                            for (int index : position) playerBoard[index] = "M";
+                            mediumTanks++; // Increment medium tank
+                            App.clearTerminal(); // Clear terminal window
+                            getBoard(); // Print board
                         }
                     } else {
                         isValidPosition = false;
@@ -377,6 +407,104 @@ public class Board {
         }
     }
 
+    // Make a query for heavy tank's position on the board
+    private void queryHeavyTankPosition() {
+        boolean isValidPosition = false;
+        Scanner in_heavyTanks = new Scanner(System.in);
+
+        while(!isValidPosition) {
+            System.out.println("\nHeavy tank size: 3x2");
+            System.out.println("■■■■■■■■■\n■ H ■ H ■\n■■■■■■■■■\n■ H ■ H ■\n■■■■■■■■■\n■ H ■ H ■\n■■■■■■■■■\n");
+            System.out.println("Remaining Heavy Tanks: " + (1 - heavyTanks));
+            System.out.print("Enter heavy tank position (Ex: a1 a2 b1 b2): ");
+            String setHeavyTankPosition = in_heavyTanks.nextLine();
+            String[] heavyTankPosition = setHeavyTankPosition.split(" ");
+
+            if(heavyTankPosition.length == 6) {
+                position: for(int i = 0; i < heavyTankPosition.length; i++) {
+                    // Validate input for y (vertical) position of heavy tanks
+                    switch(heavyTankPosition[i].split("")[0].toLowerCase()) {
+                        case "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" -> { isValidPosition = true; }
+                        default -> {
+                            isValidPosition = false;
+                            break position;
+                        }
+                    }
+    
+                    // Validate input for x (horizontal) position of heavy tanks
+                    switch(heavyTankPosition[i].substring(1)) {
+                        case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" -> { isValidPosition = true; }
+                        default -> {
+                            isValidPosition = false;
+                            break position;
+                        }
+                    }
+                }
+    
+                if(isValidPosition == true) {
+                    int y = 0;
+                    int x = 0;
+                    int[] position = new int[6];
+    
+                    // Find the index position of heavy tank
+                    validPosition: for(int i = 0; i < heavyTankPosition.length; i++) {
+                        // Find the y (vertical) position of heavy tank
+                        switch(heavyTankPosition[i].split("")[0].toLowerCase()) {
+                            case "a" -> { y = 0; }
+                            case "b" -> { y = 10; }
+                            case "c" -> { y = 20; }
+                            case "d" -> { y = 30; }
+                            case "e" -> { y = 40; }
+                            case "f" -> { y = 50; }
+                            case "g" -> { y = 60; }
+                            case "h" -> { y = 70; }
+                            case "i" -> { y = 80; }
+                            case "j" -> { y = 90; }
+                        }
+                        
+                        // Find the x (horizontal) position of heavy tank
+                        x = Integer.parseInt(heavyTankPosition[i].substring(1))-1;
+    
+                        // Check if the position is available / not available
+                        isValidPosition = checkAvailablePosition(x + y);
+
+                        if(!isValidPosition){
+                            // If position is not available
+                            System.out.println("Try again! Occupied slot!");
+                            break validPosition;
+                        } else {
+                            // If position is available
+                            position[i] = x + y;
+                        }
+                    }
+
+                    Arrays.sort(position); // Sort positions
+                    // Check if heavy tank position 3x2 is valid
+                    if(
+                        (position[0] + position[2] + position[4])/3 == position[2] &&
+                        ((double) position[1] + (double) position[3] + (double) position[5])/3 == (double) position[3]
+                    ) {
+                        if(isValidPosition) {
+                            // Mark 4 positions with "H"
+                            for (int index : position) playerBoard[index] = "H";
+                            heavyTanks++; // Increment heavy tank
+                        }
+                    } else {
+                        isValidPosition = false;
+                        System.out.println("Invalid position! Try again.");
+                    }
+                }
+            } else {
+                System.out.println("Invalid position! Try again.");
+            }
+        }
+
+        App.clearTerminal(); // Clear terminal window
+        System.out.print("\033[H\033[2J");
+        getBoard(); // Print board
+    }
+
+    // Check Available Spots
     private boolean checkAvailablePosition(int position) {
         if(playerBoard[position].equals(" ")) return true;
         return false;

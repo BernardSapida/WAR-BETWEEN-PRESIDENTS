@@ -1,7 +1,6 @@
 package WarBetweenPresident;
 
 import java.io.IOException;
-
 import WarBetweenPresident.Objects.Board;
 import WarBetweenPresident.Objects.Units;
 
@@ -17,8 +16,9 @@ public class App {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (InterruptedException | IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 }
+
+// a1 a2 b1 b2 c1 c2
