@@ -1,14 +1,14 @@
 package WarBetweenPresident.Objects;
 
+import WarBetweenPresident.App;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class Board {
-    private int start = 90;
-    private int end = 100;
 
+public class Board {
     private int president = 0;
     private int soldiers = 0;
     private int lightTanks = 0;
@@ -32,10 +32,15 @@ public class Board {
             computerBoard[i] = " ";
             recordComputerBoard[i] = " ";
         }
+
+        getBoard();
     }
 
     // Print the board
     public void getBoard() {
+        int start = 90;
+        int end = 100;
+
         for (int rows = 0; rows <= 10; rows++) {
             if(rows == 0) {
                 System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\u001B[0m");
@@ -67,12 +72,6 @@ public class Board {
                 System.out.println("\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\u001B[0m");
             }
         }
-
-        // reset values
-        start = 90;
-        end = 100;
-
-        System.out.println("ENDDDDDDDDDDDDDDDDDD!!!");
     }
 
     // Set up the units on the board
@@ -85,8 +84,6 @@ public class Board {
 
     // Make a query for president's position on the board
     private void queryPresidentPosition() {
-        clearTerminal();
-
         boolean isValidPosition = false;
         Scanner in_president = new Scanner(System.in);
 
@@ -139,7 +136,7 @@ public class Board {
                 }
 
                 if(isValidPosition) {
-                    clearTerminal();
+                    App.clearTerminal();
 
                     president++;
                     getBoard();
@@ -150,8 +147,6 @@ public class Board {
     
     // Make a query for president's position on the board
     private void querySoldiersPosition() {
-        clearTerminal();
-
         boolean isValidPosition = false;
         Scanner in_soldiers = new Scanner(System.in);
 
@@ -204,7 +199,7 @@ public class Board {
                 }
 
                 if(isValidPosition) {
-                    clearTerminal();
+                    App.clearTerminal();
 
                     soldiers++;
                     getBoard();
@@ -215,8 +210,6 @@ public class Board {
 
     // Make a query for president's position on the board
     private void queryLightTankPosition() {
-        clearTerminal();
-
         boolean isValidPosition = false;
         Scanner in_lightTanks = new Scanner(System.in);
 
@@ -280,7 +273,7 @@ public class Board {
 
                     if(Math.abs(position[0] - position[1]) == 1 || Math.abs(position[0] - position[1]) == 10) {
                         if(isValidPosition) {
-                            clearTerminal();
+                            App.clearTerminal();
 
                             for (int index : position) {
                                 playerBoard[index] = "L";
@@ -302,9 +295,6 @@ public class Board {
 
     // Make a query for president's position on the board
     private void queryMediumTankPosition() {
-        clearTerminal();
-        getBoard();
-
         boolean isValidPosition = false;
         Scanner in_mediumTanks = new Scanner(System.in);
 
@@ -368,18 +358,16 @@ public class Board {
 
                     if((Math.abs(position[0] - position[1]) + Math.abs(position[2] - position[3])) == 2) {
                         if(isValidPosition) {
-                            clearTerminal();
-                            
                             for (int index : position) {
                                 playerBoard[index] = "M";
                             }
                             
                             mediumTanks++;
+                            App.clearTerminal();
                             getBoard();
                         }
                     } else {
                         isValidPosition = false;
-                        System.out.println(Arrays.toString(position));
                         System.out.println("Invalid position! Try again.");
                     }
                 }
@@ -392,13 +380,5 @@ public class Board {
     private boolean checkAvailablePosition(int position) {
         if(playerBoard[position].equals(" ")) return true;
         return false;
-    }
-
-    private void clearTerminal() {
-        try {
-            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-        } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
-        }
     }
 }
