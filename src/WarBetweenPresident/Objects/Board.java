@@ -2,8 +2,9 @@ package WarBetweenPresident.Objects;
 
 import WarBetweenPresident.App;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -15,8 +16,8 @@ public class Board {
     private int mediumTanks = 0;
     private int heavyTanks = 0;
 
-    private String[] playerBoard = new String[100];
-    private String[] recordPlayerBoard = new String[100];
+    private String[] humanBoard = new String[100];
+    private String[] recordHumanBoard = new String[100];
 
     private String[] computerBoard = new String[100];
     private String[] recordComputerBoard = new String[100];
@@ -26,24 +27,26 @@ public class Board {
 
     // Set the board
     public Board() {
-        for(int i = 0; i < playerBoard.length; i++) {
-            playerBoard[i] = " ";
-            recordPlayerBoard[i] = " ";
+        for(int i = 0; i < humanBoard.length; i++) {
+            humanBoard[i] = " ";
+            recordHumanBoard[i] = " ";
             computerBoard[i] = " ";
             recordComputerBoard[i] = " ";
         }
 
-        getBoard();
+        // getBoard("human");
     }
 
     // Print the board
-    public void getBoard() {
+    public void getBoard(String player) {
+        String[] playerBoard = (player.equals("human") ? humanBoard : computerBoard);
+        String[] playerRecordBoard = (player.equals("human") ? recordHumanBoard : recordComputerBoard);
         int start = 90;
         int end = 100;
 
         for (int rows = 0; rows <= 10; rows++) {
             if(rows == 0) {
-                System.out.println("\n\n\n\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\u001B[0m");
+                System.out.println("\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\u001B[0m");
                 System.out.print("■\u001B[0m # ■ \u001B[0m");
                 for(int x = 0; x < xCoordinates.length; x++) System.out.print("\u001B[33m" + xCoordinates[x] + "\u001B[0m ■ \u001B[0m");
                 System.out.print("    ■\u001B[0m # ■ \u001B[0m");
@@ -63,8 +66,8 @@ public class Board {
                 // Board for battle marks (Missed / Hit).
                 System.out.print("    ■ \u001B[0m\u001B[33m" + yCoordinates[9-rows] + "\u001B[0m ■ \u001B[0m");
                 for(int cols = start; cols < end; cols++) {
-                    if(cols != end-1) System.out.print("\u001B[31m" + recordPlayerBoard[cols] + "\u001B[0m" + " ■ \u001B[0m");
-                    else System.out.print("\u001B[31m" + recordPlayerBoard[cols] + "\u001B[0m " + " ■ \u001B[0m");
+                    if(cols != end-1) System.out.print("\u001B[31m" + playerRecordBoard[cols] + "\u001B[0m" + " ■ \u001B[0m");
+                    else System.out.print("\u001B[31m" + playerRecordBoard[cols] + "\u001B[0m " + " ■ \u001B[0m");
                 }
 
                 start -= 10;
@@ -75,7 +78,7 @@ public class Board {
     }
 
     // Set up the units on the board
-    public void positionUnits() {
+    public void positionPlayerUnits() {
         while(president != 1) queryPresidentPosition();
         while(soldiers != 5) querySoldiersPosition();
         while(lightTanks != 3) queryLightTankPosition();
@@ -88,7 +91,7 @@ public class Board {
         boolean isValidPosition = false;
         Scanner in_president = new Scanner(System.in);
 
-        while(!isValidPosition) {
+        while(!isValidPosition) {            
             System.out.println("\nPresident size: 1x1");
             System.out.println("■■■■■\n■ P ■\n■■■■■\n");
             System.out.println("Remaining President: " + (1 - president));
@@ -140,13 +143,13 @@ public class Board {
                     System.out.println("Try again! Occupied slot!");
                 } else {
                     // If position is available
-                    playerBoard[x + y] = "P";
+                    humanBoard[x + y] = "P";
                 }
 
                 if(isValidPosition) {
                     president++; // Increment President
                     App.clearTerminal(); // Clear terminal window
-                    getBoard(); // Print board
+                    getBoard("human"); // Print board
                 }
             }
         }
@@ -208,13 +211,13 @@ public class Board {
                     System.out.println("Try again! Occupied slot!");
                 } else {
                     // Mark 1 position with "S"
-                    playerBoard[x + y] = "S";
+                    humanBoard[x + y] = "S";
                 }
 
                 if(isValidPosition) {
                     soldiers++; // Increment soldiers
                     App.clearTerminal(); // Clear terminal window
-                    getBoard(); // Print board
+                    getBoard("human"); // Print board
                 }
             }
         }
@@ -295,10 +298,10 @@ public class Board {
                     if(Math.abs(position[0] - position[1]) == 1 || Math.abs(position[0] - position[1]) == 10) {
                         if(isValidPosition) {
                             // Mark 2 positions with "L"
-                            for (int index : position) playerBoard[index] = "L";
+                            for (int index : position) humanBoard[index] = "L";
                             lightTanks++; // Increment light tank
                             App.clearTerminal(); // Clear terminal window
-                            getBoard(); // Print board
+                            getBoard("human"); // Print board
                         }
                     } else {
                         isValidPosition = false;
@@ -391,10 +394,10 @@ public class Board {
                     ) {
                         if(isValidPosition) {
                             // Mark 4 positions with "M"
-                            for (int index : position) playerBoard[index] = "M";
+                            for (int index : position) humanBoard[index] = "M";
                             mediumTanks++; // Increment medium tank
                             App.clearTerminal(); // Clear terminal window
-                            getBoard(); // Print board
+                            getBoard("human"); // Print board
                         }
                     } else {
                         isValidPosition = false;
@@ -486,7 +489,7 @@ public class Board {
                     ) {
                         if(isValidPosition) {
                             // Mark 4 positions with "H"
-                            for (int index : position) playerBoard[index] = "H";
+                            for (int index : position) humanBoard[index] = "H";
                             heavyTanks++; // Increment heavy tank
                         }
                     } else {
@@ -500,13 +503,213 @@ public class Board {
         }
 
         App.clearTerminal(); // Clear terminal window
-        System.out.print("\033[H\033[2J");
-        getBoard(); // Print board
+        getBoard("human"); // Print board
     }
 
     // Check Available Spots
     private boolean checkAvailablePosition(int position) {
-        if(playerBoard[position].equals(" ")) return true;
+        if(humanBoard[position].equals(" ")) return true;
         return false;
+    }
+
+    // Attack the position
+    public void attackBoard(int position, String player) {
+        if(player.equals("human")) {
+            if(!computerBoard[position].equals(" ")) {
+                computerBoard[position] = "X";
+                recordHumanBoard[position] = "X";
+            } else {
+                recordHumanBoard[position] = "O";
+            }
+        } else {
+            if(!humanBoard[position].equals(" ")) {
+                humanBoard[position] = "X";
+                recordComputerBoard[position] = "X";
+            } else {
+                recordComputerBoard[position] = "O";
+            }
+        }
+
+        App.clearTerminal(); // Clear terminal window
+        getBoard("human"); // Print board
+    }
+
+    // Set up the units of computer on the board.
+    public void positionComputerUnits() {
+        Random random = new Random();
+
+        while(president < 1) {
+            int presidentPosition = random.nextInt(100);
+
+            if(computerBoard[presidentPosition].equals(" ")) {
+                computerBoard[presidentPosition] = "P";
+                president++;
+            }
+        }
+
+        while(soldiers < 5) {
+            int soldiersPosition = random.nextInt(100);
+
+            if(computerBoard[soldiersPosition].equals(" ")) {
+                computerBoard[soldiersPosition] = "S";
+                soldiers++;
+            }
+        }
+
+        while(lightTanks < 3) {
+            ArrayList<int[]> lightTanksPosition = new ArrayList<int[]>();
+            
+            for(int i = 0; i < 100; i++) {
+                int[] availablePosition = new int[2];
+
+                if(i >= 0 && i <= 9) {
+                    if(computerBoard[i].equals(" ") && computerBoard[i+10].equals(" ")) {
+                        availablePosition[0] = i;
+                        availablePosition[1] = i+10;
+                        lightTanksPosition.add(availablePosition);
+                    }
+                }
+
+                if(i == 9 || i == 99) {
+                    if(computerBoard[i].equals(" ") && computerBoard[i-1].equals(" ")) {
+                        availablePosition[0] = i;
+                        availablePosition[1] = i-1;
+                        lightTanksPosition.add(availablePosition);
+                    }
+                }
+
+                if(i == 0 || i == 90) {
+                    if(computerBoard[i].equals(" ") && computerBoard[i+1].equals(" ")) {
+                        availablePosition[0] = i;
+                        availablePosition[1] = i+1;
+                        lightTanksPosition.add(availablePosition);
+                    }
+                }
+
+                if(i == 90 || i == 99) {
+                    if(computerBoard[i].equals(" ") && computerBoard[i-10].equals(" ")) {
+                        availablePosition[0] = i;
+                        availablePosition[1] = i-10;
+                        lightTanksPosition.add(availablePosition);
+                    }
+                }
+
+                if((i >= 11 && i <= 18) || (i >= 21 && i <= 28) || (i >= 31 && i <= 38) || (i >= 41 && i <= 48) || (i >= 51 && i <= 58) || (i >= 61 && i <= 68) || (i >= 71 && i <= 78) || (i >= 81 && i <= 88)) {
+                    if(computerBoard[i].equals(" ") && computerBoard[i+10].equals(" ")) {
+                        availablePosition[0] = i;
+                        availablePosition[1] = i+10;
+                        lightTanksPosition.add(availablePosition);
+                    }
+
+                    if(computerBoard[i].equals(" ") && computerBoard[i-10].equals(" ")) {
+                        availablePosition[0] = i;
+                        availablePosition[1] = i-10;
+                        lightTanksPosition.add(availablePosition);
+                    }
+
+                    if(computerBoard[i].equals(" ") && computerBoard[i+1].equals(" ")) {
+                        availablePosition[0] = i;
+                        availablePosition[1] = i+1;
+                        lightTanksPosition.add(availablePosition);
+                    }
+
+                    if(computerBoard[i].equals(" ") && computerBoard[i-1].equals(" ")) {
+                        availablePosition[0] = i;
+                        availablePosition[1] = i-1;
+                        lightTanksPosition.add(availablePosition);
+                    }
+                }
+            
+                if(i > 90 && i < 99) {
+                    if(computerBoard[i].equals(" ") && computerBoard[i-10].equals(" ")) {
+                        availablePosition[0] = i;
+                        availablePosition[1] = i-10;
+                        lightTanksPosition.add(availablePosition);
+                    }
+                }
+            }
+
+            for (int position : lightTanksPosition.get(random.nextInt(lightTanksPosition.size()))) {
+                computerBoard[position] = "L";
+            }
+
+            lightTanks++;
+        }
+
+        while(mediumTanks < 2) {
+            ArrayList<int[]> mediumTanksPosition = new ArrayList<int[]>();
+            
+            for(int i = 0; i < 100; i++) {
+                int[] availablePosition = new int[4];
+
+                if((i >= 0 && i < 9) || (i >= 10 && i < 19) || (i >= 20 && i < 29) || (i >= 30 && i < 39) || (i >= 40 && i < 49) || (i >= 50 && i < 59) || (i >= 60 && i < 69) || (i >= 70 && i < 79) || (i >= 80 && i < 89)) {
+                    if(computerBoard[i].equals(" ") && computerBoard[i+1].equals(" ") && computerBoard[i+10].equals(" ") && computerBoard[i+11].equals(" ")) {
+                        availablePosition[0] = i;
+                        availablePosition[1] = i+1;
+                        availablePosition[2] = i+10;
+                        availablePosition[3] = i+11;
+                        mediumTanksPosition.add(availablePosition);
+                    }
+                }
+            }
+
+            for (int position : mediumTanksPosition.get(random.nextInt(mediumTanksPosition.size()))) {
+                computerBoard[position] = "M";
+            }
+
+            mediumTanks++;
+        }
+
+        while(heavyTanks < 1) {
+            ArrayList<int[]> heavyTanksPosition = new ArrayList<int[]>();
+            
+            for(int i = 0; i < 100; i++) {
+                int[] availablePosition = new int[6];
+
+                if((i >= 0 && i < 9) || (i >= 10 && i < 19) || (i >= 20 && i < 29) || (i >= 30 && i < 39) || (i >= 40 && i < 49) || (i >= 50 && i < 59) || (i >= 60 && i < 69) || (i >= 70 && i < 79)) {
+                    if(
+                    computerBoard[i].equals(" ") && 
+                    computerBoard[i+1].equals(" ") && 
+                    computerBoard[i+10].equals(" ") && 
+                    computerBoard[i+11].equals(" ") &&
+                    computerBoard[i+20].equals(" ") && 
+                    computerBoard[i+21].equals(" ")) {
+                        availablePosition[0] = i;
+                        availablePosition[1] = i+1;
+                        availablePosition[2] = i+10;
+                        availablePosition[3] = i+11;
+                        availablePosition[4] = i+20;
+                        availablePosition[5] = i+21;
+                        heavyTanksPosition.add(availablePosition);
+                    }
+                }
+
+                if((i >= 0 && i < 6) || (i >= 10 && i < 16) || (i >= 20 && i < 26) || (i >= 30 && i < 36) || (i >= 40 && i < 46) || (i >= 50 && i < 56) || (i >= 60 && i < 66) || (i >= 70 && i < 76) || (i >= 80 && i < 86)) {
+                    if(
+                    computerBoard[i].equals(" ") && 
+                    computerBoard[i+1].equals(" ") && 
+                    computerBoard[i+2].equals(" ") && 
+                    computerBoard[i+10].equals(" ") &&
+                    computerBoard[i+11].equals(" ") && 
+                    computerBoard[i+12].equals(" ")) {
+                        availablePosition[0] = i;
+                        availablePosition[1] = i+1;
+                        availablePosition[2] = i+2;
+                        availablePosition[3] = i+10;
+                        availablePosition[4] = i+11;
+                        availablePosition[5] = i+12;
+                        heavyTanksPosition.add(availablePosition);
+                    }
+                }
+            }
+
+            for (int position : heavyTanksPosition.get(random.nextInt(heavyTanksPosition.size()))) {
+                computerBoard[position] = "H";
+            }
+
+            heavyTanks++;
+        }
+
+        getBoard("computer");
     }
 }
