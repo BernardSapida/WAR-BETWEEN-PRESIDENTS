@@ -9,15 +9,17 @@ import java.util.Arrays;
 public class App {
     public static void main(String[] args) throws Exception {
         Board playerBoard = new Board();
-        Board computerBoard = new Board();
+        // Board computerBoard = new Board();
 
-        // playerBoard.getBoard("computer");
-        computerBoard.positionComputerUnits();
+        playerBoard.positionComputerUnits();
         // playerBoard.attackBoard(0, "human");
         // playerBoard.attackBoard(1, "human");
         // playerBoard.attackBoard(10, "human");
         // playerBoard.attackBoard(11, "human");
         // playerBoard.attackBoard(91, "human");
+        playerBoard.getBoard("human");
+
+        playerBoard.queryHeavyTankAttackPosition();
     }
 
     public static void clearTerminal() {
@@ -27,10 +29,6 @@ public class App {
             e.printStackTrace();
         }
     }
-
-    public static void clear() {
-        System.out.print("\033[H\033[2J");
-    }
 }
 
-// a1 a2 b1 b2 c1 c2
+// a1 a2 a3 b1 b2 b3

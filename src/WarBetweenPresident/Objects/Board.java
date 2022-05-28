@@ -15,6 +15,7 @@ public class Board {
     private int lightTanks = 0;
     private int mediumTanks = 0;
     private int heavyTanks = 0;
+    private boolean isPresidentDead = false;
 
     private String[] humanBoard = new String[100];
     private String[] recordHumanBoard = new String[100];
@@ -419,7 +420,7 @@ public class Board {
             System.out.println("\nHeavy tank size: 3x2");
             System.out.println("■■■■■■■■■\n■ H ■ H ■\n■■■■■■■■■\n■ H ■ H ■\n■■■■■■■■■\n■ H ■ H ■\n■■■■■■■■■\n");
             System.out.println("Remaining Heavy Tanks: " + (1 - heavyTanks));
-            System.out.print("Enter heavy tank position (Ex: a1 a2 b1 b2): ");
+            System.out.print("Enter heavy tank position (Ex: a1 a2 b1 b2 c1 c2): ");
             String setHeavyTankPosition = in_heavyTanks.nextLine();
             String[] heavyTankPosition = setHeavyTankPosition.split(" ");
 
@@ -530,8 +531,8 @@ public class Board {
             }
         }
 
-        App.clearTerminal(); // Clear terminal window
-        getBoard("human"); // Print board
+        // App.clearTerminal(); // Clear terminal window
+        // getBoard("human"); // Print board
     }
 
     // Set up the units of computer on the board.
@@ -562,23 +563,7 @@ public class Board {
             for(int i = 0; i < 100; i++) {
                 int[] availablePosition = new int[2];
 
-                if(i >= 0 && i <= 9) {
-                    if(computerBoard[i].equals(" ") && computerBoard[i+10].equals(" ")) {
-                        availablePosition[0] = i;
-                        availablePosition[1] = i+10;
-                        lightTanksPosition.add(availablePosition);
-                    }
-                }
-
-                if(i == 9 || i == 99) {
-                    if(computerBoard[i].equals(" ") && computerBoard[i-1].equals(" ")) {
-                        availablePosition[0] = i;
-                        availablePosition[1] = i-1;
-                        lightTanksPosition.add(availablePosition);
-                    }
-                }
-
-                if(i == 0 || i == 90) {
+                if((i >= 0 && i < 9) || (i >= 10 && i < 19) || (i >= 20 && i < 29) || (i >= 30 && i < 39) || (i >= 40 && i < 49) || (i >= 50 && i < 59) || (i >= 60 && i < 69) || (i >= 70 && i < 79) || (i >= 80 && i < 89) || (i >= 90 && i < 99)) {
                     if(computerBoard[i].equals(" ") && computerBoard[i+1].equals(" ")) {
                         availablePosition[0] = i;
                         availablePosition[1] = i+1;
@@ -586,44 +571,10 @@ public class Board {
                     }
                 }
 
-                if(i == 90 || i == 99) {
-                    if(computerBoard[i].equals(" ") && computerBoard[i-10].equals(" ")) {
-                        availablePosition[0] = i;
-                        availablePosition[1] = i-10;
-                        lightTanksPosition.add(availablePosition);
-                    }
-                }
-
-                if((i >= 11 && i <= 18) || (i >= 21 && i <= 28) || (i >= 31 && i <= 38) || (i >= 41 && i <= 48) || (i >= 51 && i <= 58) || (i >= 61 && i <= 68) || (i >= 71 && i <= 78) || (i >= 81 && i <= 88)) {
+                if((i >= 0 && i <= 9) || (i >= 10 && i <= 19) || (i >= 20 && i <= 29) || (i >= 30 && i <= 39) || (i >= 40 && i <= 49) || (i >= 50 && i <= 59) || (i >= 60 && i <= 69) || (i >= 70 && i <= 79) || (i >= 80 && i <= 89)) {
                     if(computerBoard[i].equals(" ") && computerBoard[i+10].equals(" ")) {
                         availablePosition[0] = i;
                         availablePosition[1] = i+10;
-                        lightTanksPosition.add(availablePosition);
-                    }
-
-                    if(computerBoard[i].equals(" ") && computerBoard[i-10].equals(" ")) {
-                        availablePosition[0] = i;
-                        availablePosition[1] = i-10;
-                        lightTanksPosition.add(availablePosition);
-                    }
-
-                    if(computerBoard[i].equals(" ") && computerBoard[i+1].equals(" ")) {
-                        availablePosition[0] = i;
-                        availablePosition[1] = i+1;
-                        lightTanksPosition.add(availablePosition);
-                    }
-
-                    if(computerBoard[i].equals(" ") && computerBoard[i-1].equals(" ")) {
-                        availablePosition[0] = i;
-                        availablePosition[1] = i-1;
-                        lightTanksPosition.add(availablePosition);
-                    }
-                }
-            
-                if(i > 90 && i < 99) {
-                    if(computerBoard[i].equals(" ") && computerBoard[i-10].equals(" ")) {
-                        availablePosition[0] = i;
-                        availablePosition[1] = i-10;
                         lightTanksPosition.add(availablePosition);
                     }
                 }
@@ -710,6 +661,395 @@ public class Board {
             heavyTanks++;
         }
 
-        getBoard("computer");
+        // getBoard("computer");
+    }
+
+    public void queryPresidentAttack() {
+        boolean isValidPosition = false;
+        Scanner in_presidentAttack = new Scanner(System.in);
+
+        while(!isValidPosition) {            
+            System.out.println("\nPresident Area of Effect (Nuke): 3x3");
+            System.out.println("■■■■■■■■■■■■■\n■ X ■ X ■ X ■\n■■■■■■■■■■■■■\n■ X ■ X ■ X ■\n■■■■■■■■■■■■■\n■ X ■ X ■ X ■\n■■■■■■■■■■■■■\n ");
+            System.out.print("Enter position to be attack (Ex: a1 a2 a3 b1 b2 b3 c1 c2 c3): ");
+            String setPresidentAttackPosition = in_presidentAttack.nextLine();
+            String[] presidentAttackPosition = setPresidentAttackPosition.split(" ");
+
+            if(presidentAttackPosition.length == 9) {
+                position: for(int i = 0; i < presidentAttackPosition.length; i++) {
+                    // Validate input for y (vertical) attack position of the President (Nuke)
+                    switch(presidentAttackPosition[i].split("")[0].toLowerCase()) {
+                        case "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" -> { isValidPosition = true; }
+                        default -> {
+                            isValidPosition = false;
+                            break position;
+                        }
+                    }
+    
+                    // Validate input for x (horizontal) attack position of the President (Nuke)
+                    switch(presidentAttackPosition[i].substring(1)) {
+                        case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" -> { isValidPosition = true; }
+                        default -> {
+                            isValidPosition = false;
+                            break position;
+                        }
+                    }
+                }
+    
+                if(isValidPosition == true) {
+                    int y = 0;
+                    int x = 0;
+                    int[] position = new int[9];
+    
+                    // Find the index attack position of the President (Nuke)
+                    for(int i = 0; i < presidentAttackPosition.length; i++) {
+                        // Find the y (vertical) attack position of the President (Nuke)
+                        switch(presidentAttackPosition[i].split("")[0].toLowerCase()) {
+                            case "a" -> { y = 0; }
+                            case "b" -> { y = 10; }
+                            case "c" -> { y = 20; }
+                            case "d" -> { y = 30; }
+                            case "e" -> { y = 40; }
+                            case "f" -> { y = 50; }
+                            case "g" -> { y = 60; }
+                            case "h" -> { y = 70; }
+                            case "i" -> { y = 80; }
+                            case "j" -> { y = 90; }
+                        }
+
+                        x = Integer.parseInt(presidentAttackPosition[i].substring(1))-1;
+
+                        // If position is available
+                        position[i] = x + y;
+                    }
+
+                    Arrays.sort(position); // Sort positions
+
+                    // Check if attack position of the President (Nuke) 9x9 is valid
+                    if(
+                        (double) (position[0] + position[1] + position[2])/3 == position[1] &&
+                        (double) (position[3] + position[4] + position[5])/3 == position[4] &&
+                        (double) (position[6] + position[7] + position[8])/3 == position[7]
+                    ) {
+                        if(isValidPosition) {
+                            // Mark 4 positions with "M"
+                            for (int index : position) attackBoard(index, "human");
+                            // mediumTanks++; // Increment medium tank
+                            // App.clearTerminal(); // Clear terminal window
+                            getBoard("human"); // Print board
+                        }
+                    } else {
+                        isValidPosition = false;
+                        System.out.println("Invalid attack position! Try again.");
+                    }
+                }
+            } else {
+                System.out.println("Invalid attack position! Try again.");
+            }
+        }
+    }
+
+    public void querySoldiersAttack() {
+        boolean isValidPosition = false;
+        Scanner in_soldiersAttack = new Scanner(System.in);
+
+        while(!isValidPosition) {            
+            System.out.println("\nSoldiers Area of Effect (Mortars): 1x1");
+            System.out.println("■■■■■\n■ X ■\n■■■■■\n");
+            System.out.print("Enter position to be attack (Ex: a1): ");
+            String setSoldiersAttackPosition = in_soldiersAttack.nextLine();
+
+            switch(setSoldiersAttackPosition.toLowerCase().substring(0, 1)) {
+                // Validate input for y (vertical) attack position of the soldiers (Mortars)
+                case "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" -> { isValidPosition = true; }
+                default -> {
+                    isValidPosition = false;
+                }
+            }
+
+            switch(setSoldiersAttackPosition.substring(1)) {
+                // Validate input for x (horizontal) attack position of the soldiers (Mortars)
+                case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" -> { isValidPosition = true; }
+                default -> {
+                    isValidPosition = false;
+                }
+            }
+
+            if(isValidPosition) {
+                int y = 0;
+                int x = 0;
+
+                // Find the y (vertical) attack position of the soldiers (Mortars)
+                switch(setSoldiersAttackPosition.toLowerCase().substring(0, 1)) {
+                    case "a" -> { y = 0; }
+                    case "b" -> { y = 10; }
+                    case "c" -> { y = 20; }
+                    case "d" -> { y = 30; }
+                    case "e" -> { y = 40; }
+                    case "f" -> { y = 50; }
+                    case "g" -> { y = 60; }
+                    case "h" -> { y = 70; }
+                    case "i" -> { y = 80; }
+                    case "j" -> { y = 90; }
+                }
+
+                // Find the x (horizontal) attack position of the soldiers (Mortars)
+                x = Integer.parseInt(setSoldiersAttackPosition.substring(1))-1;
+
+                attackBoard(x + y, "human");
+
+                // president++; // Increment President
+                App.clearTerminal(); // Clear terminal window
+                getBoard("human"); // Print board
+            }
+        }
+    }
+
+    public void queryLightTankAttackPosition() {
+        boolean isValidPosition = false;
+        Scanner in_lightTanksAttack = new Scanner(System.in);
+
+        while(!isValidPosition) {
+            System.out.println("\nLight Tank Area of Effect (Tank Gun): 2x1");
+            System.out.println("■■■■■■■■■\n■ X ■ X ■\n■■■■■■■■■\n    OR    \n■■■■■\n■ X ■\n■■■■■\n■ X ■\n■■■■■\n");
+            System.out.print("Enter position to be attack (Ex: a1 b1): ");
+            String setLightTankAttackPosition = in_lightTanksAttack.nextLine();
+            String[] lightTankAttackPosition = setLightTankAttackPosition.split(" ");
+
+            if(lightTankAttackPosition.length == 2) {
+                position: for(int i = 0; i < lightTankAttackPosition.length; i++) {
+                    // Validate input for y (vertical) attack position of the light tanks (Tank Gun)
+                    switch(lightTankAttackPosition[i].split("")[0].toLowerCase()) {
+                        case "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" -> { isValidPosition = true; }
+                        default -> {
+                            isValidPosition = false;
+                            break position;
+                        }
+                    }
+    
+                    // Validate input for x (horizontal) attack position of the light tanks (Tank Gun)
+                    switch(lightTankAttackPosition[i].substring(1)) {
+                        case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" -> { isValidPosition = true; }
+                        default -> {
+                            isValidPosition = false;
+                            break position;
+                        }
+                    }
+                }
+    
+                if(isValidPosition == true) {
+                    int y = 0;
+                    int x = 0;
+                    int[] position = new int[2];
+    
+                    // Find the index attack position of the light tank (Tank Gun)
+                    for(int i = 0; i < lightTankAttackPosition.length; i++) {
+                        // Find the y (vertical) attack position of the light tank (Tank Gun)
+                        switch(lightTankAttackPosition[i].split("")[0].toLowerCase()) {
+                            case "a" -> { y = 0; }
+                            case "b" -> { y = 10; }
+                            case "c" -> { y = 20; }
+                            case "d" -> { y = 30; }
+                            case "e" -> { y = 40; }
+                            case "f" -> { y = 50; }
+                            case "g" -> { y = 60; }
+                            case "h" -> { y = 70; }
+                            case "i" -> { y = 80; }
+                            case "j" -> { y = 90; }
+                        }
+    
+                        // Find the x (horizontal) attack position of the light tank (Tank Gun)
+                        x = Integer.parseInt(lightTankAttackPosition[i].substring(1))-1;
+                        position[i] = x + y;
+                    }
+
+                    // Check if light tank position 2x1 is valid
+                    if(Math.abs(position[0] - position[1]) == 1 || Math.abs(position[0] - position[1]) == 10) {
+                        if(isValidPosition) {
+                            // Mark 2 positions with "X"
+                            for (int index : position) attackBoard(index, "human");
+                            App.clearTerminal(); // Clear terminal window
+                            getBoard("human"); // Print board
+                        }
+                    } else {
+                        isValidPosition = false;
+                        System.out.println("Invalid attack position! Try again.");
+                    }
+                }
+            } else {
+                System.out.println("Invalid attack position! Try again.");
+            }
+        }
+    }
+
+    public void queryMediumTankAttackPosition() {
+        boolean isValidPosition = false;
+        Scanner in_mediumTanksAttack = new Scanner(System.in);
+
+        while(!isValidPosition) {
+            System.out.println("\nMedium tank size: 2x2");
+            System.out.println("■■■■■■■■■\n■ M ■ M ■\n■■■■■■■■■\n■ M ■ M ■\n■■■■■■■■■\n");
+            System.out.print("Enter position to be attack (Ex: a1 a2 b1 b2): ");
+            String setMediumTanksAttackPosition = in_mediumTanksAttack.nextLine();
+            String[] mediumTanksAttackPosition = setMediumTanksAttackPosition.split(" ");
+
+            if(mediumTanksAttackPosition.length == 4) {
+                position: for(int i = 0; i < mediumTanksAttackPosition.length; i++) {
+                    // Validate input for y (vertical) attack position of the medium (Cannon)
+                    switch(mediumTanksAttackPosition[i].split("")[0].toLowerCase()) {
+                        case "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" -> { isValidPosition = true; }
+                        default -> {
+                            isValidPosition = false;
+                            break position;
+                        }
+                    }
+    
+                    // Validate input for x (horizontal)  attack position of the medium (Cannon)
+                    switch(mediumTanksAttackPosition[i].substring(1)) {
+                        case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" -> { isValidPosition = true; }
+                        default -> {
+                            isValidPosition = false;
+                            break position;
+                        }
+                    }
+                }
+    
+                if(isValidPosition == true) {
+                    int y = 0;
+                    int x = 0;
+                    int[] position = new int[4];
+    
+                    // Find the index position of medium tank
+                    for(int i = 0; i < mediumTanksAttackPosition.length; i++) {
+                        // Find the y (vertical) position of medium tank
+                        switch(mediumTanksAttackPosition[i].split("")[0].toLowerCase()) {
+                            case "a" -> { y = 0; }
+                            case "b" -> { y = 10; }
+                            case "c" -> { y = 20; }
+                            case "d" -> { y = 30; }
+                            case "e" -> { y = 40; }
+                            case "f" -> { y = 50; }
+                            case "g" -> { y = 60; }
+                            case "h" -> { y = 70; }
+                            case "i" -> { y = 80; }
+                            case "j" -> { y = 90; }
+                        }
+                        
+                        // Find the x (horizontal) position of medium tank
+                        x = Integer.parseInt(mediumTanksAttackPosition[i].substring(1))-1;
+    
+                        // Check if the position is available / not available
+                        isValidPosition = checkAvailablePosition(x + y);
+                        position[i] = x + y;
+                    }
+
+                    Arrays.sort(position); // Sort positions
+
+                    // Check if medium tank position 2x2 is valid
+                    if(
+                        (Math.abs(position[0] - position[1]) + Math.abs(position[2] - position[3])) == 2 &&
+                        (Math.abs(position[0] - position[2]) + Math.abs(position[1] - position[3])) == 20
+                    ) {
+                        if(isValidPosition) {
+                            // Mark 4 positions with "X"
+                            for (int index : position) attackBoard(index, "human");
+                            App.clearTerminal(); // Clear terminal window
+                            getBoard("human"); // Print board
+                        }
+                    } else {
+                        isValidPosition = false;
+                        System.out.println("Invalid attack position! Try again.");
+                    }
+                }
+            } else {
+                System.out.println("Invalid attack position! Try again.");
+            }
+        }
+    }
+
+    public void queryHeavyTankAttackPosition() {
+        boolean isValidPosition = false;
+        Scanner in_heavyTanksAttack = new Scanner(System.in);
+
+        while(!isValidPosition) {
+            System.out.println("\nHeavy Tank Area of Effect (Tank Gun): 3x2");
+            System.out.println("■■■■■■■■■\n■ X ■ X ■\n■■■■■■■■■\n■ X ■ X ■\n■■■■■■■■■\n■ X ■ X ■\n■■■■■■■■■\n");
+            System.out.print("Enter position to be attack (Ex: a1 a2 b1 b2 c1 c2): ");
+            String setHeavyTankAttackPosition = in_heavyTanksAttack.nextLine();
+            String[] heavyTankAttackPosition = setHeavyTankAttackPosition.split(" ");
+
+            if(heavyTankAttackPosition.length == 6) {
+                position: for(int i = 0; i < heavyTankAttackPosition.length; i++) {
+                    // Validate input for y (vertical) attack position of the heavy tanks (Missiles)
+                    switch(heavyTankAttackPosition[i].split("")[0].toLowerCase()) {
+                        case "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" -> { isValidPosition = true; }
+                        default -> {
+                            isValidPosition = false;
+                            break position;
+                        }
+                    }
+    
+                    // Validate input for x (horizontal) attack position of the heavy tanks (Missiles)
+                    switch(heavyTankAttackPosition[i].substring(1)) {
+                        case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" -> { isValidPosition = true; }
+                        default -> {
+                            isValidPosition = false;
+                            break position;
+                        }
+                    }
+                }
+    
+                if(isValidPosition == true) {
+                    int y = 0;
+                    int x = 0;
+                    int[] position = new int[6];
+    
+                    // Find the index position of heavy tank
+                    for(int i = 0; i < heavyTankAttackPosition.length; i++) {
+                        // Find the y (vertical) position of heavy tank
+                        switch(heavyTankAttackPosition[i].split("")[0].toLowerCase()) {
+                            case "a" -> { y = 0; }
+                            case "b" -> { y = 10; }
+                            case "c" -> { y = 20; }
+                            case "d" -> { y = 30; }
+                            case "e" -> { y = 40; }
+                            case "f" -> { y = 50; }
+                            case "g" -> { y = 60; }
+                            case "h" -> { y = 70; }
+                            case "i" -> { y = 80; }
+                            case "j" -> { y = 90; }
+                        }
+                        
+                        // Find the x (horizontal) position of heavy tank
+                        x = Integer.parseInt(heavyTankAttackPosition[i].substring(1))-1;
+                        position[i] = x + y;
+                    }
+
+                    Arrays.sort(position); // Sort positions
+                    // Check if heavy tank position 3x2 is valid
+                    if(
+                        ((double) (position[0] + position[2] + position[4])/3 == position[2] &&
+                        (double) (position[1] + position[3] + position[5])/3 == position[3]) ||
+                        ((double) (position[0] + position[1] + position[2])/3 == position[1] &&
+                        (double) (position[3] + position[4] + position[5])/3 == position[4])
+                    ) {
+                        if(isValidPosition) {
+                            // Mark 6 positions with "X"
+                            for (int index : position) attackBoard(index, "human");
+                            App.clearTerminal(); // Clear terminal window
+                            getBoard("human"); // Print board
+                        }
+                    } else {
+                        isValidPosition = false;
+                        System.out.println("Invalid attack position! Try again.");
+                    }
+                }
+            } else {
+                System.out.println("Invalid attack position! Try again.");
+            }
+        }
+
+        App.clearTerminal(); // Clear terminal window
+        getBoard("human"); // Print board
     }
 }
