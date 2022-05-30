@@ -8,29 +8,35 @@ import WarBetweenPresident.Objects.Units;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        Board playerBoard = new Board();
-        // Board computerBoard = new Board();
+        Board humanBoard = new Board("human");
+        Board computerBoard = new Board("computer");
 
-        // Calling the method `positionComputerUnits()` from the `Board` class.
-        // Set up the computer units on the board.
-        playerBoard.positionComputerUnits();
+        humanBoard.randomUnitsPosition();
+        computerBoard.randomUnitsPosition();
         
-        // Printing the human board to the console.
-        playerBoard.getBoard("human");
+        humanBoard.getBoard();
 
-        // Testing: attack the board of Computer, it will mark "X" if the position is being hit
-        // else "O" if missed
-        playerBoard.queryHeavyTankAttackPosition();
+        while(true) {
+            humanBoard.queryAttack();
+            
+            computerBoard.computerAttack();
+            // computerBoard.getBoard();
+
+            humanBoard.computerBoard = computerBoard.computerBoard;
+            humanBoard.recordComputerBoard = computerBoard.recordComputerBoard;
+
+            computerBoard.humanBoard = humanBoard.humanBoard;
+            computerBoard.recordHumanBoard = humanBoard.recordHumanBoard;
+        }
     }
 
-    /**
-     * It clears the terminal screen
-     */
     public static void clearTerminal() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n");
     }
 }

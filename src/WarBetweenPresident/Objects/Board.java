@@ -1,12 +1,16 @@
 package WarBetweenPresident.Objects;
 
 import WarBetweenPresident.App;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.HashMap;
 
 public class Board {
+    private String player;
     private int president = 0;
     private int soldiers = 0;
     private int lightTanks = 0;
@@ -14,18 +18,30 @@ public class Board {
     private int heavyTanks = 0;
     private boolean isPresidentDead = false;
 
-    private String[] humanBoard = new String[100];
-    private String[] recordHumanBoard = new String[100];
+    private int nuke = 1;
+    private int mortars = 1;
 
-    private String[] computerBoard = new String[100];
-    private String[] recordComputerBoard = new String[100];
+    private int tankGunCooldown;
+    private int cannonCooldown;
+    private int missilesCooldown;
+
+    public String[] humanBoard = new String[100];
+    public String[] recordHumanBoard = new String[100];
+
+    public String[] computerBoard = new String[100];
+    public String[] recordComputerBoard = new String[100];
 
     private String[] xCoordinates = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
     private String[] yCoordinates = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
 
-    
-    // Initializing the board.
-    public Board() {
+    private ArrayList<String> humanAvailableAttacks = new ArrayList<String>();
+    private HashMap<String, String> humanAttacks = new HashMap<String, String>();
+
+    private ArrayList<String> computerAvailableAttacks = new ArrayList<String>();
+    private HashMap<String, String> computerAttacks = new HashMap<String, String>();
+
+
+    public Board(String player) {
         for(int i = 0; i < humanBoard.length; i++) {
             humanBoard[i] = " ";
             recordHumanBoard[i] = " ";
@@ -33,15 +49,22 @@ public class Board {
             recordComputerBoard[i] = " ";
         }
 
-        // getBoard("human");
+        this.player = player;
+
+        humanAttacks.put("Nuke", "Ready");
+        humanAttacks.put("Mortars", "Ready");
+        humanAttacks.put("Tank Gun", "Ready");
+        humanAttacks.put("Cannon", "Ready");
+        humanAttacks.put("Missiles", "Ready");
+
+        computerAttacks.put("Nuke", "Ready");
+        computerAttacks.put("Mortars", "Ready");
+        computerAttacks.put("Tank Gun", "Ready");
+        computerAttacks.put("Cannon", "Ready");
+        computerAttacks.put("Missiles", "Ready");
     }
 
-    /**
-     * It prints out a 10x10 grid of the player's board and the player's record board
-     * 
-     * @param player "human" or "computer"
-     */
-    public void getBoard(String player) {
+    public void getBoard() {
         String[] playerBoard = (player.equals("human") ? humanBoard : computerBoard);
         String[] playerRecordBoard = (player.equals("human") ? recordHumanBoard : recordComputerBoard);
         int start = 90;
@@ -80,11 +103,6 @@ public class Board {
         }
     }
 
-    
-    /**
-     * While the number of units is not equal to the number of units that should be on the board, query
-     * the user for the position of the unit.
-     */
     public void positionPlayerUnits() {
         while(president != 1) queryPresidentPosition();
         while(soldiers != 5) querySoldiersPosition();
@@ -93,10 +111,6 @@ public class Board {
         while(heavyTanks != 1) queryHeavyTankPosition();
     }
 
-    /**
-     * The function queries the user for the position of the President, validates the input, checks if
-     * the position is available, and if it is, it places the President on the board.
-     */
     private void queryPresidentPosition() {
         boolean isValidPosition = false;
         Scanner in_president = new Scanner(System.in);
@@ -159,17 +173,12 @@ public class Board {
                 if(isValidPosition) {
                     president++; // Increment President
                     App.clearTerminal(); // Clear terminal window
-                    getBoard("human"); // Print board
+                    getBoard(); // Print board
                 }
             }
         }
     }
-    
-    /**
-     * The function asks the user to input the position of the soldiers, then it checks if the position
-     * is available, if it is, it marks the position with "S" and increments the soldiers variable by
-     * 1, if not, it asks the user to input another position.
-     */
+
     private void querySoldiersPosition() {
         boolean isValidPosition = false;
         Scanner in_soldiers = new Scanner(System.in);
@@ -231,17 +240,12 @@ public class Board {
                 if(isValidPosition) {
                     soldiers++; // Increment soldiers
                     App.clearTerminal(); // Clear terminal window
-                    getBoard("human"); // Print board
+                    getBoard(); // Print board
                 }
             }
         }
     }
 
-
-    /**
-     * It takes a string of 4 positions (Ex: a1 a2) and checks if the positions are valid and
-     * available. If it is, it marks the positions with "L" and increments the lightTanks variable
-     */
     private void queryLightTankPosition() {
         boolean isValidPosition = false;
         Scanner in_lightTanks = new Scanner(System.in);
@@ -319,7 +323,7 @@ public class Board {
                             for (int index : position) humanBoard[index] = "L";
                             lightTanks++; // Increment light tank
                             App.clearTerminal(); // Clear terminal window
-                            getBoard("human"); // Print board
+                            getBoard(); // Print board
                         }
                     } else {
                         isValidPosition = false;
@@ -332,10 +336,6 @@ public class Board {
         }
     }
 
-    /**
-     * It takes a string of 4 positions (Ex: a1 a2 b1 b2) and checks if the positions are valid and
-     * available. If it is, it marks the positions with "M" and increments the mediumTanks variable
-     */
     private void queryMediumTankPosition() {
         boolean isValidPosition = false;
         Scanner in_mediumTanks = new Scanner(System.in);
@@ -418,7 +418,7 @@ public class Board {
                             for (int index : position) humanBoard[index] = "M";
                             mediumTanks++; // Increment medium tank
                             App.clearTerminal(); // Clear terminal window
-                            getBoard("human"); // Print board
+                            getBoard(); // Print board
                         }
                     } else {
                         isValidPosition = false;
@@ -431,10 +431,6 @@ public class Board {
         }
     }
 
-    /**
-     * It takes a string of 6 positions (Ex: a1 a2 b1 b2 c1 c2) and checks if the positions are valid and
-     * available. If it is, it marks the positions with "H" and increments the heavyTanks variable
-     */
     private void queryHeavyTankPosition() {
         boolean isValidPosition = false;
         Scanner in_heavyTanks = new Scanner(System.in);
@@ -527,32 +523,18 @@ public class Board {
         }
 
         App.clearTerminal(); // Clear terminal window
-        getBoard("human"); // Print board
+        getBoard(); // Print board
     }
 
-    /**
-     * @param position the position on the board that the player wants to place their marker
-     * @return The method is returning a boolean value.
-     */
     private boolean checkAvailablePosition(int position) {
         if(humanBoard[position].equals(" ")) return true;
         return false;
     }
 
-    /**
-     * If the player is human, then check if the computerBoard at the position is not empty. If it's
-     * not empty, then set the computerBoard at the position to "X" (Hit) and the recordHumanBoard at the
-     * position to "X". If it is empty, then set the recordHumanBoard at the position to "O" (Missed). If the
-     * player is not human, then check if the humanBoard at the position is not empty. If it's not
-     * empty, then set the humanBoard at the position to "X" (Hit) and the recordComputerBoard at the
-     * position to "X". If it is empty, then set the recordComputerBoard at the position to "O" (Missed)
-     * 
-     * @param position The position on the board that the player is attacking
-     * @param player String
-     */
     public void attackBoard(int position, String player) {
         if(player.equals("human")) {
             if(!computerBoard[position].equals(" ")) {
+                if(computerBoard[position].equals("P")) isPresidentDead = true;
                 computerBoard[position] = "X";
                 recordHumanBoard[position] = "X";
             } else {
@@ -560,39 +542,48 @@ public class Board {
             }
         } else {
             if(!humanBoard[position].equals(" ")) {
+                if(humanBoard[position].equals("P")) isPresidentDead = true;
                 humanBoard[position] = "X";
                 recordComputerBoard[position] = "X";
             } else {
                 recordComputerBoard[position] = "O";
             }
         }
-
-        // App.clearTerminal(); // Clear terminal window
-        // getBoard("human"); // Print board
     }
 
-    /**
-     * It places the computer's units on the board
-     */
-    public void positionComputerUnits() {
+    public void randomUnitsPosition() {
         Random random = new Random();
 
         while(president < 1) {
             int presidentPosition = random.nextInt(100);
 
-            if(computerBoard[presidentPosition].equals(" ")) {
-                computerBoard[presidentPosition] = "P";
-                president++;
+            if(player.equals("human")) {
+                if(humanBoard[presidentPosition].equals(" ")) {
+                    humanBoard[presidentPosition] = "P";
+                    president++;
+                }
+            } else {
+                if(computerBoard[presidentPosition].equals(" ")) {
+                    computerBoard[presidentPosition] = "P";
+                    president++;
+                }
             }
         }
 
         while(soldiers < 5) {
             int soldiersPosition = random.nextInt(100);
 
-            if(computerBoard[soldiersPosition].equals(" ")) {
-                computerBoard[soldiersPosition] = "S";
-                soldiers++;
-            }
+            if(player.equals("human")) {
+                if(humanBoard[soldiersPosition].equals(" ")) {
+                    humanBoard[soldiersPosition] = "S";
+                    soldiers++;
+                }
+            } else {
+                if(computerBoard[soldiersPosition].equals(" ")) {
+                    computerBoard[soldiersPosition] = "S";
+                    soldiers++;
+                }
+            }            
         }
 
         while(lightTanks < 3) {
@@ -602,24 +593,41 @@ public class Board {
                 int[] availablePosition = new int[2];
 
                 if((i >= 0 && i < 9) || (i >= 10 && i < 19) || (i >= 20 && i < 29) || (i >= 30 && i < 39) || (i >= 40 && i < 49) || (i >= 50 && i < 59) || (i >= 60 && i < 69) || (i >= 70 && i < 79) || (i >= 80 && i < 89) || (i >= 90 && i < 99)) {
-                    if(computerBoard[i].equals(" ") && computerBoard[i+1].equals(" ")) {
-                        availablePosition[0] = i;
-                        availablePosition[1] = i+1;
-                        lightTanksPosition.add(availablePosition);
+                    if(player.equals("human")) {
+                        if(humanBoard[i].equals(" ") && humanBoard[i+1].equals(" ")) {
+                            availablePosition[0] = i;
+                            availablePosition[1] = i+1;
+                            lightTanksPosition.add(availablePosition);
+                        }
+                    } else {
+                        if(computerBoard[i].equals(" ") && computerBoard[i+1].equals(" ")) {
+                            availablePosition[0] = i;
+                            availablePosition[1] = i+1;
+                            lightTanksPosition.add(availablePosition);
+                        }
                     }
                 }
 
                 if((i >= 0 && i <= 9) || (i >= 10 && i <= 19) || (i >= 20 && i <= 29) || (i >= 30 && i <= 39) || (i >= 40 && i <= 49) || (i >= 50 && i <= 59) || (i >= 60 && i <= 69) || (i >= 70 && i <= 79) || (i >= 80 && i <= 89)) {
-                    if(computerBoard[i].equals(" ") && computerBoard[i+10].equals(" ")) {
-                        availablePosition[0] = i;
-                        availablePosition[1] = i+10;
-                        lightTanksPosition.add(availablePosition);
+                    if(player.equals("human")) {
+                        if(humanBoard[i].equals(" ") && humanBoard[i+10].equals(" ")) {
+                            availablePosition[0] = i;
+                            availablePosition[1] = i+10;
+                            lightTanksPosition.add(availablePosition);
+                        }
+                    } else {
+                        if(computerBoard[i].equals(" ") && computerBoard[i+10].equals(" ")) {
+                            availablePosition[0] = i;
+                            availablePosition[1] = i+10;
+                            lightTanksPosition.add(availablePosition);
+                        }
                     }
                 }
             }
 
             for (int position : lightTanksPosition.get(random.nextInt(lightTanksPosition.size()))) {
-                computerBoard[position] = "L";
+                if(player.equals("human")) humanBoard[position] = "L";
+                else computerBoard[position] = "L";
             }
 
             lightTanks++;
@@ -632,18 +640,29 @@ public class Board {
                 int[] availablePosition = new int[4];
 
                 if((i >= 0 && i < 9) || (i >= 10 && i < 19) || (i >= 20 && i < 29) || (i >= 30 && i < 39) || (i >= 40 && i < 49) || (i >= 50 && i < 59) || (i >= 60 && i < 69) || (i >= 70 && i < 79) || (i >= 80 && i < 89)) {
-                    if(computerBoard[i].equals(" ") && computerBoard[i+1].equals(" ") && computerBoard[i+10].equals(" ") && computerBoard[i+11].equals(" ")) {
-                        availablePosition[0] = i;
-                        availablePosition[1] = i+1;
-                        availablePosition[2] = i+10;
-                        availablePosition[3] = i+11;
-                        mediumTanksPosition.add(availablePosition);
+                    if(player.equals("human")) {
+                        if(humanBoard[i].equals(" ") && humanBoard[i+1].equals(" ") && humanBoard[i+10].equals(" ") && humanBoard[i+11].equals(" ")) {
+                            availablePosition[0] = i;
+                            availablePosition[1] = i+1;
+                            availablePosition[2] = i+10;
+                            availablePosition[3] = i+11;
+                            mediumTanksPosition.add(availablePosition);
+                        }
+                    } else {
+                        if(computerBoard[i].equals(" ") && computerBoard[i+1].equals(" ") && computerBoard[i+10].equals(" ") && computerBoard[i+11].equals(" ")) {
+                            availablePosition[0] = i;
+                            availablePosition[1] = i+1;
+                            availablePosition[2] = i+10;
+                            availablePosition[3] = i+11;
+                            mediumTanksPosition.add(availablePosition);
+                        }
                     }
                 }
             }
 
             for (int position : mediumTanksPosition.get(random.nextInt(mediumTanksPosition.size()))) {
-                computerBoard[position] = "M";
+                if(player.equals("human")) humanBoard[position] = "M";
+                else computerBoard[position] = "M";
             }
 
             mediumTanks++;
@@ -656,44 +675,81 @@ public class Board {
                 int[] availablePosition = new int[6];
 
                 if((i >= 0 && i < 9) || (i >= 10 && i < 19) || (i >= 20 && i < 29) || (i >= 30 && i < 39) || (i >= 40 && i < 49) || (i >= 50 && i < 59) || (i >= 60 && i < 69) || (i >= 70 && i < 79)) {
-                    if(
-                    computerBoard[i].equals(" ") && 
-                    computerBoard[i+1].equals(" ") && 
-                    computerBoard[i+10].equals(" ") && 
-                    computerBoard[i+11].equals(" ") &&
-                    computerBoard[i+20].equals(" ") && 
-                    computerBoard[i+21].equals(" ")) {
-                        availablePosition[0] = i;
-                        availablePosition[1] = i+1;
-                        availablePosition[2] = i+10;
-                        availablePosition[3] = i+11;
-                        availablePosition[4] = i+20;
-                        availablePosition[5] = i+21;
-                        heavyTanksPosition.add(availablePosition);
+                    if(player.equals("human")) {
+                        if(
+                        humanBoard[i].equals(" ") && 
+                        humanBoard[i+1].equals(" ") && 
+                        humanBoard[i+10].equals(" ") && 
+                        humanBoard[i+11].equals(" ") &&
+                        humanBoard[i+20].equals(" ") && 
+                        humanBoard[i+21].equals(" ")) {
+                            availablePosition[0] = i;
+                            availablePosition[1] = i+1;
+                            availablePosition[2] = i+10;
+                            availablePosition[3] = i+11;
+                            availablePosition[4] = i+20;
+                            availablePosition[5] = i+21;
+                            heavyTanksPosition.add(availablePosition);
+                        }
+                    } else {
+                        if(
+                        computerBoard[i].equals(" ") && 
+                        computerBoard[i+1].equals(" ") && 
+                        computerBoard[i+10].equals(" ") && 
+                        computerBoard[i+11].equals(" ") &&
+                        computerBoard[i+20].equals(" ") && 
+                        computerBoard[i+21].equals(" ")) {
+                            availablePosition[0] = i;
+                            availablePosition[1] = i+1;
+                            availablePosition[2] = i+10;
+                            availablePosition[3] = i+11;
+                            availablePosition[4] = i+20;
+                            availablePosition[5] = i+21;
+                            heavyTanksPosition.add(availablePosition);
+                        }
                     }
                 }
 
                 if((i >= 0 && i < 6) || (i >= 10 && i < 16) || (i >= 20 && i < 26) || (i >= 30 && i < 36) || (i >= 40 && i < 46) || (i >= 50 && i < 56) || (i >= 60 && i < 66) || (i >= 70 && i < 76) || (i >= 80 && i < 86)) {
-                    if(
-                    computerBoard[i].equals(" ") && 
-                    computerBoard[i+1].equals(" ") && 
-                    computerBoard[i+2].equals(" ") && 
-                    computerBoard[i+10].equals(" ") &&
-                    computerBoard[i+11].equals(" ") && 
-                    computerBoard[i+12].equals(" ")) {
-                        availablePosition[0] = i;
-                        availablePosition[1] = i+1;
-                        availablePosition[2] = i+2;
-                        availablePosition[3] = i+10;
-                        availablePosition[4] = i+11;
-                        availablePosition[5] = i+12;
-                        heavyTanksPosition.add(availablePosition);
+                    if(player.equals("human")) {
+                        if(
+                        humanBoard[i].equals(" ") && 
+                        humanBoard[i+1].equals(" ") && 
+                        humanBoard[i+2].equals(" ") && 
+                        humanBoard[i+10].equals(" ") &&
+                        humanBoard[i+11].equals(" ") && 
+                        humanBoard[i+12].equals(" ")) {
+                            availablePosition[0] = i;
+                            availablePosition[1] = i+1;
+                            availablePosition[2] = i+2;
+                            availablePosition[3] = i+10;
+                            availablePosition[4] = i+11;
+                            availablePosition[5] = i+12;
+                            heavyTanksPosition.add(availablePosition);
+                        }
+                    } else {
+                        if(
+                        computerBoard[i].equals(" ") && 
+                        computerBoard[i+1].equals(" ") && 
+                        computerBoard[i+2].equals(" ") && 
+                        computerBoard[i+10].equals(" ") &&
+                        computerBoard[i+11].equals(" ") && 
+                        computerBoard[i+12].equals(" ")) {
+                            availablePosition[0] = i;
+                            availablePosition[1] = i+1;
+                            availablePosition[2] = i+2;
+                            availablePosition[3] = i+10;
+                            availablePosition[4] = i+11;
+                            availablePosition[5] = i+12;
+                            heavyTanksPosition.add(availablePosition);
+                        }
                     }
                 }
             }
 
             for (int position : heavyTanksPosition.get(random.nextInt(heavyTanksPosition.size()))) {
-                computerBoard[position] = "H";
+                if(player.equals("human")) humanBoard[position] = "H";
+                else computerBoard[position] = "H";
             }
 
             heavyTanks++;
@@ -702,11 +758,6 @@ public class Board {
         // getBoard("computer");
     }
 
-    /**
-     * The function checks if the inputted attack position of the president (Nuke: 3x3) is valid or not.
-     * If it is, it marks the attack positions with "X" (Hit) if the position is not empty and if empty then
-     * it marks the attack position with "O" (Missed)
-     */
     public void queryPresidentAttack() {
         boolean isValidPosition = false;
         Scanner in_presidentAttack = new Scanner(System.in);
@@ -776,10 +827,10 @@ public class Board {
                     ) {
                         if(isValidPosition) {
                             // Mark 4 positions with "M"
-                            for (int index : position) attackBoard(index, "human");
-                            // mediumTanks++; // Increment medium tank
-                            // App.clearTerminal(); // Clear terminal window
-                            getBoard("human"); // Print board
+                            for (int index : position) attackBoard(index, player);
+                            App.clearTerminal(); // Clear terminal window
+                            getBoard(); // Print board
+                            if(isPresidentDead) announceWinner(player);
                         }
                     } else {
                         isValidPosition = false;
@@ -792,11 +843,6 @@ public class Board {
         }
     }
 
-    /**
-     * The function checks if the inputted attack position of the soldiers (Mortars: 1x1) is valid or not.
-     * If it is, it marks the attack positions with "X" (Hit) if the position is not empty and if empty then
-     * it marks the attack position with "O" (Missed)
-     */
     public void querySoldiersAttack() {
         boolean isValidPosition = false;
         Scanner in_soldiersAttack = new Scanner(System.in);
@@ -844,21 +890,17 @@ public class Board {
                 // Find the x (horizontal) attack position of the soldiers (Mortars)
                 x = Integer.parseInt(setSoldiersAttackPosition.substring(1))-1;
 
-                attackBoard(x + y, "human");
+                attackBoard(x + y, player);
 
                 // president++; // Increment President
                 App.clearTerminal(); // Clear terminal window
-                getBoard("human"); // Print board
+                getBoard(); // Print board
+                if(isPresidentDead) announceWinner(player);
             }
         }
     }
 
-    /**
-     * The function checks if the inputted attack position of the light tanks (Tank Gun: 2x1) is valid or not.
-     * If it is, it marks the attack positions with "X" (Hit) if the position is not empty and if empty then
-     * it marks the attack position with "O" (Missed)
-     */
-    public void queryLightTankAttackPosition() {
+    public void queryLightTankAttack() {
         boolean isValidPosition = false;
         Scanner in_lightTanksAttack = new Scanner(System.in);
 
@@ -920,9 +962,10 @@ public class Board {
                     if(Math.abs(position[0] - position[1]) == 1 || Math.abs(position[0] - position[1]) == 10) {
                         if(isValidPosition) {
                             // Mark 2 positions with "X"
-                            for (int index : position) attackBoard(index, "human");
+                            for (int index : position) attackBoard(index, player);
                             App.clearTerminal(); // Clear terminal window
-                            getBoard("human"); // Print board
+                            getBoard(); // Print board
+                            if(isPresidentDead) announceWinner(player);
                         }
                     } else {
                         isValidPosition = false;
@@ -935,12 +978,7 @@ public class Board {
         }
     }
 
-    /**
-     * The function checks if the inputted attack position of the medium tanks (Cannon: 2x2) is valid or not.
-     * If it is, it marks the attack positions with "X" (Hit) if the position is not empty and if empty then
-     * it marks the attack position with "O" (Missed)
-     */
-    public void queryMediumTankAttackPosition() {
+    public void queryMediumTankAttack() {
         boolean isValidPosition = false;
         Scanner in_mediumTanksAttack = new Scanner(System.in);
 
@@ -1007,9 +1045,10 @@ public class Board {
                     ) {
                         if(isValidPosition) {
                             // Mark 4 positions with "X"
-                            for (int index : position) attackBoard(index, "human");
+                            for (int index : position) attackBoard(index, player);
                             App.clearTerminal(); // Clear terminal window
-                            getBoard("human"); // Print board
+                            getBoard(); // Print board
+                            if(isPresidentDead) announceWinner(player);
                         }
                     } else {
                         isValidPosition = false;
@@ -1022,13 +1061,7 @@ public class Board {
         }
     }
 
-    
-    /**
-     * The function checks if the inputted attack position of the heavy tanks (Missiles: 3x2) is valid or not.
-     * If it is, it marks the attack positions with "X" (Hit) if the position is not empty and if empty then
-     * it marks the attack position with "O" (Missed)
-     */
-    public void queryHeavyTankAttackPosition() {
+    public void queryHeavyTankAttack() {
         boolean isValidPosition = false;
         Scanner in_heavyTanksAttack = new Scanner(System.in);
 
@@ -1096,9 +1129,10 @@ public class Board {
                     ) {
                         if(isValidPosition) {
                             // Mark 6 positions with "X"
-                            for (int index : position) attackBoard(index, "human");
+                            for (int index : position) attackBoard(index, player);
                             App.clearTerminal(); // Clear terminal window
-                            getBoard("human"); // Print board
+                            getBoard(); // Print board
+                            if(isPresidentDead) announceWinner(player);
                         }
                     } else {
                         isValidPosition = false;
@@ -1110,7 +1144,338 @@ public class Board {
             }
         }
 
-        App.clearTerminal(); // Clear terminal window
-        getBoard("human"); // Print board
+        // App.clearTerminal(); // Clear terminal window
+        // getBoard(); // Print board
+    }
+
+    public void announceWinner(String playerWinner) {
+        if(playerWinner.equals("human")) System.out.println("\nCongratulation! You are the winner of this war.");
+        else System.out.println("\nOps sorry! You lose this war.");
+    }
+
+    public void queryAttack() {
+        Scanner in_attack = new Scanner(System.in);
+        boolean isValid = false;
+
+        while(!isValid) {
+            System.out.println("\n[1] President - Nuke");
+            System.out.println("    Remaining President: " + president);
+            System.out.println("    Area of Effect: 3x3");
+            System.out.println("    Attack Status: " + (nuke == 0 ? "No Attack" : "Ready") + "\n");
+
+            System.out.println("[2] Soldiers - Mortars (Cooldown: No Cooldown)");
+            System.out.println("    Remaining Soldiers: " + soldiers);
+            System.out.println("    Area of Effect: 1x1");
+            System.out.println("    Attack Status: " + (soldiers == 0 ? "No Attack" : "Ready") + "\n");
+
+            System.out.println("[3] Light Tank - Tank Gun (Cooldown: 4 turns)");
+            System.out.println("    Remaining Light Tank: " + lightTanks);
+            System.out.println("    Area of Effect: 2x1");
+            System.out.println("    Attack Status: " + ((tankGunCooldown != 0) ? tankGunCooldown + " turns (Cooldown)" : "Ready") + "\n");
+
+            System.out.println("[4] Medium Tank - Cannon (Cooldown: 6 turns)");
+            System.out.println("    Remaining Medium Tanks: " + mediumTanks);
+            System.out.println("    Area of Effect: 2x2");
+            System.out.println("    Attack Status: " + ((cannonCooldown != 0) ? cannonCooldown + " turns (Cooldown)" : "Ready") + "\n");
+
+            System.out.println("[5] Heavy Tank - Missiles (Cooldown: 8 turns)");
+            System.out.println("    Remaining Heavy Tanks: " + heavyTanks);
+            System.out.println("    Area of Effect: 3x2");
+            System.out.println("    Attack Status: " + ((missilesCooldown != 0) ? missilesCooldown + " turns (Cooldown)" : "Ready") + "\n");
+            
+            
+            System.out.print("Choose an attack: ");
+            String attack = in_attack.nextLine();
+            
+
+            if((nuke == 0) && (mortars == 0) && (tankGunCooldown != 0) && (cannonCooldown != 0) && (missilesCooldown != 0)) {
+                if(player.equals("human")) System.out.println("All of your attacks are on cooldown. It's computer turn again!");
+                else System.out.println("All of computer attacks are on cooldown. It's your turn again!");
+                System.out.println("\n================================================\n");
+                break;
+            }
+
+            switch(attack) {
+                case "1" -> { 
+                    if(nuke > 0) {
+                        queryPresidentAttack();
+
+                        nuke -= 1;
+
+                        if(tankGunCooldown > 0 && lightTanks > 0) tankGunCooldown -= 1;
+                        if(cannonCooldown > 0 && mediumTanks > 0) cannonCooldown -= 1;
+                        if(missilesCooldown > 0 && heavyTanks > 0) missilesCooldown -= 1;
+
+                        isValid = true;
+                    } else {
+                        System.out.println("Sorry, you can use only 1 Nuke. Please try another attack!");
+                        System.out.println("\n================================================\n");
+                    }
+                }
+
+                case "2" -> { 
+                    if(soldiers > 0) {
+                        querySoldiersAttack();
+
+                        if(tankGunCooldown > 0 && lightTanks > 0) tankGunCooldown -= 1;
+                        if(cannonCooldown > 0 && mediumTanks > 0) cannonCooldown -= 1;
+                        if(missilesCooldown > 0 && heavyTanks > 0) missilesCooldown -= 1;
+
+                        isValid = true;
+                    } else {
+                        System.out.println("Sorry, all of your soldiers has been killed. Please try another attack!");
+                        System.out.println("\n================================================\n");
+                    }
+                }
+
+                case "3" -> { 
+                    if(lightTanks > 0 && tankGunCooldown == 0) {
+                        queryLightTankAttack();
+                        
+                        tankGunCooldown = 4;
+
+                        if(cannonCooldown > 0 && mediumTanks > 0) cannonCooldown -= 1;
+                        if(missilesCooldown > 0 && heavyTanks > 0) missilesCooldown -= 1;
+
+                        isValid = true;
+                    } else {
+                        if(tankGunCooldown != 0) System.out.println("Sorry, tank gun is on cooldown. Please try another attack!");
+                        if(lightTanks == 0) System.out.println("Sorry, all of your light tanks has been destroyed. Please try another attack!");
+                        System.out.println("\n================================================\n");
+                    }
+                }
+
+                case "4" -> { 
+                    if(mediumTanks > 0 && cannonCooldown == 0) {
+                        queryMediumTankAttack();
+
+                        cannonCooldown = 6;
+
+                        if(tankGunCooldown > 0 && lightTanks > 0) tankGunCooldown -= 1;
+                        if(missilesCooldown > 0 && heavyTanks > 0) missilesCooldown -= 1;
+
+                        isValid = true;
+                    } else {
+                        if(cannonCooldown != 0) System.out.println("Sorry, cannon is on cooldown. Please try another attack!");
+                        if(mediumTanks == 0) System.out.println("Sorry, all of your medium tanks has been destroyed. Please try another attack!");
+                        System.out.println("\n================================================\n");
+                    }
+                }
+
+                case "5" -> { 
+                    if(heavyTanks > 0 && missilesCooldown == 0) {
+                        queryHeavyTankAttack();
+
+                        missilesCooldown = 8;
+
+                        if(tankGunCooldown > 0 && lightTanks > 0) tankGunCooldown -= 1;
+                        if(cannonCooldown > 0 && mediumTanks > 0) cannonCooldown -= 1;
+
+                        isValid = true;
+                    } else {
+                        if(missilesCooldown != 0) System.out.println("Sorry, missiles is on cooldown. Please try another attack!");
+                        if(heavyTanks == 0) System.out.println("Sorry, all of your heavy tanks has been destroyed. Please try another attack!");
+                        System.out.println("\n================================================\n");
+                    }
+                }
+
+                default -> {
+                    System.out.println("\nYour input is invalid! Please try again.\n");
+                    System.out.println("================================================");
+                }
+            }
+        }
+    }
+
+    public void computerAttack() {
+        Random random = new Random();
+        computerAvailableAttacks = new ArrayList<String>();
+
+        if(soldiers == 0) computerAttacks.remove("Mortars");
+        if(lightTanks == 0) computerAttacks.remove("Tank Gun");
+        if(mediumTanks == 0) computerAttacks.remove("Cannon");
+        if(heavyTanks == 0) computerAttacks.remove("Missiles");
+
+        if(tankGunCooldown == 0) computerAttacks.put("Tank Gun", "Ready");
+        if(cannonCooldown == 0) computerAttacks.put("Cannon", "Ready");
+        if(missilesCooldown == 0) computerAttacks.put("Missiles", "Ready");
+
+        for(String value : computerAttacks.keySet()) {
+            if(computerAttacks.get(value).equals("Ready")) computerAvailableAttacks.add(value);
+        }
+
+        if(computerAvailableAttacks.size() != 0) {
+            switch(computerAvailableAttacks.get(random.nextInt(computerAvailableAttacks.size()))) {
+                case "Nuke" -> { 
+                    ArrayList<int[]> attackOptions = new ArrayList<int[]>();
+                
+                    for(int i = 0; i < 100; i++) {
+                        int[] attack = new int[9];
+        
+                        if((i >= 0 && i < 8) || (i >= 10 && i < 18) || (i >= 20 && i < 29) || (i >= 30 && i < 38) || (i >= 40 && i < 48) || (i >= 50 && i < 58) || (i >= 60 && i < 68) || (i >= 70 && i < 78)) {
+                            attack[0] = i;
+                            attack[1] = i+1;
+                            attack[2] = i+2;
+                            attack[3] = i+10;
+                            attack[4] = i+11;
+                            attack[5] = i+12;
+                            attack[6] = i+20;
+                            attack[7] = i+21;
+                            attack[8] = i+22;
+                            attackOptions.add(attack);
+                        }
+                    }
+        
+                    for (int attackPosition : attackOptions.get(random.nextInt(attackOptions.size()))) {
+                        attackBoard(attackPosition, player);
+                        if(isPresidentDead) announceWinner(player);
+                    }
+                    
+                    if(tankGunCooldown > 0 && lightTanks > 0) tankGunCooldown -= 1;
+                    if(cannonCooldown > 0 && mediumTanks > 0) cannonCooldown -= 1;
+                    if(missilesCooldown > 0 && heavyTanks > 0) missilesCooldown -= 1;
+    
+                    computerAttacks.put("Nuke", "Not Available");
+                }
+    
+                case "Mortars" -> { 
+                    int attackPosition = random.nextInt(100);
+    
+                    attackBoard(attackPosition, player);
+                    if(isPresidentDead) announceWinner(player);
+    
+                    if(tankGunCooldown > 0 && lightTanks > 0) tankGunCooldown -= 1;
+                    if(cannonCooldown > 0 && mediumTanks > 0) cannonCooldown -= 1;
+                    if(missilesCooldown > 0 && heavyTanks > 0) missilesCooldown -= 1;
+                }
+    
+                case "Tank Gun" -> { 
+                    ArrayList<int[]> attackOptions = new ArrayList<int[]>();
+                
+                    for(int i = 0; i < 100; i++) {
+                        int[] attack = new int[2];
+    
+                        if((i >= 0 && i < 9) || (i >= 10 && i < 19) || (i >= 20 && i < 29) || (i >= 30 && i < 39) || (i >= 40 && i < 49) || (i >= 50 && i < 59) || (i >= 60 && i < 69) || (i >= 70 && i < 79) || (i >= 80 && i < 89) || (i >= 90 && i < 99)) {
+                            if(humanBoard[i].equals(" ") && humanBoard[i+1].equals(" ")) {
+                                attack[0] = i;
+                                attack[1] = i+1;
+                                attackOptions.add(attack);
+                            }
+                        }
+    
+                        if((i >= 0 && i <= 9) || (i >= 10 && i <= 19) || (i >= 20 && i <= 29) || (i >= 30 && i <= 39) || (i >= 40 && i <= 49) || (i >= 50 && i <= 59) || (i >= 60 && i <= 69) || (i >= 70 && i <= 79) || (i >= 80 && i <= 89)) {
+                            if(humanBoard[i].equals(" ") && humanBoard[i+10].equals(" ")) {
+                                attack[0] = i;
+                                attack[1] = i+10;
+                                attackOptions.add(attack);
+                            }
+                        }
+                    }
+    
+                    for (int attackPosition : attackOptions.get(random.nextInt(attackOptions.size()))) {
+                        attackBoard(attackPosition, player);
+                        if(isPresidentDead) announceWinner(player);
+                    }
+    
+                    tankGunCooldown = 4;
+
+                    if(cannonCooldown > 0 && mediumTanks > 0) cannonCooldown -= 1;
+                    if(missilesCooldown > 0 && heavyTanks > 0) missilesCooldown -= 1;
+    
+                    computerAttacks.put("Tank Gun", "Cooldown");
+                }
+    
+                case "Cannon" -> { 
+                    ArrayList<int[]> attackOptions = new ArrayList<int[]>();
+                
+                    for(int i = 0; i < 100; i++) {
+                        int[] attack = new int[4];
+    
+                        if((i >= 0 && i < 9) || (i >= 10 && i < 19) || (i >= 20 && i < 29) || (i >= 30 && i < 39) || (i >= 40 && i < 49) || (i >= 50 && i < 59) || (i >= 60 && i < 69) || (i >= 70 && i < 79) || (i >= 80 && i < 89)) {
+                            if(humanBoard[i].equals(" ") && humanBoard[i+1].equals(" ") && humanBoard[i+10].equals(" ") && humanBoard[i+11].equals(" ")) {
+                                attack[0] = i;
+                                attack[1] = i+1;
+                                attack[2] = i+10;
+                                attack[3] = i+11;
+                                attackOptions.add(attack);
+                            }
+                        }
+                    }
+    
+                    for (int attackPosition : attackOptions.get(random.nextInt(attackOptions.size()))) {
+                        attackBoard(attackPosition, player);
+                        if(isPresidentDead) announceWinner(player);
+                    }
+    
+                    cannonCooldown = 6;
+    
+                    if(tankGunCooldown > 0 && lightTanks > 0) tankGunCooldown -= 1;
+                    if(missilesCooldown > 0 && heavyTanks > 0) missilesCooldown -= 1;
+    
+                    computerAttacks.put("Cannon", "Cooldown");
+                }
+    
+                case "Missiles" -> { 
+                    ArrayList<int[]> attackOptions = new ArrayList<int[]>();
+                
+                    for(int i = 0; i < 100; i++) {
+                        int[] attack = new int[6];
+        
+                        if((i >= 0 && i < 9) || (i >= 10 && i < 19) || (i >= 20 && i < 29) || (i >= 30 && i < 39) || (i >= 40 && i < 49) || (i >= 50 && i < 59) || (i >= 60 && i < 69) || (i >= 70 && i < 79)) {
+                            if(
+                            humanBoard[i].equals(" ") && 
+                            humanBoard[i+1].equals(" ") && 
+                            humanBoard[i+10].equals(" ") && 
+                            humanBoard[i+11].equals(" ") &&
+                            humanBoard[i+20].equals(" ") && 
+                            humanBoard[i+21].equals(" ")) {
+                                attack[0] = i;
+                                attack[1] = i+1;
+                                attack[2] = i+10;
+                                attack[3] = i+11;
+                                attack[4] = i+20;
+                                attack[5] = i+21;
+                                attackOptions.add(attack);
+                            }
+                        }
+        
+                        if((i >= 0 && i < 6) || (i >= 10 && i < 16) || (i >= 20 && i < 26) || (i >= 30 && i < 36) || (i >= 40 && i < 46) || (i >= 50 && i < 56) || (i >= 60 && i < 66) || (i >= 70 && i < 76) || (i >= 80 && i < 86)) {
+                            if(
+                            humanBoard[i].equals(" ") && 
+                            humanBoard[i+1].equals(" ") && 
+                            humanBoard[i+2].equals(" ") && 
+                            humanBoard[i+10].equals(" ") &&
+                            humanBoard[i+11].equals(" ") && 
+                            humanBoard[i+12].equals(" ")) {
+                                attack[0] = i;
+                                attack[1] = i+1;
+                                attack[2] = i+2;
+                                attack[3] = i+10;
+                                attack[4] = i+11;
+                                attack[5] = i+12;
+                                attackOptions.add(attack);
+                            }
+                        }
+                    }
+        
+                    for (int attackPosition : attackOptions.get(random.nextInt(attackOptions.size()))) {
+                        attackBoard(attackPosition, player);
+                        if(isPresidentDead) announceWinner(player);
+                    }
+    
+                    missilesCooldown = 8;
+    
+                    if(tankGunCooldown > 0 && lightTanks > 0) tankGunCooldown -= 1;
+                    if(cannonCooldown > 0 && mediumTanks > 0) cannonCooldown -= 1;
+    
+                    computerAttacks.put("Missiles", "Cooldown");
+                }
+            }
+        } else {
+            System.out.println("It's your turn! All of computer attacks are on cooldown.");
+            if(tankGunCooldown > 0 && lightTanks > 0) tankGunCooldown -= 1;
+            if(cannonCooldown > 0 && mediumTanks > 0) cannonCooldown -= 1;
+            if(missilesCooldown > 0 && heavyTanks > 0) missilesCooldown -= 1;
+        }
     }
 }
