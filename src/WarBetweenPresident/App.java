@@ -3,25 +3,28 @@ package WarBetweenPresident;
 import java.io.IOException;
 import WarBetweenPresident.Objects.Board;
 import WarBetweenPresident.Objects.Units;
-import java.util.ArrayList;
-import java.util.Arrays;
+// import java.util.ArrayList;
+// import java.util.Arrays;
 
 public class App {
     public static void main(String[] args) throws Exception {
         Board playerBoard = new Board();
         // Board computerBoard = new Board();
 
+        // Calling the method `positionComputerUnits()` from the `Board` class.
         playerBoard.positionComputerUnits();
-        // playerBoard.attackBoard(0, "human");
-        // playerBoard.attackBoard(1, "human");
-        // playerBoard.attackBoard(10, "human");
-        // playerBoard.attackBoard(11, "human");
-        // playerBoard.attackBoard(91, "human");
+        
+        // Printing the human board to the console.
         playerBoard.getBoard("human");
 
+        // Testing: attack the board of Computer, it will mark "X" if the position is being hit
+        // else "O" if missed
         playerBoard.queryHeavyTankAttackPosition();
     }
 
+    /**
+     * It clears the terminal screen
+     */
     public static void clearTerminal() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
@@ -30,5 +33,3 @@ public class App {
         }
     }
 }
-
-// a1 a2 a3 b1 b2 b3

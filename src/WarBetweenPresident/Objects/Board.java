@@ -26,7 +26,8 @@ public class Board {
     private String[] xCoordinates = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
     private String[] yCoordinates = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
 
-    // Set the board
+    
+    // Initializing the board.
     public Board() {
         for(int i = 0; i < humanBoard.length; i++) {
             humanBoard[i] = " ";
@@ -38,7 +39,11 @@ public class Board {
         // getBoard("human");
     }
 
-    // Print the board
+    /**
+     * It prints out a 10x10 grid of the player's board and the player's record board
+     * 
+     * @param player "human" or "computer"
+     */
     public void getBoard(String player) {
         String[] playerBoard = (player.equals("human") ? humanBoard : computerBoard);
         String[] playerRecordBoard = (player.equals("human") ? recordHumanBoard : recordComputerBoard);
@@ -78,7 +83,11 @@ public class Board {
         }
     }
 
-    // Set up the units on the board
+    
+    /**
+     * While the number of units is not equal to the number of units that should be on the board, query
+     * the user for the position of the unit.
+     */
     public void positionPlayerUnits() {
         while(president != 1) queryPresidentPosition();
         while(soldiers != 5) querySoldiersPosition();
@@ -87,7 +96,10 @@ public class Board {
         while(heavyTanks != 1) queryHeavyTankPosition();
     }
 
-    // Make a query for president's position on the board
+    /**
+     * The function queries the user for the position of the President, validates the input, checks if
+     * the position is available, and if it is, it places the President on the board.
+     */
     private void queryPresidentPosition() {
         boolean isValidPosition = false;
         Scanner in_president = new Scanner(System.in);
@@ -156,7 +168,11 @@ public class Board {
         }
     }
     
-    // Make a query for soldier's position on the board
+    /**
+     * The function asks the user to input the position of the soldiers, then it checks if the position
+     * is available, if it is, it marks the position with "S" and increments the soldiers variable by
+     * 1, if not, it asks the user to input another position.
+     */
     private void querySoldiersPosition() {
         boolean isValidPosition = false;
         Scanner in_soldiers = new Scanner(System.in);
@@ -224,7 +240,11 @@ public class Board {
         }
     }
 
-    // Make a query for light tank's position on the board
+
+    /**
+     * It takes a string of 4 positions (Ex: a1 a2) and checks if the positions are valid and
+     * available. If it is, it marks the positions with "L" and increments the lightTanks variable
+     */
     private void queryLightTankPosition() {
         boolean isValidPosition = false;
         Scanner in_lightTanks = new Scanner(System.in);
@@ -315,7 +335,10 @@ public class Board {
         }
     }
 
-    // Make a query for medium tank's position on the board
+    /**
+     * It takes a string of 4 positions (Ex: a1 a2 b1 b2) and checks if the positions are valid and
+     * available. If it is, it marks the positions with "M" and increments the mediumTanks variable
+     */
     private void queryMediumTankPosition() {
         boolean isValidPosition = false;
         Scanner in_mediumTanks = new Scanner(System.in);
@@ -411,7 +434,10 @@ public class Board {
         }
     }
 
-    // Make a query for heavy tank's position on the board
+    /**
+     * It takes a string of 6 positions (Ex: a1 a2 b1 b2 c1 c2) and checks if the positions are valid and
+     * available. If it is, it marks the positions with "H" and increments the heavyTanks variable
+     */
     private void queryHeavyTankPosition() {
         boolean isValidPosition = false;
         Scanner in_heavyTanks = new Scanner(System.in);
@@ -507,13 +533,26 @@ public class Board {
         getBoard("human"); // Print board
     }
 
-    // Check Available Spots
+    /**
+     * @param position the position on the board that the player wants to place their marker
+     * @return The method is returning a boolean value.
+     */
     private boolean checkAvailablePosition(int position) {
         if(humanBoard[position].equals(" ")) return true;
         return false;
     }
 
-    // Attack the position
+    /**
+     * If the player is human, then check if the computerBoard at the position is not empty. If it's
+     * not empty, then set the computerBoard at the position to "X" (Hit) and the recordHumanBoard at the
+     * position to "X". If it is empty, then set the recordHumanBoard at the position to "O" (Missed). If the
+     * player is not human, then check if the humanBoard at the position is not empty. If it's not
+     * empty, then set the humanBoard at the position to "X" (Hit) and the recordComputerBoard at the
+     * position to "X". If it is empty, then set the recordComputerBoard at the position to "O" (Missed)
+     * 
+     * @param position The position on the board that the player is attacking
+     * @param player String
+     */
     public void attackBoard(int position, String player) {
         if(player.equals("human")) {
             if(!computerBoard[position].equals(" ")) {
@@ -535,7 +574,9 @@ public class Board {
         // getBoard("human"); // Print board
     }
 
-    // Set up the units of computer on the board.
+    /**
+     * It places the computer's units on the board
+     */
     public void positionComputerUnits() {
         Random random = new Random();
 
@@ -664,6 +705,11 @@ public class Board {
         // getBoard("computer");
     }
 
+    /**
+     * The function checks if the inputted attack position of the president (Nuke: 3x3) is valid or not.
+     * If it is, it marks the attack positions with "X" (Hit) if the position is not empty and if empty then
+     * it marks the attack position with "O" (Missed)
+     */
     public void queryPresidentAttack() {
         boolean isValidPosition = false;
         Scanner in_presidentAttack = new Scanner(System.in);
@@ -749,6 +795,11 @@ public class Board {
         }
     }
 
+    /**
+     * The function checks if the inputted attack position of the soldiers (Mortars: 1x1) is valid or not.
+     * If it is, it marks the attack positions with "X" (Hit) if the position is not empty and if empty then
+     * it marks the attack position with "O" (Missed)
+     */
     public void querySoldiersAttack() {
         boolean isValidPosition = false;
         Scanner in_soldiersAttack = new Scanner(System.in);
@@ -805,6 +856,11 @@ public class Board {
         }
     }
 
+    /**
+     * The function checks if the inputted attack position of the light tanks (Tank Gun: 2x1) is valid or not.
+     * If it is, it marks the attack positions with "X" (Hit) if the position is not empty and if empty then
+     * it marks the attack position with "O" (Missed)
+     */
     public void queryLightTankAttackPosition() {
         boolean isValidPosition = false;
         Scanner in_lightTanksAttack = new Scanner(System.in);
@@ -882,12 +938,17 @@ public class Board {
         }
     }
 
+    /**
+     * The function checks if the inputted attack position of the medium tanks (Cannon: 2x2) is valid or not.
+     * If it is, it marks the attack positions with "X" (Hit) if the position is not empty and if empty then
+     * it marks the attack position with "O" (Missed)
+     */
     public void queryMediumTankAttackPosition() {
         boolean isValidPosition = false;
         Scanner in_mediumTanksAttack = new Scanner(System.in);
 
         while(!isValidPosition) {
-            System.out.println("\nMedium tank size: 2x2");
+            System.out.println("\nMedium Tank Area of Effect (Cannon): 2x2");
             System.out.println("■■■■■■■■■\n■ M ■ M ■\n■■■■■■■■■\n■ M ■ M ■\n■■■■■■■■■\n");
             System.out.print("Enter position to be attack (Ex: a1 a2 b1 b2): ");
             String setMediumTanksAttackPosition = in_mediumTanksAttack.nextLine();
@@ -937,9 +998,6 @@ public class Board {
                         
                         // Find the x (horizontal) position of medium tank
                         x = Integer.parseInt(mediumTanksAttackPosition[i].substring(1))-1;
-    
-                        // Check if the position is available / not available
-                        isValidPosition = checkAvailablePosition(x + y);
                         position[i] = x + y;
                     }
 
@@ -967,12 +1025,18 @@ public class Board {
         }
     }
 
+    
+    /**
+     * The function checks if the inputted attack position of the heavy tanks (Missiles: 3x2) is valid or not.
+     * If it is, it marks the attack positions with "X" (Hit) if the position is not empty and if empty then
+     * it marks the attack position with "O" (Missed)
+     */
     public void queryHeavyTankAttackPosition() {
         boolean isValidPosition = false;
         Scanner in_heavyTanksAttack = new Scanner(System.in);
 
         while(!isValidPosition) {
-            System.out.println("\nHeavy Tank Area of Effect (Tank Gun): 3x2");
+            System.out.println("\nHeavy Tank Area of Effect (Missiles): 3x2");
             System.out.println("■■■■■■■■■\n■ X ■ X ■\n■■■■■■■■■\n■ X ■ X ■\n■■■■■■■■■\n■ X ■ X ■\n■■■■■■■■■\n");
             System.out.print("Enter position to be attack (Ex: a1 a2 b1 b2 c1 c2): ");
             String setHeavyTankAttackPosition = in_heavyTanksAttack.nextLine();
