@@ -1,13 +1,10 @@
 package WarBetweenPresident.Objects;
 
 import WarBetweenPresident.App;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.regex.Pattern;
-
 
 public class Board {
     private int president = 0;
