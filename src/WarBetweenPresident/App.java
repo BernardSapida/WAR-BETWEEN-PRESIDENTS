@@ -12,6 +12,7 @@ public class App {
         // Board computerBoard = new Board();
 
         // Calling the method `positionComputerUnits()` from the `Board` class.
+        // Set up the computer units on the board.
         playerBoard.positionComputerUnits();
         
         // Printing the human board to the console.
