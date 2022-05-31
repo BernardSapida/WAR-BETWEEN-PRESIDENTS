@@ -15,27 +15,36 @@ public class App {
     private Scanner in = new Scanner(System.in);
     private String kindDeployment;
     
+    /**
+     * The function is a main function that runs the game
+     */
     public static void main(String[] args) throws Exception {
         obj = new App();
         computerBoard.randomUnitsPosition();
         app.unitsDeploymentType();
 
+        computerBoard.humanBoard = humanBoard.humanBoard;
+        computerBoard.recordHumanBoard = humanBoard.recordHumanBoard;
+        humanBoard.computerBoard = computerBoard.computerBoard;
+        humanBoard.recordComputerBoard = computerBoard.recordComputerBoard;
+
+        // The main loop of the game, where the human and the computer will attack each other until their
+        // President get killed.
         while(true) {
             Timer timer = new Timer();
             TimerTask computerAttackDone = new Helper();
             Random random = new Random();
 
-            humanBoard.computerBoard = computerBoard.computerBoard;
-            humanBoard.recordComputerBoard = computerBoard.recordComputerBoard;
-
-            computerBoard.humanBoard = humanBoard.humanBoard;
-            computerBoard.recordHumanBoard = humanBoard.recordHumanBoard;
-            
             humanBoard.queryAttack();
             if(humanBoard.isPresidentDead) break;
 
+            computerBoard.humanBoard = humanBoard.humanBoard;
+            computerBoard.recordHumanBoard = humanBoard.recordHumanBoard;
+
             computerBoard.computerAttack();
             if(computerBoard.isPresidentDead) break;
+            humanBoard.computerBoard = computerBoard.computerBoard;
+            humanBoard.recordComputerBoard = computerBoard.recordComputerBoard;
             
             System.out.println("\n================================================\n");
             System.out.println("Computer is thinking what to attack...");
