@@ -1,30 +1,9 @@
 package WarBetweenPresident.Objects;
 
 import WarBetweenPresident.App;
+import java.util.*;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.HashMap;
-
-public class Board {
-    private String player;
-    private int president = 0;
-    private int soldiers = 0;
-    private int lightTanks = 0;
-    private int mediumTanks = 0;
-    private int heavyTanks = 0;
-    private boolean isPresidentDead = false;
-
-    private int nuke = 1;
-    private int mortars = 1;
-
-    private int tankGunCooldown;
-    private int cannonCooldown;
-    private int missilesCooldown;
-
+public class Board extends Units {
     public String[] humanBoard = new String[100];
     public String[] recordHumanBoard = new String[100];
 
@@ -33,9 +12,6 @@ public class Board {
 
     private String[] xCoordinates = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
     private String[] yCoordinates = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
-
-    private ArrayList<String> humanAvailableAttacks = new ArrayList<String>();
-    private HashMap<String, String> humanAttacks = new HashMap<String, String>();
 
     private ArrayList<String> computerAvailableAttacks = new ArrayList<String>();
     private HashMap<String, String> computerAttacks = new HashMap<String, String>();
@@ -50,12 +26,6 @@ public class Board {
         }
 
         this.player = player;
-
-        humanAttacks.put("Nuke", "Ready");
-        humanAttacks.put("Mortars", "Ready");
-        humanAttacks.put("Tank Gun", "Ready");
-        humanAttacks.put("Cannon", "Ready");
-        humanAttacks.put("Missiles", "Ready");
 
         computerAttacks.put("Nuke", "Ready");
         computerAttacks.put("Mortars", "Ready");
@@ -1149,8 +1119,8 @@ public class Board {
     }
 
     public void announceWinner(String playerWinner) {
-        if(playerWinner.equals("human")) System.out.println("\nCongratulation! You are the winner of this war.");
-        else System.out.println("\nOps sorry! You lose this war.");
+        if(playerWinner.equals("human")) System.out.println("\n\u001B[32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■                                                                                        ■■\n■■            ■   ■    ■■■■■■    ■    ■       ■     ■     ■    ■■■■■    ■■   ■            ■■\n■■            ■   ■    ■■  ■■    ■    ■       ■     ■     ■    ■■■■■    ■■   ■            ■■\n■■             ■ ■     ■■  ■■    ■    ■        ■   ■ ■   ■       ■      ■ ■  ■            ■■\n■■              ■      ■■  ■■    ■    ■         ■ ■   ■ ■        ■      ■  ■ ■            ■■\n■■              ■      ■■■■■■    ■■■■■■          ■     ■       ■■■■■    ■   ■■            ■■\n■■                                                                                        ■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n");
+        else System.out.println("\n\u001B[31m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■                                                                                        ■■\n■■           ■   ■    ■■■■■■    ■    ■        ■         ■■■■■■    ■■■■■    ■■■■■          ■■\n■■           ■   ■    ■■  ■■    ■    ■        ■         ■    ■    ■        ■              ■■\n■■            ■ ■     ■■  ■■    ■    ■        ■         ■    ■    ■■■■■    ■■■■■          ■■\n■■             ■      ■■  ■■    ■    ■        ■         ■    ■        ■    ■              ■■\n■■             ■      ■■■■■■    ■■■■■■        ■■■■■■    ■■■■■■    ■■■■■    ■■■■■          ■■\n■■                                                                                        ■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n");
     }
 
     public void queryAttack() {
@@ -1183,10 +1153,9 @@ public class Board {
             System.out.println("    Area of Effect: 3x2");
             System.out.println("    Attack Status: " + ((missilesCooldown != 0) ? missilesCooldown + " turns (Cooldown)" : "Ready") + "\n");
             
-            
             System.out.print("Choose an attack: ");
             String attack = in_attack.nextLine();
-            
+            System.out.println("\n================================================\n");
 
             if((nuke == 0) && (mortars == 0) && (tankGunCooldown != 0) && (cannonCooldown != 0) && (missilesCooldown != 0)) {
                 if(player.equals("human")) System.out.println("All of your attacks are on cooldown. It's computer turn again!");
