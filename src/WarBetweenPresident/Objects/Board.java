@@ -16,7 +16,7 @@ public class Board extends Units {
     private ArrayList<String> computerAvailableAttacks = new ArrayList<String>();
     private HashMap<String, String> computerAttacks = new HashMap<String, String>();
 
-
+    // The above code is creating a constructor for the Board class.
     public Board(String player) {
         for(int i = 0; i < humanBoard.length; i++) {
             humanBoard[i] = " ";
@@ -34,6 +34,10 @@ public class Board extends Units {
         computerAttacks.put("Missiles", "Ready");
     }
 
+    /**
+     * It prints out a board for the player to deploy their ships and another board for the player to
+     * record their hits and misses
+     */
     public void getBoard() {
         String[] playerBoard = (player.equals("human") ? humanBoard : computerBoard);
         String[] playerRecordBoard = (player.equals("human") ? recordHumanBoard : recordComputerBoard);
@@ -73,6 +77,10 @@ public class Board extends Units {
         }
     }
 
+    /**
+     * While the number of units is not equal to the number of units that should be on the board, query
+     * the user for the position of the unit.
+     */
     public void positionPlayerUnits() {
         while(president != 1) queryPresidentPosition();
         while(soldiers != 5) querySoldiersPosition();
@@ -81,6 +89,10 @@ public class Board extends Units {
         while(heavyTanks != 1) queryHeavyTankPosition();
     }
 
+    /**
+     * The function queries the user for the position of the President, validates the input, checks if
+     * the position is available, and if it is, it places the President on the board.
+     */
     private void queryPresidentPosition() {
         boolean isValidPosition = false;
         Scanner in_president = new Scanner(System.in);
@@ -149,6 +161,10 @@ public class Board extends Units {
         }
     }
 
+    /**
+     * It asks the user to input a position for the soldiers, then it checks if the position is
+     * available, if it is, it marks the position with "S" and increments the soldiers variable
+     */
     private void querySoldiersPosition() {
         boolean isValidPosition = false;
         Scanner in_soldiers = new Scanner(System.in);
@@ -216,6 +232,11 @@ public class Board extends Units {
         }
     }
 
+    /**
+     * The function is used to query the user to input the position of the light tank. The function
+     * will check if the position is valid and available. If the position is valid and available, the
+     * function will mark the position with "L" and increment the light tank counter
+     */
     private void queryLightTankPosition() {
         boolean isValidPosition = false;
         Scanner in_lightTanks = new Scanner(System.in);
@@ -306,6 +327,11 @@ public class Board extends Units {
         }
     }
 
+    /**
+     * It checks if the input is valid, if it is, it checks if the position is available, if it is, it
+     * checks if the position is valid, if it is, it marks the position with "M" and increments the
+     * medium tank count
+     */
     private void queryMediumTankPosition() {
         boolean isValidPosition = false;
         Scanner in_mediumTanks = new Scanner(System.in);
@@ -401,6 +427,10 @@ public class Board extends Units {
         }
     }
 
+    /**
+     * The function checks if the input is valid, if it is, it checks if the position is available, if
+     * it is, it checks if the position is valid, if it is, it marks the position with "H"
+     */
     private void queryHeavyTankPosition() {
         boolean isValidPosition = false;
         Scanner in_heavyTanks = new Scanner(System.in);
@@ -496,11 +526,34 @@ public class Board extends Units {
         getBoard(); // Print board
     }
 
+    /**
+     * // Java
+     * private boolean checkAvailablePosition(int position) {
+     *         return humanBoard[position].equals(" ");
+     *     }
+     * 
+     * @param position the position on the board that the player wants to place their marker
+     * @return The method is returning a boolean value.
+     */
     private boolean checkAvailablePosition(int position) {
         if(humanBoard[position].equals(" ")) return true;
         return false;
     }
 
+    /**
+     * If the player is human, then check if the computerBoard at the position is not empty. If it is
+     * not empty, then check if the computerBoard at the position is equal to "P". If it is equal to
+     * "P", then set isPresidentDead to true. If it is not equal to "P", then set the computerBoard at
+     * the position to "X". Set the recordHumanBoard at the position to "X". If the computerBoard at
+     * the position is empty, then set the recordHumanBoard at the position to "O". If the player is
+     * not human, then check if the humanBoard at the position is not empty. If it is not empty, then
+     * check if the humanBoard at the position is equal to "P". If it is equal to "P", then set
+     * isPresidentDead to true. If it is not equal to "P", then set the humanBoard at the position to
+     * "X". Set the recordComputerBoard at the position to "
+     * 
+     * @param position the position on the board that the player is attacking
+     * @param player String
+     */
     public void attackBoard(int position, String player) {
         if(player.equals("human")) {
             if(!computerBoard[position].equals(" ")) {
@@ -521,6 +574,9 @@ public class Board extends Units {
         }
     }
 
+    /**
+     * It randomly places the units on the board
+     */
     public void randomUnitsPosition() {
         Random random = new Random();
 
@@ -728,6 +784,10 @@ public class Board extends Units {
         // getBoard("computer");
     }
 
+    /**
+     * The function is used to validate the attack position of the President (Nuke) and mark the
+     * attack position with "X" on the board.
+     */
     public void queryPresidentAttack() {
         boolean isValidPosition = false;
         Scanner in_presidentAttack = new Scanner(System.in);
@@ -796,7 +856,6 @@ public class Board extends Units {
                         (double) (position[6] + position[7] + position[8])/3 == position[7]
                     ) {
                         if(isValidPosition) {
-                            // Mark 4 positions with "M"
                             for (int index : position) attackBoard(index, player);
                             App.clearTerminal(); // Clear terminal window
                             getBoard(); // Print board
@@ -813,6 +872,10 @@ public class Board extends Units {
         }
     }
 
+    /**
+     * The function is used to validate the attack position of the Soldiers (Mortars) and mark the
+     * attack position with "X" on the board.
+     */
     public void querySoldiersAttack() {
         boolean isValidPosition = false;
         Scanner in_soldiersAttack = new Scanner(System.in);
@@ -870,6 +933,10 @@ public class Board extends Units {
         }
     }
 
+    /**
+     * The function is used to validate the attack position of the Light Tanks (Tank Gun) and mark the
+     * attack position with "X" on the board.
+     */
     public void queryLightTankAttack() {
         boolean isValidPosition = false;
         Scanner in_lightTanksAttack = new Scanner(System.in);
@@ -948,6 +1015,10 @@ public class Board extends Units {
         }
     }
 
+    /**
+     * The function is used to validate the attack position of the Medium Tanks (Cannon) and mark the
+     * attack position with "X" on the board.
+     */
     public void queryMediumTankAttack() {
         boolean isValidPosition = false;
         Scanner in_mediumTanksAttack = new Scanner(System.in);
@@ -1031,6 +1102,10 @@ public class Board extends Units {
         }
     }
 
+    /**
+     * The function is used to validate the attack position of the Medium Tanks (Missiles) and mark the
+     * attack position with "X" on the board.
+     */
     public void queryHeavyTankAttack() {
         boolean isValidPosition = false;
         Scanner in_heavyTanksAttack = new Scanner(System.in);
@@ -1118,11 +1193,19 @@ public class Board extends Units {
         // getBoard(); // Print board
     }
 
+    /**
+     * It prints out a message to the console, depending on the winner of the game
+     * 
+     * @param playerWinner The player who won the game.
+     */
     public void announceWinner(String playerWinner) {
         if(playerWinner.equals("human")) System.out.println("\n\u001B[32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■                                                                                        ■■\n■■            ■   ■    ■■■■■■    ■    ■       ■     ■     ■    ■■■■■    ■■   ■            ■■\n■■            ■   ■    ■■  ■■    ■    ■       ■     ■     ■    ■■■■■    ■■   ■            ■■\n■■             ■ ■     ■■  ■■    ■    ■        ■   ■ ■   ■       ■      ■ ■  ■            ■■\n■■              ■      ■■  ■■    ■    ■         ■ ■   ■ ■        ■      ■  ■ ■            ■■\n■■              ■      ■■■■■■    ■■■■■■          ■     ■       ■■■■■    ■   ■■            ■■\n■■                                                                                        ■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n");
         else System.out.println("\n\u001B[31m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■                                                                                        ■■\n■■           ■   ■    ■■■■■■    ■    ■        ■         ■■■■■■    ■■■■■    ■■■■■          ■■\n■■           ■   ■    ■■  ■■    ■    ■        ■         ■    ■    ■        ■              ■■\n■■            ■ ■     ■■  ■■    ■    ■        ■         ■    ■    ■■■■■    ■■■■■          ■■\n■■             ■      ■■  ■■    ■    ■        ■         ■    ■        ■    ■              ■■\n■■             ■      ■■■■■■    ■■■■■■        ■■■■■■    ■■■■■■    ■■■■■    ■■■■■          ■■\n■■                                                                                        ■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n");
     }
 
+    /**
+     * The function is used to query the user for an attack
+     */
     public void queryAttack() {
         Scanner in_attack = new Scanner(System.in);
         boolean isValid = false;
@@ -1256,6 +1339,10 @@ public class Board extends Units {
         }
     }
 
+    /**
+     * The computer randomly chooses an attack from a list of available attacks, and then attacks the
+     * human's board.
+     */
     public void computerAttack() {
         Random random = new Random();
         computerAvailableAttacks = new ArrayList<String>();

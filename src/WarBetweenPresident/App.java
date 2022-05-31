@@ -50,6 +50,12 @@ public class App {
         }
     }
 
+    /**
+     * This function is responsible for asking the user what kind of units deployment he wants to use,
+     * and then, depending on the user's choice, it will either call the function that will randomly
+     * position the units on the board or the function that will ask the user to position the units on
+     * the board
+     */
     private void unitsDeploymentType() {
         boolean isValid = false;
 
@@ -87,6 +93,9 @@ public class App {
         }
     }
 
+    /**
+     * It clears the terminal screen
+     */
     public static void clearTerminal() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();

@@ -1,5 +1,8 @@
 package WarBetweenPresident.Objects;
 
+/**
+ * It's a class that holds all the units for a player
+ */
 public class Units {
     protected String player;
     protected int president = 0;
