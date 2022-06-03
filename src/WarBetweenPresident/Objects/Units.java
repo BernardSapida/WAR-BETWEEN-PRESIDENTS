@@ -243,7 +243,7 @@ public class Units extends Board {
         Scanner in_president = new Scanner(System.in);
 
         while(!isValidPosition) {            
-            System.out.println("\nPresident size: 1x1");
+            System.out.println("President size: 1x1");
             System.out.println("■■■■■\n■ P ■\n■■■■■\n");
             System.out.println("Remaining President: " + (1 - president));
             System.out.print("Enter president position (Ex: a1): ");
@@ -315,7 +315,7 @@ public class Units extends Board {
         Scanner in_soldiers = new Scanner(System.in);
 
         while(!isValidPosition) {
-            System.out.println("\nSoldiers size: 1x1");
+            System.out.println("Soldiers size: 1x1");
             System.out.println("■■■■■\n■ S ■\n■■■■■\n");
             System.out.println("Remaining Soldiers: " + (5 - soldiers));
             System.out.print("Enter soldiers position (Ex: a1): ");
@@ -386,7 +386,7 @@ public class Units extends Board {
         Scanner in_lightTanks = new Scanner(System.in);
 
         while(!isValidPosition) {
-            System.out.println("\nLight tank size: 2x1");
+            System.out.println("Light tank size: 2x1");
             System.out.println("■■■■■■■■■\n■ L ■ L ■\n■■■■■■■■■\n    OR    \n■■■■■\n■ L ■\n■■■■■\n■ L ■\n■■■■■\n");
             System.out.println("Remaining Light Tanks: " + (3 - lightTanks));
             System.out.print("Enter light tank position (Ex: a1 b1): ");
@@ -482,7 +482,7 @@ public class Units extends Board {
         Scanner in_mediumTanks = new Scanner(System.in);
 
         while(!isValidPosition) {
-            System.out.println("\nMedium tank size: 2x2");
+            System.out.println("Medium tank size: 2x2");
             System.out.println("■■■■■■■■■\n■ M ■ M ■\n■■■■■■■■■\n■ M ■ M ■\n■■■■■■■■■\n");
             System.out.println("Remaining Medium Tanks: " + (2 - mediumTanks));
             System.out.print("Enter medium tank position (Ex: a1 a2 b1 b2): ");
@@ -580,7 +580,7 @@ public class Units extends Board {
         Scanner in_heavyTanks = new Scanner(System.in);
 
         while(!isValidPosition) {
-            System.out.println("\nHeavy tank size: 3x2");
+            System.out.println("Heavy tank size: 3x2");
             System.out.println("■■■■■■■■■\n■ H ■ H ■\n■■■■■■■■■\n■ H ■ H ■\n■■■■■■■■■\n■ H ■ H ■\n■■■■■■■■■\n");
             System.out.println("Remaining Heavy Tanks: " + (1 - heavyTanks));
             System.out.print("Enter heavy tank position (Ex: a1 a2 b1 b2 c1 c2): ");
