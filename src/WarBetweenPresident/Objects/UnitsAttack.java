@@ -571,7 +571,7 @@ public class UnitsAttack extends Units {
                 }
 
                 default -> {
-                    System.out.println("\u001B[31m\nYour input is invalid! Please try again.\u001B[37m");
+                    System.out.println("\u001B[31mYour input is invalid! Please try again.\u001B[37m");
                     App.printLine();
                 }
             }
