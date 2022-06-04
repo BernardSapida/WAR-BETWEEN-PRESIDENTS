@@ -257,51 +257,57 @@ public class Units extends Board {
                 }
             }
 
-            switch(setPresidentPosition.substring(1)) {
-                // Validate input for x (horizontal) position of the President
-                case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" -> { isValidPosition = true; }
-                default -> {
-                    isValidPosition = false;
-                }
-            }
-
             if(isValidPosition) {
-                int y = 0;
-                int x = 0;
-
-                // Find the y (vertical) position of President
-                switch(setPresidentPosition.toLowerCase().substring(0, 1)) {
-                    case "a" -> { y = 0; }
-                    case "b" -> { y = 10; }
-                    case "c" -> { y = 20; }
-                    case "d" -> { y = 30; }
-                    case "e" -> { y = 40; }
-                    case "f" -> { y = 50; }
-                    case "g" -> { y = 60; }
-                    case "h" -> { y = 70; }
-                    case "i" -> { y = 80; }
-                    case "j" -> { y = 90; }
+                switch(setPresidentPosition.substring(1)) {
+                    // Validate input for x (horizontal) position of the President
+                    case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" -> { isValidPosition = true; }
+                    default -> {
+                        isValidPosition = false;
+                    }
                 }
-
-                // Find the x (horizontal) position of President
-                x = Integer.parseInt(setPresidentPosition.substring(1))-1;
-
-                // Check if the position is available / not available
-                isValidPosition = checkAvailablePosition(x + y);
-
-                if(!isValidPosition){
-                    // If position is not available
-                    System.out.println("The position is occupied! Please try another position for your units.");
-                    App.printLine();
-                } else {
-                    // If position is available
-                    humanBoard[x + y] = "P";
-                }
-
+    
                 if(isValidPosition) {
-                    president++; // Increment President
-                    App.printLine(); // Clear terminal window
-                    getBoard(); // Print board
+                    int y = 0;
+                    int x = 0;
+    
+                    // Find the y (vertical) position of President
+                    switch(setPresidentPosition.toLowerCase().substring(0, 1)) {
+                        case "a" -> { y = 0; }
+                        case "b" -> { y = 10; }
+                        case "c" -> { y = 20; }
+                        case "d" -> { y = 30; }
+                        case "e" -> { y = 40; }
+                        case "f" -> { y = 50; }
+                        case "g" -> { y = 60; }
+                        case "h" -> { y = 70; }
+                        case "i" -> { y = 80; }
+                        case "j" -> { y = 90; }
+                        
+                    }
+    
+                    // Find the x (horizontal) position of President
+                    x = Integer.parseInt(setPresidentPosition.substring(1))-1;
+    
+                    // Check if the position is available / not available
+                    isValidPosition = checkAvailablePosition(x + y);
+    
+                    if(!isValidPosition){
+                        // If position is not available
+                        System.out.println("The position is occupied! Please try another position for your units.");
+                        App.printLine();
+                    } else {
+                        // If position is available
+                        humanBoard[x + y] = "P";
+                    }
+    
+                    if(isValidPosition) {
+                        president++; // Increment President
+                        App.printLine(); // Clear terminal window
+                        getBoard(); // Print board
+                    }
+                } else {
+                    System.out.println("The position is invalid! Please try again.");
+                    App.printLine();
                 }
             } else {
                 System.out.println("The position is invalid! Please try again.");
@@ -329,50 +335,55 @@ public class Units extends Board {
                 }
             }
 
-            // Validate input for x (horizontal) position of Soldiers
-            switch(setSoldiersPosition.toLowerCase().substring(1)) {
-                case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" -> { isValidPosition = true; }
-                default -> {
-                    isValidPosition = false;
-                }
-            }
-
             if(isValidPosition) {
-                int y = 0;
-                int x = 0;
-
-                // Find the y (vertical) position of Soldiers
-                switch(setSoldiersPosition.toLowerCase().substring(0, 1)) {
-                    case "a" -> { y = 0; }
-                    case "b" -> { y = 10; }
-                    case "c" -> { y = 20; }
-                    case "d" -> { y = 30; }
-                    case "e" -> { y = 40; }
-                    case "f" -> { y = 50; }
-                    case "g" -> { y = 60; }
-                    case "h" -> { y = 70; }
-                    case "i" -> { y = 80; }
-                    case "j" -> { y = 90; }
-                }
-
-                // Find the x (hiruzibtak) position of Soldiers
-                x = Integer.parseInt(setSoldiersPosition.substring(1))-1;
-
-                isValidPosition = checkAvailablePosition(x + y);
-
-                if(!isValidPosition){
-                    // If position is not available
-                    System.out.println("The position is occupied! Please try another position for your units.");
-                    App.printLine();
-                } else {
-                    // Mark 1 position with "S"
-                    humanBoard[x + y] = "S";
+                // Validate input for x (horizontal) position of Soldiers
+                switch(setSoldiersPosition.toLowerCase().substring(1)) {
+                    case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" -> { isValidPosition = true; }
+                    default -> {
+                        isValidPosition = false;
+                    }
                 }
 
                 if(isValidPosition) {
-                    soldiers++; // Increment soldiers
-                    App.printLine(); // Clear terminal window
-                    getBoard(); // Print board
+                    int y = 0;
+                    int x = 0;
+
+                    // Find the y (vertical) position of Soldiers
+                    switch(setSoldiersPosition.toLowerCase().substring(0, 1)) {
+                        case "a" -> { y = 0; }
+                        case "b" -> { y = 10; }
+                        case "c" -> { y = 20; }
+                        case "d" -> { y = 30; }
+                        case "e" -> { y = 40; }
+                        case "f" -> { y = 50; }
+                        case "g" -> { y = 60; }
+                        case "h" -> { y = 70; }
+                        case "i" -> { y = 80; }
+                        case "j" -> { y = 90; }
+                    }
+
+                    // Find the x (hiruzibtak) position of Soldiers
+                    x = Integer.parseInt(setSoldiersPosition.substring(1))-1;
+
+                    isValidPosition = checkAvailablePosition(x + y);
+
+                    if(!isValidPosition){
+                        // If position is not available
+                        System.out.println("The position is occupied! Please try another position for your units.");
+                        App.printLine();
+                    } else {
+                        // Mark 1 position with "S"
+                        humanBoard[x + y] = "S";
+                    }
+
+                    if(isValidPosition) {
+                        soldiers++; // Increment soldiers
+                        App.printLine(); // Clear terminal window
+                        getBoard(); // Print board
+                    }
+                } else {
+                    System.out.println("The position is invalid! Please try again.");
+                    App.printLine();
                 }
             } else {
                 System.out.println("The position is invalid! Please try again.");

@@ -3,7 +3,6 @@ package WarBetweenPresident;
 import java.util.*;
 import WarBetweenPresident.Objects.UnitsAttack;
 import WarBetweenPresident.Objects.Helper;
-// import WarBetweenPresident.Objects.Units;
 
 public class App {
     public static App obj;
