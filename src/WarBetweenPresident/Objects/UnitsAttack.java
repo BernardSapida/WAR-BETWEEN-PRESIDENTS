@@ -103,15 +103,15 @@ public class UnitsAttack extends Units {
                         }
                     } else {
                         isValidPosition = false;
-                        System.out.println("Invalid attack position! Try again.");
+                        System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                         App.printLine();
                     }
                 } else {
-                    System.out.println("Invalid attack position! Try again.");
+                    System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                     App.printLine();
                 }
             } else {
-                System.out.println("Invalid attack position! Try again.");
+                System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                 App.printLine();
             }
         }
@@ -126,7 +126,6 @@ public class UnitsAttack extends Units {
             System.out.println("■■■■■\n■ X ■\n■■■■■\n");
             System.out.print("Enter position to be attack (Ex: a1): ");
             String setSoldiersAttackPosition = in_soldiersAttack.nextLine();
-            System.out.println();
 
             switch(setSoldiersAttackPosition.toLowerCase().substring(0, 1)) {
                 // Validate input for y (vertical) attack position of the soldiers (Mortars)
@@ -170,11 +169,11 @@ public class UnitsAttack extends Units {
                     getBoard(); // Print board
                     if(isPresidentDead) announceWinner(player);
                 } else {
-                    System.out.println("Invalid attack position! Try again.");
+                    System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                     App.printLine();
                 }
             } else {
-                System.out.println("Invalid attack position! Try again.");
+                System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                 App.printLine();
             }
         }
@@ -249,15 +248,15 @@ public class UnitsAttack extends Units {
                         }
                     } else {
                         isValidPosition = false;
-                        System.out.println("Invalid attack position! Try again.");
+                        System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                         App.printLine();
                     }
                 } else {
-                    System.out.println("Invalid attack position! Try again.");
+                    System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                     App.printLine();
                 }
             } else {
-                System.out.println("Invalid attack position! Try again.");
+                System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                 App.printLine();
             }
         }
@@ -337,15 +336,15 @@ public class UnitsAttack extends Units {
                         }
                     } else {
                         isValidPosition = false;
-                        System.out.println("Invalid attack position! Try again.");
+                        System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                         App.printLine();
                     }
                 } else {
-                    System.out.println("Invalid attack position! Try again.");
+                    System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                     App.printLine();
                 }
             } else {
-                System.out.println("Invalid attack position! Try again.");
+                System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                 App.printLine();
             }
         }
@@ -426,15 +425,15 @@ public class UnitsAttack extends Units {
                         }
                     } else {
                         isValidPosition = false;
-                        System.out.println("Invalid attack position! Try again.");
+                        System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                         App.printLine();
                     }
                 } else {
-                    System.out.println("Invalid attack position! Try again.");
+                    System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                     App.printLine();
                 }
             } else {
-                System.out.println("Invalid attack position! Try again.");
+                System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                 App.printLine();
             }
         }
@@ -565,14 +564,14 @@ public class UnitsAttack extends Units {
 
                         isValid = true;
                     } else {
-                        if(missilesCooldown != 0) System.out.println("Sorry, missiles is on cooldown. Please try another attack!");
-                        if(heavyTanks == 0) System.out.println("Sorry, all of your heavy tanks has been destroyed. Please try another attack!");
+                        if(missilesCooldown != 0) System.out.println("\u001B[31mSorry, missiles is on cooldown. Please try another attack!\u001B[37m");
+                        if(heavyTanks == 0) System.out.println("\u001B[31mSorry, all of your heavy tanks has been destroyed. Please try another attack!\u001B[37m");
                         App.printLine();
                     }
                 }
 
                 default -> {
-                    System.out.println("\nYour input is invalid! Please try again.");
+                    System.out.println("\u001B[31m\nYour input is invalid! Please try again.\u001B[37m");
                     App.printLine();
                 }
             }

@@ -70,7 +70,7 @@ public class App {
                     isValid = true;
                     System.out.println("Thank you for playing 'War Between President', we hope that you enjoy our game! Be safe and godbless!");
                 }
-                default -> { System.out.println("Your input is incorrect! Please try again."); }
+                default -> { System.out.println("\u001B[31mYour input is incorrect! Please try again.\u001B[37m"); }
             }
         }
     }
@@ -98,7 +98,7 @@ public class App {
                 }
 
                 default -> { 
-                    System.out.println("Your input is incorrect! Please try again.");
+                    System.out.println("\u001B[31mYour input is incorrect! Please try again.\u001B[37m");
                     isValid = false;
                 }
             }
@@ -108,6 +108,6 @@ public class App {
     }
 
     public static void printLine() {
-        System.out.println("\u001B[31m\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n\u001B[37m");
+        System.out.println("\u001B[35m\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n\u001B[37m");
     }
 }
