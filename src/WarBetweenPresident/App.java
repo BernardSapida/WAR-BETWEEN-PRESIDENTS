@@ -46,7 +46,7 @@ public class App {
             printLine();
             System.out.println("Computer is thinking what to attack...");
             printLine();
-            timer.scheduleAtFixedRate(computerAttackDone, (random.nextInt(5) + 1) * 1000, (random.nextInt(5) + 1) * 1000);
+            timer.scheduleAtFixedRate(computerAttackDone, (random.nextInt(1) + 1) * 1000, (random.nextInt(5) + 1) * 1000);
             synchronized(obj) { 
                 obj.wait(); 
             }

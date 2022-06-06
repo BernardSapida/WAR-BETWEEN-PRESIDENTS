@@ -439,11 +439,122 @@ public class UnitsAttack extends Units {
         }
     }
 
-    public void queryAttack() {
+    public int queryAttack() {
         Scanner in_attack = new Scanner(System.in);
         boolean isValid = false;
 
-        if(player.equals("human")) getBoard();
+        if(nuke == 0 && soldiers == 0 && ((lightTanks == 0 && mediumTanks == 0 && heavyTanks == 0) || (tankGunCooldown != 0 &&  cannonCooldown != 0 && missilesCooldown != 0))) {
+            getBoard();
+            System.out.println("You don't have attacks yet. So, it's computer turn!");
+            return 0;
+        }
+        
+        if(player.equals("human")) {
+            String lightTanksPositionString = "";
+            String mediumTanksPositionString = "";
+            String heavyTanksPositionString = "";
+
+            if(soldiers > 0) {
+                for(int index = 0; index < soldiersPositionArray.size(); index++) {
+                    if(soldiersPositionArray.get(index) != -1) {
+                        if(humanBoard[soldiersPositionArray.get(index)].equals("X")) {
+                            soldiersPositionArray.set(index, -1);
+                            soldiersPositionArray.remove(index);
+                            soldiers -= 1;
+                        }
+                    }
+                }
+            }
+
+            if(lightTanks > 0) {
+                for(int arr = 0; arr < lightTanksPositionArray.size(); arr++) {
+                    for(int index = 0; index < lightTanksPositionArray.get(arr).length; index++) {
+                        if(lightTanksPositionArray.get(arr)[index] != -1) {
+                            if(humanBoard[lightTanksPositionArray.get(arr)[index]].equals("X")) {
+                                int[] currentArr = lightTanksPositionArray.get(arr);
+                                currentArr[index] = -1;
+                                lightTanksPositionArray.set(arr, currentArr);
+                            }
+                        }
+                    }
+    
+                    for(int index: lightTanksPositionArray.get(arr)) lightTanksPositionString += (index + " ");
+    
+                    if(lightTanksPositionString.equals("-1 -1 ")) {
+                        if(lightTanks != 0) lightTanks -= 1;
+                        lightTanksPositionString = "";
+                    }
+                }
+
+                for(int each = 0; each < lightTanksPositionArray.size(); each++) {
+                    lightTanksPositionString = "";
+                    for(int index: lightTanksPositionArray.get(each)) lightTanksPositionString += (index + " ");
+                    if(lightTanksPositionString.equals("-1 -1 ")) {
+                        lightTanksPositionArray.remove(each);
+                    }
+                }
+            }
+
+            if(mediumTanks > 0) {
+                for(int arr = 0; arr < mediumTanksPositionArray.size(); arr++) {
+                    for(int index = 0; index < mediumTanksPositionArray.get(arr).length; index++) {
+                        if(mediumTanksPositionArray.get(arr)[index] != -1) {
+                            if(humanBoard[mediumTanksPositionArray.get(arr)[index]].equals("X")) {
+                                int[] currentArr = mediumTanksPositionArray.get(arr);
+                                currentArr[index] = -1;
+                                mediumTanksPositionArray.set(arr, currentArr);
+                            }
+                        }
+                    }
+
+                    for(int index: mediumTanksPositionArray.get(arr)) mediumTanksPositionString += (index + " ");
+
+                    if(mediumTanksPositionString.equals("-1 -1 -1 -1 ")) {
+                        mediumTanks -= 1;
+                        mediumTanksPositionString = "";
+                    }
+                }
+
+                for(int each = 0; each < mediumTanksPositionArray.size(); each++) {
+                    mediumTanksPositionString = "";
+                    for(int index: mediumTanksPositionArray.get(each)) mediumTanksPositionString += (index + " ");
+                    if(mediumTanksPositionString.equals("-1 -1 ")) {
+                        mediumTanksPositionArray.remove(each);
+                    }
+                }
+            }
+
+            if(heavyTanks > 0) {
+                for(int arr = 0; arr < heavyTanksPositionArray.size(); arr++) {
+                    for(int index = 0; index < heavyTanksPositionArray.get(arr).length; index++) {
+                        if(heavyTanksPositionArray.get(arr)[index] != -1) {
+                            if(humanBoard[heavyTanksPositionArray.get(arr)[index]].equals("X")) {
+                                int[] currentArr = heavyTanksPositionArray.get(arr);
+                                currentArr[index] = -1;
+                                heavyTanksPositionArray.set(arr, currentArr);
+                            }
+                        }
+                    }
+
+                    for(int index: heavyTanksPositionArray.get(arr)) heavyTanksPositionString += (index + " ");
+
+                    if(heavyTanksPositionString.equals("-1 -1 -1 -1 -1 -1 ")) {
+                        heavyTanks -= 1;
+                        heavyTanksPositionString = "";
+                    }
+                }
+
+                for(int each = 0; each < heavyTanksPositionArray.size(); each++) {
+                    heavyTanksPositionString = "";
+                    for(int index: heavyTanksPositionArray.get(each)) heavyTanksPositionString += (index + " ");
+                    if(heavyTanksPositionString.equals("-1 -1 ")) {
+                        heavyTanksPositionArray.remove(each);
+                    }
+                }
+            }
+
+            getBoard();
+        }
 
         while(!isValid) {
             System.out.println("\n[1] President - Nuke");
@@ -459,24 +570,24 @@ public class UnitsAttack extends Units {
             System.out.println("[3] Light Tank - Tank Gun (Cooldown: 4 turns)");
             System.out.println("    Remaining Light Tank: " + lightTanks);
             System.out.println("    Area of Effect: 2x1");
-            System.out.println("    Attack Status: " + ((tankGunCooldown != 0) ? tankGunCooldown + " turns (Cooldown)" : "Ready") + "\n");
+            System.out.println("    Attack Status: " + (lightTanks != 0 ? ((tankGunCooldown != 0) ? tankGunCooldown + " turns (Cooldown)" : "Ready") : "Unavailable") + "\n");
 
             System.out.println("[4] Medium Tank - Cannon (Cooldown: 6 turns)");
             System.out.println("    Remaining Medium Tanks: " + mediumTanks);
             System.out.println("    Area of Effect: 2x2");
-            System.out.println("    Attack Status: " + ((cannonCooldown != 0) ? cannonCooldown + " turns (Cooldown)" : "Ready") + "\n");
+            System.out.println("    Attack Status: " + (mediumTanks != 0 ? ((cannonCooldown != 0) ? cannonCooldown + " turns (Cooldown)" : "Ready") : "Unavailable") + "\n");
 
             System.out.println("[5] Heavy Tank - Missiles (Cooldown: 8 turns)");
             System.out.println("    Remaining Heavy Tanks: " + heavyTanks);
             System.out.println("    Area of Effect: 3x2");
-            System.out.println("    Attack Status: " + ((missilesCooldown != 0) ? missilesCooldown + " turns (Cooldown)" : "Ready") + "\n");
+            System.out.println("    Attack Status: " + (heavyTanks != 0 ? ((missilesCooldown != 0) ? missilesCooldown + " turns (Cooldown)" : "Ready") : "Unavailable") + "\n");
             
             System.out.print("Choose an attack: ");
             String attack = in_attack.nextLine();
 
             if((nuke == 0) && (mortars == 0) && (tankGunCooldown != 0) && (cannonCooldown != 0) && (missilesCooldown != 0)) {
                 if(player.equals("human")) System.out.println("All of your attacks are on cooldown. It's computer turn again!");
-                else System.out.println("All of computer attacks are on cooldown. It's your turn again!");
+                else System.out.println("\u001B[31mAll of computer attacks are on cooldown. It's your turn again!\u001B[37m");
                 App.printLine();
                 break;
             }
@@ -495,7 +606,7 @@ public class UnitsAttack extends Units {
 
                         isValid = true;
                     } else {
-                        System.out.println("Sorry, you can use only 1 Nuke. Please try another attack!");
+                        System.out.println("\u001B[31mSorry, you can use only 1 Nuke. Please try another attack!\u001B[37m");
                         App.printLine();
                     }
                 }
@@ -511,7 +622,7 @@ public class UnitsAttack extends Units {
 
                         isValid = true;
                     } else {
-                        System.out.println("Sorry, all of your soldiers has been killed. Please try another attack!");
+                        System.out.println("\u001B[31mSorry, all of your soldiers has been killed. Please try another attack!\u001B[37m");
                         App.printLine();
                     }
                 }
@@ -528,8 +639,8 @@ public class UnitsAttack extends Units {
 
                         isValid = true;
                     } else {
-                        if(tankGunCooldown != 0) System.out.println("Sorry, tank gun is on cooldown. Please try another attack!");
-                        if(lightTanks == 0) System.out.println("Sorry, all of your light tanks has been destroyed. Please try another attack!");
+                        if(tankGunCooldown != 0) System.out.println("\u001B[31mSorry, tank gun is on cooldown. Please try another attack!\u001B[37m");
+                        if(lightTanks == 0) System.out.println("\u001B[31mSorry, all of your light tanks has been destroyed. Please try another attack!\u001B[37m");
                         App.printLine();
                     }
                 }
@@ -546,8 +657,8 @@ public class UnitsAttack extends Units {
 
                         isValid = true;
                     } else {
-                        if(cannonCooldown != 0) System.out.println("Sorry, cannon is on cooldown. Please try another attack!");
-                        if(mediumTanks == 0) System.out.println("Sorry, all of your medium tanks has been destroyed. Please try another attack!");
+                        if(cannonCooldown != 0) System.out.println("\u001B[31mSorry, cannon is on cooldown. Please try another attack!\u001B[37m");
+                        if(mediumTanks == 0) System.out.println("\u001B[31mSorry, all of your medium tanks has been destroyed. Please try another attack!\u001B[37m");
                         App.printLine();
                     }
                 }
@@ -576,6 +687,8 @@ public class UnitsAttack extends Units {
                 }
             }
         }
+
+        return 1;
     }
 
     public void computerAttack() {

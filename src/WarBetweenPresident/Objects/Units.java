@@ -12,6 +12,11 @@ public class Units extends Board {
     protected int heavyTanks = 0;
     protected int nuke = 1;
     protected int mortars = 1;
+    protected ArrayList<Integer> soldiersPositionArray = new ArrayList<Integer>();
+    protected ArrayList<int[]> lightTanksPositionArray = new ArrayList<int[]>();
+    protected ArrayList<int[]> mediumTanksPositionArray = new ArrayList<int[]>();
+    protected ArrayList<int[]> heavyTanksPositionArray = new ArrayList<int[]>();
+
     protected int tankGunCooldown;
     protected int cannonCooldown;
     protected int missilesCooldown;
@@ -28,18 +33,25 @@ public class Units extends Board {
 
         while(president < 1) {
             int presidentPosition = random.nextInt(100);
-
             if(player.equals("human")) {
-                if(humanBoard[presidentPosition].equals(" ")) {
-                    humanBoard[presidentPosition] = "P";
-                    president++;
-                }
-            } else {
-                if(computerBoard[presidentPosition].equals(" ")) {
-                    computerBoard[presidentPosition] = "P";
-                    president++;
-                }
+            humanBoard[99] = "P";
+            president++;
             }
+            else {
+            computerBoard[99] = "P";
+            president++;
+            }
+            // if(player.equals("human")) {
+            //     if(humanBoard[presidentPosition].equals(" ")) {
+            //         humanBoard[presidentPosition] = "P";
+            //         president++;
+            //     }
+            // } else {
+            //     if(computerBoard[presidentPosition].equals(" ")) {
+            //         computerBoard[presidentPosition] = "P";
+            //         president++;
+            //     }
+            // }
         }
 
         while(soldiers < 5) {
@@ -48,11 +60,13 @@ public class Units extends Board {
             if(player.equals("human")) {
                 if(humanBoard[soldiersPosition].equals(" ")) {
                     humanBoard[soldiersPosition] = "S";
+                    soldiersPositionArray.add(soldiersPosition);
                     soldiers++;
                 }
             } else {
                 if(computerBoard[soldiersPosition].equals(" ")) {
                     computerBoard[soldiersPosition] = "S";
+                    soldiersPositionArray.add(soldiersPosition);
                     soldiers++;
                 }
             }            
@@ -60,6 +74,7 @@ public class Units extends Board {
 
         while(lightTanks < 3) {
             ArrayList<int[]> lightTanksPosition = new ArrayList<int[]>();
+            int[] randomSelection;
             
             for(int i = 0; i < 100; i++) {
                 int[] availablePosition = new int[2];
@@ -97,16 +112,21 @@ public class Units extends Board {
                 }
             }
 
-            for (int position : lightTanksPosition.get(random.nextInt(lightTanksPosition.size()))) {
+            randomSelection = lightTanksPosition.get(random.nextInt(lightTanksPosition.size()));
+
+            for (int position : randomSelection) {
                 if(player.equals("human")) humanBoard[position] = "L";
                 else computerBoard[position] = "L";
             }
+
+            lightTanksPositionArray.add(randomSelection);
 
             lightTanks++;
         }
 
         while(mediumTanks < 2) {
             ArrayList<int[]> mediumTanksPosition = new ArrayList<int[]>();
+            int[] randomSelection;
             
             for(int i = 0; i < 100; i++) {
                 int[] availablePosition = new int[4];
@@ -132,16 +152,20 @@ public class Units extends Board {
                 }
             }
 
-            for (int position : mediumTanksPosition.get(random.nextInt(mediumTanksPosition.size()))) {
+            randomSelection = mediumTanksPosition.get(random.nextInt(mediumTanksPosition.size()));
+            for (int position : randomSelection) {
                 if(player.equals("human")) humanBoard[position] = "M";
                 else computerBoard[position] = "M";
             }
+
+            this.mediumTanksPositionArray.add(randomSelection);
 
             mediumTanks++;
         }
 
         while(heavyTanks < 1) {
             ArrayList<int[]> heavyTanksPosition = new ArrayList<int[]>();
+            int[] randomSelection;
             
             for(int i = 0; i < 100; i++) {
                 int[] availablePosition = new int[6];
@@ -219,10 +243,14 @@ public class Units extends Board {
                 }
             }
 
-            for (int position : heavyTanksPosition.get(random.nextInt(heavyTanksPosition.size()))) {
+            randomSelection = heavyTanksPosition.get(random.nextInt(heavyTanksPosition.size()));
+
+            for (int position : randomSelection) {
                 if(player.equals("human")) humanBoard[position] = "H";
                 else computerBoard[position] = "H";
             }
+
+            this.heavyTanksPositionArray.add(randomSelection);
 
             heavyTanks++;
         }
@@ -376,6 +404,7 @@ public class Units extends Board {
 
                     if(isValidPosition) {
                         soldiers++; // Increment soldiers
+                        soldiersPositionArray.set(soldiersPositionArray.size(), x + y);
                         App.printLine(); // Clear terminal window
                         getBoard(); // Print board
                     }
@@ -467,6 +496,7 @@ public class Units extends Board {
                             // Mark 2 positions with "L"
                             for (int index : position) humanBoard[index] = "L";
                             lightTanks++; // Increment light tank
+                            lightTanksPositionArray.set(lightTanksPositionArray.size(), position);
                             App.printLine(); // Clear terminal window
                             getBoard(); // Print board
                         }
@@ -568,6 +598,7 @@ public class Units extends Board {
                             // Mark 4 positions with "M"
                             for (int index : position) humanBoard[index] = "M";
                             mediumTanks++; // Increment medium tank
+                            mediumTanksPositionArray.set(mediumTanksPositionArray.size(), position);
                             App.printLine(); // Clear terminal window
                             getBoard(); // Print board
                         }
@@ -665,6 +696,7 @@ public class Units extends Board {
                             // Mark 4 positions with "H"
                             for (int index : position) humanBoard[index] = "H";
                             heavyTanks++; // Increment heavy tank
+                            heavyTanksPositionArray.set(heavyTanksPositionArray.size(), position);
                         }
                     } else {
                         isValidPosition = false;
