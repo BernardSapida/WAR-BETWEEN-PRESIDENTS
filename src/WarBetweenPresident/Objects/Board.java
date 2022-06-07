@@ -40,26 +40,26 @@ public abstract class Board {
             if(rows == 0) {
                 System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\u001B[0m");
                 System.out.print("■\u001B[0m # ■ \u001B[0m");
-                for(int x = 0; x < xCoordinates.length; x++) System.out.print("" + xCoordinates[x] + "\u001B[0m ■ \u001B[0m");
+                for(int x = 0; x < xCoordinates.length; x++) System.out.print("\u001B[33m" + xCoordinates[x] + "\u001B[0m ■ \u001B[0m");
                 System.out.print("    ■\u001B[0m # ■ \u001B[0m");
-                for(int x = 0; x < xCoordinates.length; x++) System.out.print("" + xCoordinates[x] + "\u001B[0m ■ \u001B[0m");
+                for(int x = 0; x < xCoordinates.length; x++) System.out.print("\u001B[33m" + xCoordinates[x] + "\u001B[0m ■ \u001B[0m");
                 System.out.println("\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\u001B[0m");
             }
 
             if(rows != 10) {
-                System.out.print("■ \u001B[0m" + yCoordinates[9-rows] + "\u001B[0m ■ \u001B[0m");
+                System.out.print("■ \u001B[0m\u001B[33m" + yCoordinates[9-rows] + "\u001B[0m ■ \u001B[0m");
 
                 // Board for troops deployment.
                 for(int cols = start; cols < end; cols++) {
-                    if(cols != end-1) System.out.print("" + playerBoard[cols] + "\u001B[0m" + " ■ \u001B[0m");
-                    else System.out.print("" + playerBoard[cols] + "\u001B[0m " + " ■ \u001B[0m");
+                    if(cols != end-1) System.out.print("\u001B[31m" + playerBoard[cols] + "\u001B[0m" + " ■ \u001B[0m");
+                    else System.out.print("\u001B[31m" + playerBoard[cols] + "\u001B[0m " + " ■ \u001B[0m");
                 }
 
                 // Board for battle marks (Missed / Hit).
-                System.out.print("    ■ \u001B[0m" + yCoordinates[9-rows] + "\u001B[0m ■ \u001B[0m");
+                System.out.print("    ■ \u001B[0m\u001B[33m" + yCoordinates[9-rows] + "\u001B[0m ■ \u001B[0m");
                 for(int cols = start; cols < end; cols++) {
-                    if(cols != end-1) System.out.print("" + playerRecordBoard[cols] + "\u001B[0m" + " ■ \u001B[0m");
-                    else System.out.print("" + playerRecordBoard[cols] + "\u001B[0m " + " ■ \u001B[0m");
+                    if(cols != end-1) System.out.print("\u001B[31m" + playerRecordBoard[cols] + "\u001B[0m" + " ■ \u001B[0m");
+                    else System.out.print("\u001B[31m" + playerRecordBoard[cols] + "\u001B[0m " + " ■ \u001B[0m");
                 }
 
                 start -= 10;
@@ -68,6 +68,6 @@ public abstract class Board {
             }
         }
 
-        System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■ **************** UNITS BOARD ************* ■     ■ ************** BATTLE BOARD ************** ■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n");
+        System.out.println("\u001B[34m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■ **************** UNITS BOARD ************* ■     ■ ************** BATTLE BOARD ************** ■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n\u001B[37m");
     }
 }

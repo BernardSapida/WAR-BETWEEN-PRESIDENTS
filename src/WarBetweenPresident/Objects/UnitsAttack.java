@@ -39,7 +39,7 @@ public class UnitsAttack extends Units {
             System.out.print("Enter position to be attack (Ex: a1 a2 a3 b1 b2 b3 c1 c2 c3): ");
             String setPresidentAttackPosition = in_presidentAttack.nextLine();
             String[] presidentAttackPosition = setPresidentAttackPosition.split(" ");
-            System.out.println();
+
             if(presidentAttackPosition.length == 9) {
                 position: for(int i = 0; i < presidentAttackPosition.length; i++) {
                     // Validate input for y (vertical) attack position of the President (Nuke)
@@ -103,15 +103,15 @@ public class UnitsAttack extends Units {
                         }
                     } else {
                         isValidPosition = false;
-                        System.out.println("Invalid attack position! Try again.");
+                        System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                         App.printLine();
                     }
                 } else {
-                    System.out.println("Invalid attack position! Try again.");
+                    System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                     App.printLine();
                 }
             } else {
-                System.out.println("Invalid attack position! Try again.");
+                System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                 App.printLine();
             }
         }
@@ -169,16 +169,16 @@ public class UnitsAttack extends Units {
                         getBoard(); // Print board
                         if(isPresidentDead) announceWinner(player);
                     } else {
-                        System.out.println("This position has been attacked! Please try again.");
+                        System.out.println("\u001B[31mThis position has been attacked! Please try again.\u001B[37m");
                         isValidPosition = false;
                         App.printLine();
                     }
                 } else {
-                    System.out.println("Invalid attack position! Please try again.");
+                    System.out.println("\u001B[31mInvalid attack position! Please try again.\u001B[37m");
                     App.printLine();
                 }
             } else {
-                System.out.println("Invalid attack position! Please try again.");
+                System.out.println("\u001B[31mInvalid attack position! Please try again.\u001B[37m");
                 App.printLine();
             }
         }
@@ -194,7 +194,6 @@ public class UnitsAttack extends Units {
             System.out.print("Enter position to be attack (Ex: a1 b1): ");
             String setLightTankAttackPosition = in_lightTanksAttack.nextLine();
             String[] lightTankAttackPosition = setLightTankAttackPosition.split(" ");
-            System.out.println();
 
             if(lightTankAttackPosition.length == 2) {
                 position: for(int i = 0; i < lightTankAttackPosition.length; i++) {
@@ -247,21 +246,27 @@ public class UnitsAttack extends Units {
                     if(Math.abs(position[0] - position[1]) == 1 || Math.abs(position[0] - position[1]) == 10) {
                         if(isValidPosition) {
                             // Mark 2 positions with "X"
-                            for (int index : position) attackBoard(index, player);
-                            getBoard(); // Print board
-                            if(isPresidentDead) announceWinner(player);
+                            if(checkWasAttacked(position[0]) && checkWasAttacked(position[1])) {
+                                System.out.println("\u001B[31mThis position has been attacked! Please try again.\u001B[37m");
+                                isValidPosition = false;
+                                App.printLine();
+                            } else {
+                                for (int index : position) attackBoard(index, player);
+                                getBoard(); // Print board
+                                if(isPresidentDead) announceWinner(player);
+                            }
                         }
                     } else {
                         isValidPosition = false;
-                        System.out.println("Invalid attack position! Try again.");
+                        System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                         App.printLine();
                     }
                 } else {
-                    System.out.println("Invalid attack position! Try again.");
+                    System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                     App.printLine();
                 }
             } else {
-                System.out.println("Invalid attack position! Try again.");
+                System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                 App.printLine();
             }
         }
@@ -277,7 +282,6 @@ public class UnitsAttack extends Units {
             System.out.print("Enter position to be attack (Ex: a1 a2 b1 b2): ");
             String setMediumTanksAttackPosition = in_mediumTanksAttack.nextLine();
             String[] mediumTanksAttackPosition = setMediumTanksAttackPosition.split(" ");
-            System.out.println();
 
             if(mediumTanksAttackPosition.length == 4) {
                 position: for(int i = 0; i < mediumTanksAttackPosition.length; i++) {
@@ -335,21 +339,27 @@ public class UnitsAttack extends Units {
                     ) {
                         if(isValidPosition) {
                             // Mark 4 positions with "X"
-                            for (int index : position) attackBoard(index, player);
-                            getBoard(); // Print board
-                            if(isPresidentDead) announceWinner(player);
+                            if(checkWasAttacked(position[0]) && checkWasAttacked(position[1]) && checkWasAttacked(position[2]) && checkWasAttacked(position[3])) {
+                                System.out.println("\u001B[31mThis position has been attacked! Please try again.\u001B[37m");
+                                isValidPosition = false;
+                                App.printLine();
+                            } else {
+                                for (int index : position) attackBoard(index, player);
+                                getBoard(); // Print board
+                                if(isPresidentDead) announceWinner(player);
+                            }
                         }
                     } else {
                         isValidPosition = false;
-                        System.out.println("Invalid attack position! Try again.");
+                        System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                         App.printLine();
                     }
                 } else {
-                    System.out.println("Invalid attack position! Try again.");
+                    System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                     App.printLine();
                 }
             } else {
-                System.out.println("Invalid attack position! Try again.");
+                System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                 App.printLine();
             }
         }
@@ -365,7 +375,6 @@ public class UnitsAttack extends Units {
             System.out.print("Enter position to be attack (Ex: a1 a2 b1 b2 c1 c2): ");
             String setHeavyTankAttackPosition = in_heavyTanksAttack.nextLine();
             String[] heavyTankAttackPosition = setHeavyTankAttackPosition.split(" ");
-            System.out.println();
 
             if(heavyTankAttackPosition.length == 6) {
                 position: for(int i = 0; i < heavyTankAttackPosition.length; i++) {
@@ -424,21 +433,27 @@ public class UnitsAttack extends Units {
                     ) {
                         if(isValidPosition) {
                             // Mark 6 positions with "X"
-                            for (int index : position) attackBoard(index, player);
-                            getBoard(); // Print board
-                            if(isPresidentDead) announceWinner(player);
+                            if(checkWasAttacked(position[0]) && checkWasAttacked(position[1]) && checkWasAttacked(position[2]) && checkWasAttacked(position[3]) && checkWasAttacked(position[4]) && checkWasAttacked(position[5])) {
+                                System.out.println("\u001B[31mThis position has been attacked! Please try again.\u001B[37m");
+                                isValidPosition = false;
+                                App.printLine();
+                            } else {
+                                for (int index : position) attackBoard(index, player);
+                                getBoard(); // Print board
+                                if(isPresidentDead) announceWinner(player);
+                            }
                         }
                     } else {
                         isValidPosition = false;
-                        System.out.println("Invalid attack position! Try again.");
+                        System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                         App.printLine();
                     }
                 } else {
-                    System.out.println("Invalid attack position! Try again.");
+                    System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                     App.printLine();
                 }
             } else {
-                System.out.println("Invalid attack position! Try again.");
+                System.out.println("\u001B[31mInvalid attack position! Try again.\u001B[37m");
                 App.printLine();
             }
         }
@@ -592,7 +607,7 @@ public class UnitsAttack extends Units {
 
             if((nuke == 0) && (mortars == 0) && (tankGunCooldown != 0) && (cannonCooldown != 0) && (missilesCooldown != 0)) {
                 if(player.equals("human")) System.out.println("All of your attacks are on cooldown. It's computer turn again!");
-                else System.out.println("All of computer attacks are on cooldown. It's your turn again!");
+                else System.out.println("\u001B[31mAll of computer attacks are on cooldown. It's your turn again!\u001B[37m");
                 App.printLine();
                 break;
             }
@@ -611,7 +626,7 @@ public class UnitsAttack extends Units {
 
                         isValid = true;
                     } else {
-                        System.out.println("Sorry, you can use only 1 Nuke. Please try another attack!");
+                        System.out.println("\u001B[31mSorry, you can use only 1 Nuke. Please try another attack!\u001B[37m");
                         App.printLine();
                     }
                 }
@@ -627,7 +642,7 @@ public class UnitsAttack extends Units {
 
                         isValid = true;
                     } else {
-                        System.out.println("Sorry, all of your soldiers has been killed. Please try another attack!");
+                        System.out.println("\u001B[31mSorry, all of your soldiers has been killed. Please try another attack!\u001B[37m");
                         App.printLine();
                     }
                 }
@@ -644,8 +659,8 @@ public class UnitsAttack extends Units {
 
                         isValid = true;
                     } else {
-                        if(tankGunCooldown != 0) System.out.println("Sorry, tank gun is on cooldown. Please try another attack!");
-                        if(lightTanks == 0) System.out.println("Sorry, all of your light tanks has been destroyed. Please try another attack!");
+                        if(tankGunCooldown != 0) System.out.println("\u001B[31mSorry, tank gun is on cooldown. Please try another attack!\u001B[37m");
+                        if(lightTanks == 0) System.out.println("\u001B[31mSorry, all of your light tanks has been destroyed. Please try another attack!\u001B[37m");
                         App.printLine();
                     }
                 }
@@ -662,8 +677,8 @@ public class UnitsAttack extends Units {
 
                         isValid = true;
                     } else {
-                        if(cannonCooldown != 0) System.out.println("Sorry, cannon is on cooldown. Please try another attack!");
-                        if(mediumTanks == 0) System.out.println("Sorry, all of your medium tanks has been destroyed. Please try another attack!");
+                        if(cannonCooldown != 0) System.out.println("\u001B[31mSorry, cannon is on cooldown. Please try another attack!\u001B[37m");
+                        if(mediumTanks == 0) System.out.println("\u001B[31mSorry, all of your medium tanks has been destroyed. Please try another attack!\u001B[37m");
                         App.printLine();
                     }
                 }
@@ -680,14 +695,14 @@ public class UnitsAttack extends Units {
 
                         isValid = true;
                     } else {
-                        if(missilesCooldown != 0) System.out.println("Sorry, missiles is on cooldown. Please try another attack!");
-                        if(heavyTanks == 0) System.out.println("Sorry, all of your heavy tanks has been destroyed. Please try another attack!");
+                        if(missilesCooldown != 0) System.out.println("\u001B[31mSorry, missiles is on cooldown. Please try another attack!\u001B[37m");
+                        if(heavyTanks == 0) System.out.println("\u001B[31mSorry, all of your heavy tanks has been destroyed. Please try another attack!\u001B[37m");
                         App.printLine();
                     }
                 }
 
                 default -> {
-                    System.out.println("Your input is invalid! Please try again.");
+                    System.out.println("\u001B[31mYour input is invalid! Please try again.\u001B[37m");
                     App.printLine();
                 }
             }
@@ -890,10 +905,10 @@ public class UnitsAttack extends Units {
 
     public void announceWinner(String playerWinner) {
         App.printLine();
-        if(playerWinner.equals("human")) System.out.println("\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■                                                                                            ■■\n■■              ■   ■    ■■■■■■    ■    ■       ■     ■     ■    ■■■■■    ■■   ■              ■■\n■■              ■   ■    ■■  ■■    ■    ■       ■     ■     ■      ■      ■■   ■              ■■\n■■               ■ ■     ■■  ■■    ■    ■        ■   ■ ■   ■       ■      ■ ■  ■              ■■\n■■                ■      ■■  ■■    ■    ■         ■ ■   ■ ■        ■      ■  ■ ■              ■■\n■■                ■      ■■■■■■    ■■■■■■          ■     ■       ■■■■■    ■   ■■              ■■\n■■                                                                                            ■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n");
-        else System.out.println("\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■                                                                                            ■■\n■■             ■   ■    ■■■■■■    ■    ■        ■         ■■■■■■    ■■■■■    ■■■■■            ■■\n■■             ■   ■    ■■  ■■    ■    ■        ■         ■    ■    ■        ■                ■■\n■■              ■ ■     ■■  ■■    ■    ■        ■         ■    ■    ■■■■■    ■■■■■            ■■\n■■               ■      ■■  ■■    ■    ■        ■         ■    ■        ■    ■                ■■\n■■               ■      ■■■■■■    ■■■■■■        ■■■■■■    ■■■■■■    ■■■■■    ■■■■■            ■■\n■■                                                                                            ■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n");
+        if(playerWinner.equals("human")) System.out.println("\n\u001B[32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■                                                                                            ■■\n■■              ■   ■    ■■■■■■    ■    ■       ■     ■     ■    ■■■■■    ■■   ■              ■■\n■■              ■   ■    ■■  ■■    ■    ■       ■     ■     ■      ■      ■■   ■              ■■\n■■               ■ ■     ■■  ■■    ■    ■        ■   ■ ■   ■       ■      ■ ■  ■              ■■\n■■                ■      ■■  ■■    ■    ■         ■ ■   ■ ■        ■      ■  ■ ■              ■■\n■■                ■      ■■■■■■    ■■■■■■          ■     ■       ■■■■■    ■   ■■              ■■\n■■                                                                                            ■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n\u001B[37m");
+        else System.out.println("\n\u001B[31m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■                                                                                            ■■\n■■             ■   ■    ■■■■■■    ■    ■        ■         ■■■■■■    ■■■■■    ■■■■■            ■■\n■■             ■   ■    ■■  ■■    ■    ■        ■         ■    ■    ■        ■                ■■\n■■              ■ ■     ■■  ■■    ■    ■        ■         ■    ■    ■■■■■    ■■■■■            ■■\n■■               ■      ■■  ■■    ■    ■        ■         ■    ■        ■    ■                ■■\n■■               ■      ■■■■■■    ■■■■■■        ■■■■■■    ■■■■■■    ■■■■■    ■■■■■            ■■\n■■                                                                                            ■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n\u001B[37m");
         displayBoard(humanBoard, computerBoard);
-        System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■ **************** YOUR BOARD ************** ■     ■ ************* COMPUTER BOARD ************* ■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n");
+        System.out.println("\u001B[34m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     \u001B[31m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n\u001B[34m■ **************** YOUR BOARD ************** ■     \u001B[31m■ ************* COMPUTER BOARD ************* ■\n\u001B[34m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     \u001B[31m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n\u001B[37m");
     }
 
     public void displayBoard(String[] playerBoard, String[] computerBoard) {
@@ -904,26 +919,26 @@ public class UnitsAttack extends Units {
             if(rows == 0) {
                 System.out.println("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\u001B[0m");
                 System.out.print("■\u001B[0m # ■ \u001B[0m");
-                for(int x = 0; x < xCoordinates.length; x++) System.out.print("" + xCoordinates[x] + "\u001B[0m ■ \u001B[0m");
+                for(int x = 0; x < xCoordinates.length; x++) System.out.print("\u001B[33m" + xCoordinates[x] + "\u001B[0m ■ \u001B[0m");
                 System.out.print("    ■\u001B[0m # ■ \u001B[0m");
-                for(int x = 0; x < xCoordinates.length; x++) System.out.print("" + xCoordinates[x] + "\u001B[0m ■ \u001B[0m");
+                for(int x = 0; x < xCoordinates.length; x++) System.out.print("\u001B[33m" + xCoordinates[x] + "\u001B[0m ■ \u001B[0m");
                 System.out.println("\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\u001B[0m");
             }
 
             if(rows != 10) {
-                System.out.print("■ \u001B[0m" + yCoordinates[9-rows] + "\u001B[0m ■ \u001B[0m");
+                System.out.print("■ \u001B[0m\u001B[33m" + yCoordinates[9-rows] + "\u001B[0m ■ \u001B[0m");
 
                 // Player Board
                 for(int cols = start; cols < end; cols++) {
-                    if(cols != end-1) System.out.print("" + playerBoard[cols] + "\u001B[0m" + " ■ \u001B[0m");
-                    else System.out.print("" + playerBoard[cols] + "\u001B[0m " + " ■ \u001B[0m");
+                    if(cols != end-1) System.out.print("\u001B[31m" + playerBoard[cols] + "\u001B[0m" + " ■ \u001B[0m");
+                    else System.out.print("\u001B[31m" + playerBoard[cols] + "\u001B[0m " + " ■ \u001B[0m");
                 }
 
                 // Computer Board
-                System.out.print("    ■ \u001B[0m" + yCoordinates[9-rows] + "\u001B[0m ■ \u001B[0m");
+                System.out.print("    ■ \u001B[0m\u001B[33m" + yCoordinates[9-rows] + "\u001B[0m ■ \u001B[0m");
                 for(int cols = start; cols < end; cols++) {
-                    if(cols != end-1) System.out.print("" + computerBoard[cols] + "\u001B[0m" + " ■ \u001B[0m");
-                    else System.out.print("" + computerBoard[cols] + "\u001B[0m " + " ■ \u001B[0m");
+                    if(cols != end-1) System.out.print("\u001B[31m" + computerBoard[cols] + "\u001B[0m" + " ■ \u001B[0m");
+                    else System.out.print("\u001B[31m" + computerBoard[cols] + "\u001B[0m " + " ■ \u001B[0m");
                 }
 
                 start -= 10;

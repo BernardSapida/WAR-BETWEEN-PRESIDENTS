@@ -311,7 +311,7 @@ public class Units extends Board {
     
                     if(!isValidPosition){
                         // If position is not available
-                        System.out.println("The position is occupied! Please try another position for your units.");
+                        System.out.println("\u001B[31mThe position is occupied! Please try another position for your units.\u001B[37m");
                         App.printLine();
                     } else {
                         // If position is available
@@ -324,11 +324,11 @@ public class Units extends Board {
                         getBoard(); // Print board
                     }
                 } else {
-                    System.out.println("The position is invalid! Please try again.");
+                    System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
                     App.printLine();
                 }
             } else {
-                System.out.println("The position is invalid! Please try again.");
+                System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
                 App.printLine();
             }
         }
@@ -387,7 +387,7 @@ public class Units extends Board {
 
                     if(!isValidPosition){
                         // If position is not available
-                        System.out.println("The position is occupied! Please try another position for your units.");
+                        System.out.println("\u001B[31mThe position is occupied! Please try another position for your units.\u001B[37m");
                         App.printLine();
                     } else {
                         // Mark 1 position with "S"
@@ -404,11 +404,11 @@ public class Units extends Board {
                         getBoard(); // Print board
                     }
                 } else {
-                    System.out.println("The position is invalid! Please try again.");
+                    System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
                     App.printLine();
                 }
             } else {
-                System.out.println("The position is invalid! Please try again.");
+                System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
                 App.printLine();
             }
         }
@@ -476,7 +476,7 @@ public class Units extends Board {
     
                         if(!isValidPosition){
                             // If position is not available
-                            System.out.println("The position is occupied! Please try another position for your units.");
+                            System.out.println("\u001B[31mThe position is occupied! Please try another position for your units.\u001B[37m");
                             App.printLine();
                             break validPosition;
                         } else {
@@ -497,15 +497,15 @@ public class Units extends Board {
                         }
                     } else {
                         isValidPosition = false;
-                        System.out.println("The position is invalid position! Try again.");
+                        System.out.println("\u001B[31mThe position is invalid position! Try again.\u001B[37m");
                         App.printLine();
                     }
                 } else {
-                    System.out.println("The position is invalid! Please try again.");
+                    System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
                     App.printLine();
                 }
             } else {
-                System.out.println("The position is invalid position! Please try again.");
+                System.out.println("\u001B[31mThe position is invalid position! Please try again.\u001B[37m");
                 App.printLine();
             }
         }
@@ -573,7 +573,7 @@ public class Units extends Board {
 
                         if(!isValidPosition){
                             // If position is not available
-                            System.out.println("The position is occupied! Please try another position for your units.");
+                            System.out.println("\u001B[31mThe position is occupied! Please try another position for your units.\u001B[37m");
                             App.printLine();
                             break validPosition;
                         } else {
@@ -599,12 +599,12 @@ public class Units extends Board {
                         }
                     } else {
                         isValidPosition = false;
-                        System.out.println("The position is invalid! Please try again.");
+                        System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
                         App.printLine();
                     }
                 }
             } else {
-                System.out.println("The position is invalid! Please try again.");
+                System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
                 App.printLine();
             }
         }
@@ -672,7 +672,7 @@ public class Units extends Board {
 
                         if(!isValidPosition){
                             // If position is not available
-                            System.out.println("The position is occupied! Please try another position for your units.");
+                            System.out.println("\u001B[31mThe position is occupied! Please try another position for your units.\u001B[37m");
                             App.printLine();
                             break validPosition;
                         } else {
@@ -695,12 +695,12 @@ public class Units extends Board {
                         }
                     } else {
                         isValidPosition = false;
-                        System.out.println("The position is invalid! Please try again.");
+                        System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
                         App.printLine();
                     }
                 }
             } else {
-                System.out.println("The position is invalid! Please try again.");
+                System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
                 App.printLine();
             }
         }
