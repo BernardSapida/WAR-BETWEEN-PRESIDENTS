@@ -9,7 +9,7 @@ public class UnitsAttack extends Units {
         super(player);
     }
 
-    public void attackBoard(int position, String player) {
+    private void attackBoard(int position, String player) {
         if(player.equals("human")) {
             if(!computerBoard[position].equals(" ")) {
                 if(computerBoard[position].equals("P")) isPresidentDead = true;
@@ -29,7 +29,7 @@ public class UnitsAttack extends Units {
         }
     }
 
-    public void queryPresidentAttack() {
+    private void queryPresidentAttack() {
         boolean isValidPosition = false;
         Scanner in_presidentAttack = new Scanner(System.in);
 
@@ -97,9 +97,15 @@ public class UnitsAttack extends Units {
                         (double) (position[6] + position[7] + position[8])/3 == position[7]
                     ) {
                         if(isValidPosition) {
-                            for (int index : position) attackBoard(index, player);
-                            getBoard(); // Print board
-                            if(isPresidentDead) announceWinner(player);
+                            if(checkWasAttacked(position[0]) && checkWasAttacked(position[1]) && checkWasAttacked(position[2]) && checkWasAttacked(position[3]) && checkWasAttacked(position[4]) && checkWasAttacked(position[5]) && checkWasAttacked(position[6]) && checkWasAttacked(position[7]) && checkWasAttacked(position[8])) {
+                                System.out.println("\u001B[31mThis position has been attacked! Please try again.\u001B[37m");
+                                isValidPosition = false;
+                                App.printLine();
+                            } else {
+                                for (int index : position) attackBoard(index, player);
+                                getBoard(); // Print board
+                                if(isPresidentDead) announceWinner(player);
+                            }
                         }
                     } else {
                         isValidPosition = false;
@@ -117,7 +123,7 @@ public class UnitsAttack extends Units {
         }
     }
 
-    public void querySoldiersAttack() {
+    private void querySoldiersAttack() {
         boolean isValidPosition = false;
         Scanner in_soldiersAttack = new Scanner(System.in);
 
@@ -184,7 +190,7 @@ public class UnitsAttack extends Units {
         }
     }
 
-    public void queryLightTankAttack() {
+    private void queryLightTankAttack() {
         boolean isValidPosition = false;
         Scanner in_lightTanksAttack = new Scanner(System.in);
 
@@ -272,7 +278,7 @@ public class UnitsAttack extends Units {
         }
     }
 
-    public void queryMediumTankAttack() {
+    private void queryMediumTankAttack() {
         boolean isValidPosition = false;
         Scanner in_mediumTanksAttack = new Scanner(System.in);
 
@@ -365,7 +371,7 @@ public class UnitsAttack extends Units {
         }
     }
 
-    public void queryHeavyTankAttack() {
+    private void queryHeavyTankAttack() {
         boolean isValidPosition = false;
         Scanner in_heavyTanksAttack = new Scanner(System.in);
 
@@ -903,7 +909,7 @@ public class UnitsAttack extends Units {
         }
     }
 
-    public void announceWinner(String playerWinner) {
+    private void announceWinner(String playerWinner) {
         App.printLine();
         if(playerWinner.equals("human")) System.out.println("\n\u001B[32m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■                                                                                            ■■\n■■              ■   ■    ■■■■■■    ■    ■       ■     ■     ■    ■■■■■    ■■   ■              ■■\n■■              ■   ■    ■■  ■■    ■    ■       ■     ■     ■      ■      ■■   ■              ■■\n■■               ■ ■     ■■  ■■    ■    ■        ■   ■ ■   ■       ■      ■ ■  ■              ■■\n■■                ■      ■■  ■■    ■    ■         ■ ■   ■ ■        ■      ■  ■ ■              ■■\n■■                ■      ■■■■■■    ■■■■■■          ■     ■       ■■■■■    ■   ■■              ■■\n■■                                                                                            ■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n\u001B[37m");
         else System.out.println("\n\u001B[31m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■                                                                                            ■■\n■■             ■   ■    ■■■■■■    ■    ■        ■         ■■■■■■    ■■■■■    ■■■■■            ■■\n■■             ■   ■    ■■  ■■    ■    ■        ■         ■    ■    ■        ■                ■■\n■■              ■ ■     ■■  ■■    ■    ■        ■         ■    ■    ■■■■■    ■■■■■            ■■\n■■               ■      ■■  ■■    ■    ■        ■         ■    ■        ■    ■                ■■\n■■               ■      ■■■■■■    ■■■■■■        ■■■■■■    ■■■■■■    ■■■■■    ■■■■■            ■■\n■■                                                                                            ■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n\u001B[37m");
@@ -911,7 +917,7 @@ public class UnitsAttack extends Units {
         System.out.println("\u001B[34m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     \u001B[31m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n\u001B[34m■ **************** YOUR BOARD ************** ■     \u001B[31m■ ************* COMPUTER BOARD ************* ■\n\u001B[34m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■     \u001B[31m■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■\n\u001B[37m");
     }
 
-    public void displayBoard(String[] playerBoard, String[] computerBoard) {
+    private void displayBoard(String[] playerBoard, String[] computerBoard) {
         int start = 90;
         int end = 100;
 
