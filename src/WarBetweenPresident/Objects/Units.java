@@ -34,24 +34,16 @@ public class Units extends Board {
         while(president < 1) {
             int presidentPosition = random.nextInt(100);
             if(player.equals("human")) {
-            humanBoard[99] = "P";
-            president++;
+                if(humanBoard[presidentPosition].equals(" ")) {
+                    humanBoard[presidentPosition] = "P";
+                    president++;
+                }
+            } else {
+                if(computerBoard[presidentPosition].equals(" ")) {
+                    computerBoard[presidentPosition] = "P";
+                    president++;
+                }
             }
-            else {
-            computerBoard[99] = "P";
-            president++;
-            }
-            // if(player.equals("human")) {
-            //     if(humanBoard[presidentPosition].equals(" ")) {
-            //         humanBoard[presidentPosition] = "P";
-            //         president++;
-            //     }
-            // } else {
-            //     if(computerBoard[presidentPosition].equals(" ")) {
-            //         computerBoard[presidentPosition] = "P";
-            //         president++;
-            //     }
-            // }
         }
 
         while(soldiers < 5) {
@@ -319,7 +311,7 @@ public class Units extends Board {
     
                     if(!isValidPosition){
                         // If position is not available
-                        System.out.println("\u001B[31mThe position is occupied! Please try another position for your units.\u001B[37m");
+                        System.out.println("The position is occupied! Please try another position for your units.");
                         App.printLine();
                     } else {
                         // If position is available
@@ -332,11 +324,11 @@ public class Units extends Board {
                         getBoard(); // Print board
                     }
                 } else {
-                    System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
+                    System.out.println("The position is invalid! Please try again.");
                     App.printLine();
                 }
             } else {
-                System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
+                System.out.println("The position is invalid! Please try again.");
                 App.printLine();
             }
         }
@@ -395,7 +387,7 @@ public class Units extends Board {
 
                     if(!isValidPosition){
                         // If position is not available
-                        System.out.println("\u001B[31mThe position is occupied! Please try another position for your units.\u001B[37m");
+                        System.out.println("The position is occupied! Please try another position for your units.");
                         App.printLine();
                     } else {
                         // Mark 1 position with "S"
@@ -404,16 +396,19 @@ public class Units extends Board {
 
                     if(isValidPosition) {
                         soldiers++; // Increment soldiers
-                        soldiersPositionArray.set(soldiersPositionArray.size(), x + y);
+                        System.out.println("Test1");
+                        soldiersPositionArray.add(x + y);
+                        System.out.println("Test2");
+
                         App.printLine(); // Clear terminal window
                         getBoard(); // Print board
                     }
                 } else {
-                    System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
+                    System.out.println("The position is invalid! Please try again.");
                     App.printLine();
                 }
             } else {
-                System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
+                System.out.println("The position is invalid! Please try again.");
                 App.printLine();
             }
         }
@@ -481,7 +476,7 @@ public class Units extends Board {
     
                         if(!isValidPosition){
                             // If position is not available
-                            System.out.println("\u001B[31mThe position is occupied! Please try another position for your units.\u001B[37m");
+                            System.out.println("The position is occupied! Please try another position for your units.");
                             App.printLine();
                             break validPosition;
                         } else {
@@ -496,21 +491,21 @@ public class Units extends Board {
                             // Mark 2 positions with "L"
                             for (int index : position) humanBoard[index] = "L";
                             lightTanks++; // Increment light tank
-                            lightTanksPositionArray.set(lightTanksPositionArray.size(), position);
+                            lightTanksPositionArray.add(position);
                             App.printLine(); // Clear terminal window
                             getBoard(); // Print board
                         }
                     } else {
                         isValidPosition = false;
-                        System.out.println("\u001B[31mThe position is invalid position! Try again.\u001B[37m");
+                        System.out.println("The position is invalid position! Try again.");
                         App.printLine();
                     }
                 } else {
-                    System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
+                    System.out.println("The position is invalid! Please try again.");
                     App.printLine();
                 }
             } else {
-                System.out.println("\u001B[31mThe position is invalid position! Please try again.\u001B[37m");
+                System.out.println("The position is invalid position! Please try again.");
                 App.printLine();
             }
         }
@@ -578,7 +573,7 @@ public class Units extends Board {
 
                         if(!isValidPosition){
                             // If position is not available
-                            System.out.println("\u001B[31mThe position is occupied! Please try another position for your units.\u001B[37m");
+                            System.out.println("The position is occupied! Please try another position for your units.");
                             App.printLine();
                             break validPosition;
                         } else {
@@ -598,18 +593,18 @@ public class Units extends Board {
                             // Mark 4 positions with "M"
                             for (int index : position) humanBoard[index] = "M";
                             mediumTanks++; // Increment medium tank
-                            mediumTanksPositionArray.set(mediumTanksPositionArray.size(), position);
+                            mediumTanksPositionArray.add(position);
                             App.printLine(); // Clear terminal window
                             getBoard(); // Print board
                         }
                     } else {
                         isValidPosition = false;
-                        System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
+                        System.out.println("The position is invalid! Please try again.");
                         App.printLine();
                     }
                 }
             } else {
-                System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
+                System.out.println("The position is invalid! Please try again.");
                 App.printLine();
             }
         }
@@ -677,7 +672,7 @@ public class Units extends Board {
 
                         if(!isValidPosition){
                             // If position is not available
-                            System.out.println("\u001B[31mThe position is occupied! Please try another position for your units.\u001B[37m");
+                            System.out.println("The position is occupied! Please try another position for your units.");
                             App.printLine();
                             break validPosition;
                         } else {
@@ -696,16 +691,16 @@ public class Units extends Board {
                             // Mark 4 positions with "H"
                             for (int index : position) humanBoard[index] = "H";
                             heavyTanks++; // Increment heavy tank
-                            heavyTanksPositionArray.set(heavyTanksPositionArray.size(), position);
+                            heavyTanksPositionArray.add(position);
                         }
                     } else {
                         isValidPosition = false;
-                        System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
+                        System.out.println("The position is invalid! Please try again.");
                         App.printLine();
                     }
                 }
             } else {
-                System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
+                System.out.println("The position is invalid! Please try again.");
                 App.printLine();
             }
         }
