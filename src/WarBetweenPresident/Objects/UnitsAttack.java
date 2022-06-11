@@ -721,10 +721,11 @@ public class UnitsAttack extends Units {
         Random random = new Random();
         computerAvailableAttacks = new ArrayList<String>();
 
+        if(nuke == 0) computerAttacks.remove("Nuke");
         if(soldiers == 0) computerAttacks.remove("Mortars");
-        if(lightTanks == 0) computerAttacks.remove("Tank Gun");
-        if(mediumTanks == 0) computerAttacks.remove("Cannon");
-        if(heavyTanks == 0) computerAttacks.remove("Missiles");
+        if(lightTanks == 0 || tankGunCooldown != 0) computerAttacks.remove("Tank Gun");
+        if(mediumTanks == 0 || cannonCooldown != 0) computerAttacks.remove("Cannon");
+        if(heavyTanks == 0 || missilesCooldown != 0) computerAttacks.remove("Missiles");
 
         if(tankGunCooldown == 0) computerAttacks.put("Tank Gun", "Ready");
         if(cannonCooldown == 0) computerAttacks.put("Cannon", "Ready");
@@ -735,7 +736,15 @@ public class UnitsAttack extends Units {
         }
 
         if(computerAvailableAttacks.size() != 0) {
-            switch(computerAvailableAttacks.get(random.nextInt(computerAvailableAttacks.size()))) {
+            String selectedAttack = "";
+
+            if(computerAvailableAttacks.indexOf("Missiles") != -1) selectedAttack = computerAvailableAttacks.get(computerAvailableAttacks.indexOf("Missiles"));
+            else if(computerAvailableAttacks.indexOf("Cannon") != -1) selectedAttack = computerAvailableAttacks.get(computerAvailableAttacks.indexOf("Cannon"));
+            else if(computerAvailableAttacks.indexOf("Tank Gun") != -1) selectedAttack = computerAvailableAttacks.get(computerAvailableAttacks.indexOf("Tank Gun"));
+            else if(computerAvailableAttacks.indexOf("Nuke") != -1) selectedAttack = computerAvailableAttacks.get(computerAvailableAttacks.indexOf("Nuke"));
+            else if(computerAvailableAttacks.indexOf("Mortars") != -1) selectedAttack = computerAvailableAttacks.get(computerAvailableAttacks.indexOf("Mortars"));
+            
+            switch(selectedAttack) {
                 case "Nuke" -> { 
                     ArrayList<int[]> attackOptions = new ArrayList<int[]>();
                 

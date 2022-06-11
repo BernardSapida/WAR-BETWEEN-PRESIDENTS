@@ -20,12 +20,22 @@ public class Units extends Board {
     protected int tankGunCooldown;
     protected int cannonCooldown;
     protected int missilesCooldown;
+
     public boolean isPresidentDead = false;
+
+    protected ArrayList<String> computerAvailableAttacks = new ArrayList<String>();
+    protected HashMap<String, String> computerAttacks = new HashMap<String, String>();
 
     public Units(String player) {
         super(player);
 
         this.player = player;
+
+        computerAttacks.put("Nuke", "Ready");
+        computerAttacks.put("Mortars", "Ready");
+        computerAttacks.put("Tank Gun", "Ready");
+        computerAttacks.put("Cannon", "Ready");
+        computerAttacks.put("Missiles", "Ready");
     }
 
     public void randomUnitsPosition() {

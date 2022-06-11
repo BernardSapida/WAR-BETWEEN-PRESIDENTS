@@ -1,7 +1,5 @@
 package WarBetweenPresident.Objects;
 
-import java.util.*;
-
 public abstract class Board {
     public String[] humanBoard = new String[100];
     public String[] recordHumanBoard = new String[100];
@@ -9,8 +7,7 @@ public abstract class Board {
     public String[] recordComputerBoard = new String[100];
     protected String[] xCoordinates = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
     protected String[] yCoordinates = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
-    protected ArrayList<String> computerAvailableAttacks = new ArrayList<String>();
-    protected HashMap<String, String> computerAttacks = new HashMap<String, String>();
+
 	protected String player;
 
     public Board(String player) {
@@ -22,12 +19,6 @@ public abstract class Board {
         }
 
         this.player = player;
-
-        computerAttacks.put("Nuke", "Ready");
-        computerAttacks.put("Mortars", "Ready");
-        computerAttacks.put("Tank Gun", "Ready");
-        computerAttacks.put("Cannon", "Ready");
-        computerAttacks.put("Missiles", "Ready");
     }
 
     public void getBoard() {
