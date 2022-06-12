@@ -843,8 +843,8 @@ public class UnitsAttack extends Units {
 
                     for (int position : attackPosition) {
                         attackBoard(position, player);
-                        if(isPresidentDead) announceWinner(player);
                     }
+                    if(isPresidentDead) announceWinner(player);
     
                     tankGunCooldown = 4;
 
@@ -884,8 +884,9 @@ public class UnitsAttack extends Units {
     
                     for (int position : attackPosition) {
                         attackBoard(position, player);
-                        if(isPresidentDead) announceWinner(player);
                     }
+
+                    if(isPresidentDead) announceWinner(player);
     
                     cannonCooldown = 6;
     
@@ -951,8 +952,9 @@ public class UnitsAttack extends Units {
 
                     for (int position : attackPosition) {
                         attackBoard(position, player);
-                        if(isPresidentDead) announceWinner(player);
                     }
+
+                    if(isPresidentDead) announceWinner(player);
     
                     missilesCooldown = 8;
     
