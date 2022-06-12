@@ -943,10 +943,7 @@ public class UnitsAttack extends Units {
                     if(allPositionsAreNotAttacked.size() > 0) attackPosition = allPositionsAreNotAttacked.get(random.nextInt(allPositionsAreNotAttacked.size()));
                     else attackPosition = somePositionsAreAttacked.get(random.nextInt(somePositionsAreAttacked.size()));
 
-                    for (int position : attackPosition) {
-                        attackBoard(position, player);
-                    }
-
+                    for (int position : attackPosition) attackBoard(position, player);
                     if(isPresidentDead) announceWinner(player);
     
                     missilesCooldown = 8;
