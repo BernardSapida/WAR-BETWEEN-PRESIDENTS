@@ -133,50 +133,55 @@ public class UnitsAttack extends Units {
             System.out.print("Enter position to be attack (Ex: a1): ");
             String setSoldiersAttackPosition = in_soldiersAttack.nextLine();
 
-            switch(setSoldiersAttackPosition.toLowerCase().substring(0, 1)) {
-                // Validate input for y (vertical) attack position of the soldiers (Mortars)
-                case "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" -> { isValidPosition = true; }
-                default -> {
-                    isValidPosition = false;
-                }
-            }
-
-            if(isValidPosition) {
-                switch(setSoldiersAttackPosition.substring(1)) {
-                    // Validate input for x (horizontal) attack position of the soldiers (Mortars)
-                    case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" -> { isValidPosition = true; }
+            if(setSoldiersAttackPosition.length() > 1) {
+                switch(setSoldiersAttackPosition.toLowerCase().substring(0, 1)) {
+                    // Validate input for y (vertical) attack position of the soldiers (Mortars)
+                    case "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" -> { isValidPosition = true; }
                     default -> {
                         isValidPosition = false;
                     }
                 }
     
                 if(isValidPosition) {
-                    int y = 0;
-                    int x = 0;
-    
-                    // Find the y (vertical) attack position of the soldiers (Mortars)
-                    switch(setSoldiersAttackPosition.toLowerCase().substring(0, 1)) {
-                        case "a" -> { y = 0; }
-                        case "b" -> { y = 10; }
-                        case "c" -> { y = 20; }
-                        case "d" -> { y = 30; }
-                        case "e" -> { y = 40; }
-                        case "f" -> { y = 50; }
-                        case "g" -> { y = 60; }
-                        case "h" -> { y = 70; }
-                        case "i" -> { y = 80; }
-                        case "j" -> { y = 90; }
+                    switch(setSoldiersAttackPosition.substring(1)) {
+                        // Validate input for x (horizontal) attack position of the soldiers (Mortars)
+                        case "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" -> { isValidPosition = true; }
+                        default -> {
+                            isValidPosition = false;
+                        }
                     }
-    
-                    // Find the x (horizontal) attack position of the soldiers (Mortars)
-                    x = Integer.parseInt(setSoldiersAttackPosition.substring(1))-1;
-                    if(!checkWasAttacked(x+y)) {    
-                        attackBoard(x + y, player);
-                        getBoard(); // Print board
-                        if(isPresidentDead) announceWinner(player);
+        
+                    if(isValidPosition) {
+                        int y = 0;
+                        int x = 0;
+        
+                        // Find the y (vertical) attack position of the soldiers (Mortars)
+                        switch(setSoldiersAttackPosition.toLowerCase().substring(0, 1)) {
+                            case "a" -> { y = 0; }
+                            case "b" -> { y = 10; }
+                            case "c" -> { y = 20; }
+                            case "d" -> { y = 30; }
+                            case "e" -> { y = 40; }
+                            case "f" -> { y = 50; }
+                            case "g" -> { y = 60; }
+                            case "h" -> { y = 70; }
+                            case "i" -> { y = 80; }
+                            case "j" -> { y = 90; }
+                        }
+        
+                        // Find the x (horizontal) attack position of the soldiers (Mortars)
+                        x = Integer.parseInt(setSoldiersAttackPosition.substring(1))-1;
+                        if(!checkWasAttacked(x+y)) {    
+                            attackBoard(x + y, player);
+                            getBoard(); // Print board
+                            if(isPresidentDead) announceWinner(player);
+                        } else {
+                            System.out.println("\u001B[31mThis position has been attacked! Please try again.\u001B[37m");
+                            isValidPosition = false;
+                            App.printLine();
+                        }
                     } else {
-                        System.out.println("\u001B[31mThis position has been attacked! Please try again.\u001B[37m");
-                        isValidPosition = false;
+                        System.out.println("\u001B[31mInvalid attack position! Please try again.\u001B[37m");
                         App.printLine();
                     }
                 } else {

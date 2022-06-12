@@ -39,6 +39,7 @@ public class App {
             computerBoard.recordHumanBoard = humanBoard.recordHumanBoard;
 
             computerBoard.computerAttack();
+            computerBoard.getBoard();
             if(computerBoard.isPresidentDead) break;
             humanBoard.computerBoard = computerBoard.computerBoard;
             humanBoard.recordComputerBoard = computerBoard.recordComputerBoard;
