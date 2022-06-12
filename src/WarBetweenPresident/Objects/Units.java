@@ -719,7 +719,7 @@ public class Units extends Board {
         getBoard(); // Print board
     }
 
-    private boolean checkAvailablePosition(int position) {
+    protected boolean checkAvailablePosition(int position) {
         if(humanBoard[position].equals(" ")) return true;
         return false;
     }

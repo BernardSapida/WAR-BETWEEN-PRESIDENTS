@@ -723,17 +723,17 @@ public class UnitsAttack extends Units {
 
         if(nuke == 0) computerAttacks.remove("Nuke");
         if(soldiers == 0) computerAttacks.remove("Mortars");
+
         if(lightTanks == 0 || tankGunCooldown != 0) computerAttacks.remove("Tank Gun");
+        else computerAttacks.put("Tank Gun", "Ready");
+
         if(mediumTanks == 0 || cannonCooldown != 0) computerAttacks.remove("Cannon");
+        else computerAttacks.put("Cannon", "Ready");
+
         if(heavyTanks == 0 || missilesCooldown != 0) computerAttacks.remove("Missiles");
+        else computerAttacks.put("Missiles", "Ready");
 
-        if(tankGunCooldown == 0) computerAttacks.put("Tank Gun", "Ready");
-        if(cannonCooldown == 0) computerAttacks.put("Cannon", "Ready");
-        if(missilesCooldown == 0) computerAttacks.put("Missiles", "Ready");
-
-        for(String value : computerAttacks.keySet()) {
-            if(computerAttacks.get(value).equals("Ready")) computerAvailableAttacks.add(value);
-        }
+        for(String value : computerAttacks.keySet()) if(computerAttacks.get(value).equals("Ready")) computerAvailableAttacks.add(value);
 
         if(computerAvailableAttacks.size() != 0) {
             String selectedAttack = "";
@@ -743,10 +743,13 @@ public class UnitsAttack extends Units {
             else if(computerAvailableAttacks.indexOf("Tank Gun") != -1) selectedAttack = computerAvailableAttacks.get(computerAvailableAttacks.indexOf("Tank Gun"));
             else if(computerAvailableAttacks.indexOf("Nuke") != -1) selectedAttack = computerAvailableAttacks.get(computerAvailableAttacks.indexOf("Nuke"));
             else if(computerAvailableAttacks.indexOf("Mortars") != -1) selectedAttack = computerAvailableAttacks.get(computerAvailableAttacks.indexOf("Mortars"));
-            
+
             switch(selectedAttack) {
                 case "Nuke" -> { 
                     ArrayList<int[]> attackOptions = new ArrayList<int[]>();
+                    ArrayList<int[]> allPositionsAreNotAttacked = new ArrayList<int[]>();
+                    ArrayList<int[]> somePositionsAreAttacked = new ArrayList<int[]>();
+                    int[] attackPosition;
                 
                     for(int i = 0; i < 100; i++) {
                         int[] attack = new int[9];
@@ -764,9 +767,17 @@ public class UnitsAttack extends Units {
                             attackOptions.add(attack);
                         }
                     }
+
+                    for(int i = 0; i < attackOptions.size(); i++) {
+                        if(!checkWasAttacked(attackOptions.get(i)[0]) && !checkWasAttacked(attackOptions.get(i)[1]) && !checkWasAttacked(attackOptions.get(i)[2]) && !checkWasAttacked(attackOptions.get(i)[3]) && !checkWasAttacked(attackOptions.get(i)[4]) && !checkWasAttacked(attackOptions.get(i)[5]) && !checkWasAttacked(attackOptions.get(i)[6]) && !checkWasAttacked(attackOptions.get(i)[7]) && !checkWasAttacked(attackOptions.get(i)[8])) allPositionsAreNotAttacked.add(attackOptions.get(i));
+                        else somePositionsAreAttacked.add(attackOptions.get(i));
+                    }
+
+                    if(allPositionsAreNotAttacked.size() > 0) attackPosition = allPositionsAreNotAttacked.get(random.nextInt(allPositionsAreNotAttacked.size()));
+                    else attackPosition = somePositionsAreAttacked.get(random.nextInt(somePositionsAreAttacked.size()));
         
-                    for (int attackPosition : attackOptions.get(random.nextInt(attackOptions.size()))) {
-                        attackBoard(attackPosition, player);
+                    for (int position : attackPosition) {
+                        attackBoard(position, player);
                         if(isPresidentDead) announceWinner(player);
                     }
                     
@@ -778,11 +789,14 @@ public class UnitsAttack extends Units {
                 }
     
                 case "Mortars" -> { 
-                    int attackPosition = random.nextInt(100);
-    
+                    ArrayList<Integer> allAttackPosition = new ArrayList<Integer>();
+                    
+                    for(int i = 0; i < 100; i++) if(!checkWasAttacked(i)) allAttackPosition.add(i);
+
+                    int attackPosition = random.nextInt(allAttackPosition.size());
+
                     attackBoard(attackPosition, player);
                     if(isPresidentDead) announceWinner(player);
-    
                     if(tankGunCooldown > 0 && lightTanks > 0) tankGunCooldown -= 1;
                     if(cannonCooldown > 0 && mediumTanks > 0) cannonCooldown -= 1;
                     if(missilesCooldown > 0 && heavyTanks > 0) missilesCooldown -= 1;
@@ -790,6 +804,9 @@ public class UnitsAttack extends Units {
     
                 case "Tank Gun" -> { 
                     ArrayList<int[]> attackOptions = new ArrayList<int[]>();
+                    ArrayList<int[]> allPositionsAreNotAttacked = new ArrayList<int[]>();
+                    ArrayList<int[]> somePositionsAreAttacked = new ArrayList<int[]>();
+                    int[] attackPosition;
                 
                     for(int i = 0; i < 100; i++) {
                         int[] attack = new int[2];
@@ -810,9 +827,17 @@ public class UnitsAttack extends Units {
                             }
                         }
                     }
-    
-                    for (int attackPosition : attackOptions.get(random.nextInt(attackOptions.size()))) {
-                        attackBoard(attackPosition, player);
+                    
+                    for(int i = 0; i < attackOptions.size(); i++) {
+                        if(!checkWasAttacked(attackOptions.get(i)[0]) && !checkWasAttacked(attackOptions.get(i)[1])) allPositionsAreNotAttacked.add(attackOptions.get(i));
+                        else somePositionsAreAttacked.add(attackOptions.get(i));
+                    }
+
+                    if(allPositionsAreNotAttacked.size() > 0) attackPosition = allPositionsAreNotAttacked.get(random.nextInt(allPositionsAreNotAttacked.size()));
+                    else attackPosition = somePositionsAreAttacked.get(random.nextInt(somePositionsAreAttacked.size()));
+
+                    for (int position : attackPosition) {
+                        attackBoard(position, player);
                         if(isPresidentDead) announceWinner(player);
                     }
     
@@ -826,6 +851,9 @@ public class UnitsAttack extends Units {
     
                 case "Cannon" -> { 
                     ArrayList<int[]> attackOptions = new ArrayList<int[]>();
+                    ArrayList<int[]> allPositionsAreNotAttacked = new ArrayList<int[]>();
+                    ArrayList<int[]> somePositionsAreAttacked = new ArrayList<int[]>();
+                    int[] attackPosition;
                 
                     for(int i = 0; i < 100; i++) {
                         int[] attack = new int[4];
@@ -840,9 +868,17 @@ public class UnitsAttack extends Units {
                             }
                         }
                     }
+
+                    for(int i = 0; i < attackOptions.size(); i++) {
+                        if(!checkWasAttacked(attackOptions.get(i)[0]) && !checkWasAttacked(attackOptions.get(i)[1]) && !checkWasAttacked(attackOptions.get(i)[2]) && !checkWasAttacked(attackOptions.get(i)[3])) allPositionsAreNotAttacked.add(attackOptions.get(i));
+                        else somePositionsAreAttacked.add(attackOptions.get(i));
+                    }
+
+                    if(allPositionsAreNotAttacked.size() > 0) attackPosition = allPositionsAreNotAttacked.get(random.nextInt(allPositionsAreNotAttacked.size()));
+                    else attackPosition = somePositionsAreAttacked.get(random.nextInt(somePositionsAreAttacked.size()));
     
-                    for (int attackPosition : attackOptions.get(random.nextInt(attackOptions.size()))) {
-                        attackBoard(attackPosition, player);
+                    for (int position : attackPosition) {
+                        attackBoard(position, player);
                         if(isPresidentDead) announceWinner(player);
                     }
     
@@ -856,6 +892,9 @@ public class UnitsAttack extends Units {
     
                 case "Missiles" -> { 
                     ArrayList<int[]> attackOptions = new ArrayList<int[]>();
+                    ArrayList<int[]> allPositionsAreNotAttacked = new ArrayList<int[]>();
+                    ArrayList<int[]> somePositionsAreAttacked = new ArrayList<int[]>();
+                    int[] attackPosition;
                 
                     for(int i = 0; i < 100; i++) {
                         int[] attack = new int[6];
@@ -896,9 +935,17 @@ public class UnitsAttack extends Units {
                             }
                         }
                     }
-        
-                    for (int attackPosition : attackOptions.get(random.nextInt(attackOptions.size()))) {
-                        attackBoard(attackPosition, player);
+                    
+                    for(int i = 0; i < attackOptions.size(); i++) {
+                        if(!checkWasAttacked(attackOptions.get(i)[0]) && !checkWasAttacked(attackOptions.get(i)[1]) && !checkWasAttacked(attackOptions.get(i)[2]) && !checkWasAttacked(attackOptions.get(i)[3]) && !checkWasAttacked(attackOptions.get(i)[4]) && !checkWasAttacked(attackOptions.get(i)[5])) allPositionsAreNotAttacked.add(attackOptions.get(i));
+                        else somePositionsAreAttacked.add(attackOptions.get(i));
+                    }
+
+                    if(allPositionsAreNotAttacked.size() > 0) attackPosition = allPositionsAreNotAttacked.get(random.nextInt(allPositionsAreNotAttacked.size()));
+                    else attackPosition = somePositionsAreAttacked.get(random.nextInt(somePositionsAreAttacked.size()));
+
+                    for (int position : attackPosition) {
+                        attackBoard(position, player);
                         if(isPresidentDead) announceWinner(player);
                     }
     
@@ -964,7 +1011,11 @@ public class UnitsAttack extends Units {
     }
 
     private boolean checkWasAttacked(int position) {
-        if(recordHumanBoard[position].equals(" ")) return false;
+        if(player.equals("human")) {
+            if(recordHumanBoard[position].equals(" ")) return false;
+        } else {
+            if(recordComputerBoard[position].equals(" ")) return false;
+        }
         return true;
     }
 }
