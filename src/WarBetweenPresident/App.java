@@ -71,7 +71,10 @@ public class App {
                     isValid = true;
                     System.out.println("Thank you for playing 'War Between President', we hope that you enjoy our game! Be safe and godbless!");
                 }
-                default -> { System.out.println("\u001B[31mYour input is incorrect! Please try again.\u001B[37m"); }
+                default -> { 
+                    System.out.println("\u001B[31mYour input is incorrect! Please try again.\u001B[37m");
+                    printLine();
+                }
             }
         }
     }
