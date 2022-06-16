@@ -16,16 +16,14 @@ public class Units extends Board {
     protected ArrayList<int[]> lightTanksPositionArray = new ArrayList<int[]>();
     protected ArrayList<int[]> mediumTanksPositionArray = new ArrayList<int[]>();
     protected ArrayList<int[]> heavyTanksPositionArray = new ArrayList<int[]>();
-
     protected int tankGunCooldown;
     protected int cannonCooldown;
     protected int missilesCooldown;
-
     public boolean isPresidentDead = false;
-
     protected ArrayList<String> computerAvailableAttacks = new ArrayList<String>();
     protected HashMap<String, String> computerAttacks = new HashMap<String, String>();
 
+    // Creating a new HashMap called computerAttacks and adding 5 key/value pairs to it.
     public Units(String player) {
         super(player);
 
@@ -38,6 +36,9 @@ public class Units extends Board {
         computerAttacks.put("Missiles", "Ready");
     }
 
+    /**
+     * It randomly places the units on the board
+     */
     public void randomUnitsPosition() {
         Random random = new Random();
 
@@ -258,6 +259,10 @@ public class Units extends Board {
         }
     }
 
+    /**
+     * While the number of units is not equal to the number of units that should be on the board, query
+     * the user for the position of the unit.
+     */
     public void positionPlayerUnits() {
         while(president != 1) queryPresidentPosition();
         while(soldiers != 5) querySoldiersPosition();
@@ -266,6 +271,9 @@ public class Units extends Board {
         while(heavyTanks != 1) queryHeavyTankPosition();
     }
 
+    /**
+     * The function is used to query the user for the position of the President
+     */
     private void queryPresidentPosition() {
         boolean isValidPosition = false;
         Scanner in_president = new Scanner(System.in);
@@ -350,6 +358,10 @@ public class Units extends Board {
         }
     }
 
+    /**
+     * It asks the user to input a position for the unit, then it checks if the position is valid and
+     * available, if it is, it marks the position with the unit's symbol
+     */
     private void querySoldiersPosition() {
         boolean isValidPosition = false;
         Scanner in_soldiers = new Scanner(System.in);
@@ -431,6 +443,12 @@ public class Units extends Board {
         }
     }
 
+    /**
+     * The function is used to query the user to input the position of the light tank. The light tank
+     * is a 2x1 unit. The user can input the position of the light tank in two ways: (1) a1 b1 or (2)
+     * a1 a2. The function will check if the position is valid and available. If the position is valid
+     * and available, the function will mark the position with "L" and increment the light tank counter
+     */
     private void queryLightTankPosition() {
         boolean isValidPosition = false;
         Scanner in_lightTanks = new Scanner(System.in);
@@ -528,6 +546,10 @@ public class Units extends Board {
         }
     }
 
+    /**
+     * The function will ask the user to input the position of the medium tank (2x2) and will check if
+     * the position is valid and available
+     */
     private void queryMediumTankPosition() {
         boolean isValidPosition = false;
         Scanner in_mediumTanks = new Scanner(System.in);
@@ -627,6 +649,10 @@ public class Units extends Board {
         }
     }
 
+    /**
+     * The function will ask the user to input the position of the heavy tank (3x2) and will check if
+     * the position is valid or not
+     */
     private void queryHeavyTankPosition() {
         boolean isValidPosition = false;
         Scanner in_heavyTanks = new Scanner(System.in);
@@ -726,6 +752,15 @@ public class Units extends Board {
         getBoard(); // Print board
     }
 
+    /**
+     * // Java
+     * protected boolean checkAvailablePosition(int position) {
+     *         return humanBoard[position].equals(" ");
+     *     }
+     * 
+     * @param position the position on the board that the player wants to place their marker
+     * @return The method is returning a boolean value.
+     */
     protected boolean checkAvailablePosition(int position) {
         if(humanBoard[position].equals(" ")) return true;
         return false;

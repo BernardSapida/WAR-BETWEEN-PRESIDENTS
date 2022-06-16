@@ -7,9 +7,9 @@ public abstract class Board {
     public String[] recordComputerBoard = new String[100];
     protected String[] xCoordinates = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
     protected String[] yCoordinates = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" };
-
 	protected String player;
 
+    // A constructor.
     public Board(String player) {
         for(int i = 0; i < humanBoard.length; i++) {
             humanBoard[i] = " ";
@@ -21,6 +21,9 @@ public abstract class Board {
         this.player = player;
     }
 
+    /**
+     * It prints out the board
+     */
     public void getBoard() {
         String[] playerBoard = (player.equals("human") ? humanBoard : computerBoard);
         String[] playerRecordBoard = (player.equals("human") ? recordHumanBoard : recordComputerBoard);
