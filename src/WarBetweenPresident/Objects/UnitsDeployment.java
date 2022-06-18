@@ -3,7 +3,10 @@ package WarBetweenPresident.Objects;
 import WarBetweenPresident.App;
 import java.util.*;
 
-public class Units extends Board {
+/**
+ * > This class is a subclass of the Board class, and it is used to deploy units on the board
+ */
+public class UnitsDeployment extends Board {
     protected String player;
     protected int president = 0;
     protected int soldiers = 0;
@@ -24,7 +27,7 @@ public class Units extends Board {
     protected HashMap<String, String> computerAttacks = new HashMap<String, String>();
 
     // Creating a new HashMap called computerAttacks and adding 5 key/value pairs to it.
-    public Units(String player) {
+    public UnitsDeployment(String player) {
         super(player);
 
         this.player = player;
@@ -659,7 +662,7 @@ public class Units extends Board {
 
         while(!isValidPosition) {
             System.out.println("Heavy tank size: 3x2");
-            System.out.println("■■■■■■■■■\n■ H ■ H ■\n■■■■■■■■■\n■ H ■ H ■\n■■■■■■■■■\n■ H ■ H ■\n■■■■■■■■■\n");
+            System.out.println("■■■■■■■■■\n■ H ■ H ■\n■■■■■■■■■\n■ H ■ H ■\n■■■■■■■■■\n■ H ■ H ■\n■■■■■■■■■\n    OR\n■■■■■■■■■■■■■\n■ H ■ H ■ H ■\n■■■■■■■■■■■■■\n■ H ■ H ■ H ■\n■■■■■■■■■■■■■\n");
             System.out.println("Remaining Heavy Tanks: " + (1 - heavyTanks));
             System.out.print("Enter heavy tank position (Ex: a1 a2 b1 b2 c1 c2): ");
             String setHeavyTankPosition = in_heavyTanks.nextLine();

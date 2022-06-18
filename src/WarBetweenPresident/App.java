@@ -2,7 +2,7 @@ package WarBetweenPresident;
 
 import java.util.*;
 import WarBetweenPresident.Objects.UnitsAttack;
-import WarBetweenPresident.Objects.Helper;
+import WarBetweenPresident.Objects.Time;
 
 public class App {
     public static App obj;
@@ -32,7 +32,7 @@ public class App {
 
         while(true) {
             Timer timer = new Timer();
-            TimerTask computerAttackDone = new Helper();
+            TimerTask computerAttackDone = new Time();
             Random random = new Random();
 
             humanBoard.queryAttack();
@@ -90,7 +90,7 @@ public class App {
         humanBoard.getBoard();
 
         while(!isValid) {
-            System.out.println("\nKind of units deployment:");
+            System.out.println("Kind of units deployment:");
             System.out.println("[1] -> Manual Units Deployment (You will position units whenever you want)");
             System.out.println("[2] -> Generated Units Deployment (We will randomly position your units on the board)");
             System.out.print("Choose what type of units deployment: ");

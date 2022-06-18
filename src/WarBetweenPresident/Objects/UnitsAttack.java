@@ -3,7 +3,7 @@ package WarBetweenPresident.Objects;
 import WarBetweenPresident.App;
 import java.util.*;
 
-public class UnitsAttack extends Units {
+public class UnitsAttack extends UnitsDeployment {
 
     // Creating a constructor for the UnitsAttack class.
     public UnitsAttack(String player) {
