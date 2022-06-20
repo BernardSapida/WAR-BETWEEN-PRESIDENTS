@@ -267,11 +267,11 @@ public class UnitsDeployment extends Board {
      * the user for the position of the unit.
      */
     public void positionPlayerUnits() {
+        while(heavyTanks != 1) queryHeavyTankPosition();
         while(president != 1) queryPresidentPosition();
         while(soldiers != 5) querySoldiersPosition();
         while(lightTanks != 3) queryLightTankPosition();
         while(mediumTanks != 2) queryMediumTankPosition();
-        while(heavyTanks != 1) queryHeavyTankPosition();
     }
 
     /**
@@ -617,6 +617,7 @@ public class UnitsDeployment extends Board {
                             // If position is not available
                             System.out.println("\u001B[31mThe position is occupied! Please try another position for your units.\u001B[37m");
                             App.printLine();
+                            isValidPosition = false;
                             break validPosition;
                         } else {
                             // If position is available
@@ -624,25 +625,27 @@ public class UnitsDeployment extends Board {
                         }
                     }
 
-                    Arrays.sort(position); // Sort positions
+                    if(isValidPosition) {
+                        Arrays.sort(position); // Sort positions
 
-                    // Check if medium tank position 2x2 is valid
-                    if(
-                        (Math.abs(position[0] - position[1]) + Math.abs(position[2] - position[3])) == 2 &&
-                        (Math.abs(position[0] - position[2]) + Math.abs(position[1] - position[3])) == 20
-                    ) {
-                        if(isValidPosition) {
-                            // Mark 4 positions with "M"
-                            for (int index : position) humanBoard[index] = "M";
-                            mediumTanks++; // Increment medium tank
-                            mediumTanksPositionArray.add(position);
-                            App.printLine(); // Clear terminal window
-                            getBoard(); // Print board
+                        // Check if medium tank position 2x2 is valid
+                        if(
+                            (Math.abs(position[0] - position[1]) + Math.abs(position[2] - position[3])) == 2 &&
+                            (Math.abs(position[0] - position[2]) + Math.abs(position[1] - position[3])) == 20
+                        ) {
+                            if(isValidPosition) {
+                                // Mark 4 positions with "M"
+                                for (int index : position) humanBoard[index] = "M";
+                                mediumTanks++; // Increment medium tank
+                                mediumTanksPositionArray.add(position);
+                                App.printLine(); // Clear terminal window
+                                getBoard(); // Print board
+                            }
+                        } else {
+                            isValidPosition = false;
+                            System.out.println("\u001B[31mThe position is invalid! Please try again1.\u001B[37m");
+                            App.printLine();
                         }
-                    } else {
-                        isValidPosition = false;
-                        System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
-                        App.printLine();
                     }
                 }
             } else {
@@ -728,10 +731,12 @@ public class UnitsDeployment extends Board {
                     }
 
                     Arrays.sort(position); // Sort positions
+
                     // Check if heavy tank position 3x2 is valid
                     if(
-                        (position[0] + position[2] + position[4])/3 == position[2] &&
-                        ((double) position[1] + (double) position[3] + (double) position[5])/3 == (double) position[3]
+                        (((double) position[0] + (double) position[2] + (double) position[4])/3 == (double) position[2] &&
+                        ((double) position[1] + (double) position[3] + (double) position[5])/3 == (double) position[3]) || 
+                        (position[0] + 10 == position[3] && position[1] + 10 == position[4] && position[2] + 10 == position[5])
                     ) {
                         if(isValidPosition) {
                             // Mark 4 positions with "H"
