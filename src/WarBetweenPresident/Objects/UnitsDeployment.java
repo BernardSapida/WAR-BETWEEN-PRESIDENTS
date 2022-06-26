@@ -267,11 +267,11 @@ public class UnitsDeployment extends Board {
      * the user for the position of the unit.
      */
     public void positionPlayerUnits() {
-        while(heavyTanks != 1) queryHeavyTankPosition();
         while(president != 1) queryPresidentPosition();
         while(soldiers != 5) querySoldiersPosition();
         while(lightTanks != 3) queryLightTankPosition();
         while(mediumTanks != 2) queryMediumTankPosition();
+        while(heavyTanks != 1) queryHeavyTankPosition();
     }
 
     /**
@@ -516,6 +516,7 @@ public class UnitsDeployment extends Board {
                             // If position is not available
                             System.out.println("\u001B[31mThe position is occupied! Please try another position for your units.\u001B[37m");
                             App.printLine();
+                            isValidPosition = false;
                             break validPosition;
                         } else {
                             // If position is available
@@ -523,20 +524,22 @@ public class UnitsDeployment extends Board {
                         }
                     }
 
-                    // Check if light tank position 2x2 is valid
-                    if(Math.abs(position[0] - position[1]) == 1 || Math.abs(position[0] - position[1]) == 10) {
-                        if(isValidPosition) {
-                            // Mark 2 positions with "L"
-                            for (int index : position) humanBoard[index] = "L";
-                            lightTanks++; // Increment light tank
-                            lightTanksPositionArray.add(position);
-                            App.printLine(); // Clear terminal window
-                            getBoard(); // Print board
+                    if(isValidPosition) {
+                        // Check if light tank position 2x2 is valid
+                        if(Math.abs(position[0] - position[1]) == 1 || Math.abs(position[0] - position[1]) == 10) {
+                            if(isValidPosition) {
+                                // Mark 2 positions with "L"
+                                for (int index : position) humanBoard[index] = "L";
+                                lightTanks++; // Increment light tank
+                                lightTanksPositionArray.add(position);
+                                App.printLine(); // Clear terminal window
+                                getBoard(); // Print board
+                            }
+                        } else {
+                            isValidPosition = false;
+                            System.out.println("\u001B[31mThe position is invalid position! Try again.\u001B[37m");
+                            App.printLine();
                         }
-                    } else {
-                        isValidPosition = false;
-                        System.out.println("\u001B[31mThe position is invalid position! Try again.\u001B[37m");
-                        App.printLine();
                     }
                 } else {
                     System.out.println("\u001B[31mThe position is invalid! Please try again.\u001B[37m");
